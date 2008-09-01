@@ -24,7 +24,7 @@
 | NO TRAILING SLASH!
 |
 */
-	$system_folder = "system";
+	$system_folder = "CI/system";
 
 /*
 |---------------------------------------------------------------
