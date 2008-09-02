@@ -1,0 +1,35 @@
+body {
+	font: 11px "Lucida Grande", Verdana,  Arial;
+	margin: 0px;
+	padding: 0px;
+	background: #FFFFFF;
+	1overflow: hidden;
+}
+
+h1 {
+	color: #30455B;
+	margin: 0px 0px 30px 0px;
+	font-size: 18px;
+	text-align: center;
+}
+
+h2 {
+	color: #747474;
+	margin: 20px 0px 3px 0px;
+	padding-left: 5px;
+	font-size: 12px;
+	border-bottom: solid #C8C5B7 1px;
+}
+
+img {
+	border: none;
+}
+
+a:link, a:visited, a:active {
+	color: #30455B;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #83BFFB;
+}
