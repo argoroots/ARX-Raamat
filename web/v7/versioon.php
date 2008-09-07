@@ -18,7 +18,7 @@
 		
 		$teade = print_r($_GET, true);
 		$teade .= "\n\n".date('d.m.Y H:i:s')."\n".$kylastajaIP."\n".$kylastajaADDR;
-		send_mail("ARX-Raamat v7", "info@arx.ee", "argoroots@gmail.com", "argoroots@gmail.com", "[Vana] ". $_GET['Asutus_Nimi'], $teade);
+		//send_mail("ARX-Raamat v7", "info@arx.ee", "argoroots@gmail.com", "argoroots@gmail.com", "[Vana] ". $_GET['Asutus_Nimi'], $teade);
 		
 		$Db->Execute('INSERT INTO v7_kasutajad (
 						id,

@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 	<head profile="http://gmpg.org/xfn/11">
@@ -12,19 +12,9 @@
 		<script src="<?= site_url('javascripts/scriptaculous/scriptaculous.js') ?>" type="text/javascript" charset="utf-8"></script>
 		<script src="<?= site_url('javascripts/search.js') ?>" type="text/javascript" charset="utf-8"></script>
 
-		<script type="text/javascript">
-			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-		<script type="text/javascript">
-			var pageTracker = _gat._getTracker("UA-260765-7");
-			pageTracker._initData();
-			pageTracker._trackPageview();
-		</script>
-
 	</head>	
 	<body>
-	
+
 	<div id="header">
 		<p id="caption">ARX-Raamat</p>
 		<form id="quicksearch" action="<?= site_url('library/submit_search'); ?>" method="post">
@@ -105,5 +95,15 @@
 
 			<div id="footer_text"><?php if(isset($page_footer)) echo $page_footer; ?></div>
 		</div>
+
+		<script type="text/javascript">
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+			var pageTracker = _gat._getTracker("UA-260765-7");
+			pageTracker._trackPageview();
+		</script>
+
 	</body>
 </html>
