@@ -113,6 +113,7 @@ class Media_model extends Model {
 				UNION SELECT DISTINCT
 					'. $match1_field .'
 					media.id,
+					media.mediatype_id,
 					media.title,
 					media.note,
 					1 AS query
@@ -127,6 +128,7 @@ class Media_model extends Model {
 				UNION SELECT DISTINCT
 					'. $match2_field .'
 					media.id,
+					media.mediatype_id,
 					media.title,
 					media.note,
 					2 AS query

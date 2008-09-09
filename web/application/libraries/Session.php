@@ -190,6 +190,10 @@ class CI_Session {
 			'url' => 'library',
 			'current' => ($current=='library') ? True : False
 		);
+		if($_SESSION['rights']['library']>0) $vastus[$this->CI->lang1->str('library')][$this->CI->lang1->str('tags')] = Array(
+			'url' => 'tags',
+			'current' => ($current=='tags') ? True : False
+		);
 		if($_SESSION['rights']['lending']>0) $vastus[$this->CI->lang1->str('lending')][$this->CI->lang1->str('lending')] = Array(
 			'url' => 'lending',
 			'current' => ($current=='lending')? True : False

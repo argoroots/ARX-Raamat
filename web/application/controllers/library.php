@@ -73,7 +73,7 @@ class Library extends Controller {
 	}
 
 //näitab üht kirjet ID järgi
-	function item($id = null) {
+	function view($id = null) {
 
 		$this->session->protect('library');
 
