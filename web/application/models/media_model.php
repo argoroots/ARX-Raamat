@@ -18,7 +18,9 @@ class Media_model extends Model {
 		
 		
 		if(is_array($filter)) {
-			
+
+			//print_r($filter);
+
 			$where = '';
 			$type = ($filter['type']=='all') ? 'AND' : 'OR';
 			
@@ -32,6 +34,9 @@ class Media_model extends Model {
 					  break;
 					case 'is':
 						$where_op = ' = \''. $filter_row['value'] .'\'';
+					  break;
+					case '=':
+						$where_op = ' = '. $filter_row['value'];
 					  break;
 					case 'isnot':
 						$where_op = ' != \''. $filter_row['value'] .'\'';
@@ -53,11 +58,8 @@ class Media_model extends Model {
 					case 'title':
 						$where .= $type .' media.title '. $where_op;
 					  break;
-					case 'type_id':
-						$where .= $type .' media.id IN (SELECT media_id FROM media_tags WHERE tag_id = (SELECT tag_id FROM media_tags WHERE id '. $where_op .'))';
-					  break;
 					case 'type':
-						$where .= $type .' media.id IN (SELECT media_id FROM media_tags WHERE tag_id IN (SELECT id FROM tags WHERE name '. $where_op .' AND tagtype_id = 3))';
+						$where .= $type .' media.id IN (SELECT media_id FROM tags WHERE value '. $where_op .' AND tagtype_id = 3)';
 					  break;
 					default:
 						$where .= $type .' 1 = 2 ';
@@ -70,6 +72,7 @@ class Media_model extends Model {
 			$media = $this->db->query('
 			SELECT DISTINCT SQL_CALC_FOUND_ROWS
 				media.id,
+				media.mediatype_id,
 				media.title,
 				media.note
 			FROM media
@@ -89,7 +92,7 @@ class Media_model extends Model {
 			$match1_field = $match1 .' AS score, ';
 			$match1_where = 'AND '. $match1;
 			
-			$match2 = 'MATCH (tags.name) AGAINST (\''. $filter .'\' IN BOOLEAN MODE)';
+			$match2 = 'MATCH (tags.value) AGAINST (\''. $filter .'\' IN BOOLEAN MODE)';
 			$match2_field = $match2 .' AS score, ';
 			$match2_where = 'AND '. $match2;
 			
@@ -100,6 +103,7 @@ class Media_model extends Model {
 				SELECT DISTINCT SQL_CALC_FOUND_ROWS
 					'. $match0_field .'
 					media.id,
+					media.mediatype_id,
 					media.title,
 					media.note,
 					0 AS query
@@ -128,10 +132,8 @@ class Media_model extends Model {
 					2 AS query
 				FROM
 					media,
-					media_tags,
 					tags
-				WHERE media_tags.media_id = media.id
-				AND tags.id = media_tags.tag_id
+				WHERE tags.media_id = media.id
 				AND media.id IN (SELECT media_id FROM items WHERE library_id IN('. $this->session->lib_list1 .'))
 				'. $match2_where .'
 				ORDER BY query, '. $match_orderby .'title
@@ -148,17 +150,15 @@ class Media_model extends Model {
 			if($show_tags==true) {
 				$tags = $this->db->query('
 					SELECT
-						media_tags.id,
+						tags.id,
 						tagtypes.sortorder,
 						tagtypes.name AS tag,
-						tags.name AS value
+						tags.value
 					FROM
-						media_tags,
 						tags,
 						tagtypes
-					WHERE tags.id = media_tags.tag_id
-					AND tagtypes.id = tags.tagtype_id
-					AND media_tags.media_id = '. $row['id'] .'
+					WHERE tagtypes.id = tags.tagtype_id
+					AND tags.media_id = '. $row['id'] .'
 					UNION SELECT
 						media_persons.id,
 						tagtypes.sortorder,
@@ -171,13 +171,24 @@ class Media_model extends Model {
 					WHERE persons.id = media_persons.person_id
 					AND tagtypes.id = media_persons.tagtype_id
 					AND media_persons.media_id = '. $row['id'] .'
+					UNION SELECT
+						null,
+						sortorder,
+						name AS tag,
+						null
+					FROM
+						tagtypes				
 					ORDER BY sortorder, value
 				');
 				
 				//loeme tagid arraysse
 				unset($tags_array);
 				foreach ($tags->result() as $tag) {
-					$tags_array[$tag->tag][$tag->id] = $tag->value;
+					if ($tag->id) {
+						$tags_array[$tag->tag][$tag->id] = $tag->value;
+					} else {
+						$tags_array[$tag->tag] = null;
+					}
 				}
 			}
 			

@@ -72,6 +72,29 @@ class Library extends Controller {
 
 	}
 
+//näitab üht kirjet ID järgi
+	function item($id = null) {
+
+		$this->session->protect('library');
+
+		$filter_array = @unserialize(rawurldecode($filter)); //proovime lugeda array
+
+		$media =  $this->media_model->find(array('type'=>'all','search'=>array(array('tagtype'=>'id','operator'=>'=','value'=>$id))), 1, 1, True, True);	
+		
+		if(isset($media['data'])) {
+			$view['media'] = $media['data'];
+			//$view['page_footer'] = $this->lang1->str('foundnrows', $media['row_count']);
+		} else {
+			//$view['page_error'] = $this->lang1->str('noresults');	
+		}
+
+		$view['page_title'] = $this->lang1->str('catalogue');
+		$view['menu'] = $this->session->get_menu('library');
+		$view['content'] = $this->load->view('library/item_view', $view, True);
+		$this->load->view('main', $view);
+
+	}
+
 	function ajax_search() {
 
 		$this->session->protect('library', false);
