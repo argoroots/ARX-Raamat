@@ -2,6 +2,7 @@ html, body {
 	font: 11px "Lucida Grande", Verdana, Arial, sans-serif;
 	margin: 0px;
 	padding: 0px;
+	overflow:hide;
 }
 
 
@@ -83,7 +84,7 @@ a:hover {
 	left: 0px;
 	right: 0px;
 	display: block;
-	position: fixed;
+	position: absolute;
 	background-repeat: repeat-x;
 	background-image: url('../images/header_bg.png');
 	border-bottom: solid 1px #404040;
@@ -105,7 +106,7 @@ a:hover {
 	border-top-width: 1px;
 	border-top-style: solid;
 	border-top-color: #404040;
-	position: fixed;
+	position: absolute;
 	right: 0px;
 	left: 0px;
 	bottom: 0px;
@@ -133,7 +134,7 @@ a:hover {
 	margin-top: 52px;
 	bottom: 0px;
 	display: block;
-	position: fixed;
+	position: absolute;
 	width: 160px;
 	left: 0px;
 	top: 0px;
@@ -143,11 +144,14 @@ a:hover {
 
 #right_frame {
 	padding: 0px;
-	margin-left: 161px;
-	margin-bottom: 29px;
-	margin-right: 0px;
-	margin-top: 52px;
-	clear: left;
+	margin: 0px;
+	display: block;
+	position: fixed;
+	left: 161px;
+	bottom: 29px;
+	right: 0px;
+	top: 52px;
+	overflow:auto;
 }
 
 

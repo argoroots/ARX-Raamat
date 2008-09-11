@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: d1647.mysql.zone.ee
--- Generation Time: Sep 01, 2008 at 03:08 PM
+-- Generation Time: Sep 11, 2008 at 09:31 AM
 -- Server version: 5.0.51
 -- PHP Version: 5.2.6
 
@@ -103,14 +103,6 @@ CREATE TABLE libraries (
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci PACK_KEYS=0;
 
---
--- RELATIONS FOR TABLE libraries:
---   changed_user_id
---       users -> id
---   created_user_id
---       users -> id
---
-
 -- --------------------------------------------------------
 
 --
@@ -133,16 +125,6 @@ CREATE TABLE media (
   FULLTEXT KEY title (title)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci;
 
---
--- RELATIONS FOR TABLE media:
---   changed_user_id
---       users -> id
---   created_user_id
---       users -> id
---   mediatype_id
---       mediatypes -> id
---
-
 -- --------------------------------------------------------
 
 --
@@ -159,14 +141,6 @@ CREATE TABLE mediatypes (
   changed_user_id int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci;
-
---
--- RELATIONS FOR TABLE mediatypes:
---   changed_user_id
---       users -> id
---   created_user_id
---       users -> id
---
 
 -- --------------------------------------------------------
 
@@ -190,53 +164,6 @@ CREATE TABLE media_persons (
   KEY persontype_id (tagtype_id),
   KEY old_id (old_id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci;
-
---
--- RELATIONS FOR TABLE media_persons:
---   created_user_id
---       users -> id
---   deleted_user_id
---       users -> id
---   media_id
---       media -> id
---   person_id
---       persons -> id
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table 'media_tags'
---
-
-CREATE TABLE media_tags (
-  id int(11) unsigned NOT NULL auto_increment,
-  old_id varchar(10) collate utf8_estonian_ci default NULL,
-  media_id int(11) unsigned NOT NULL default '0',
-  tag_id int(11) unsigned NOT NULL default '0',
-  created_time timestamp NULL default NULL,
-  created_user_id int(11) unsigned NOT NULL default '0',
-  deleted_time timestamp NULL default NULL,
-  deleted_user_id int(11) unsigned NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY media_id (media_id),
-  KEY tag_id (tag_id),
-  KEY old_id (old_id)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci;
-
---
--- RELATIONS FOR TABLE media_tags:
---   created_user_id
---       users -> id
---   deleted_user_id
---       users -> id
---   library_id
---       libraries -> id
---   media_id
---       media -> id
---   tag_id
---       tags -> id
---
 
 -- --------------------------------------------------------
 
@@ -302,27 +229,19 @@ CREATE TABLE systemstrings (
 
 CREATE TABLE tags (
   id int(11) unsigned NOT NULL auto_increment,
+  old_id varchar(10) collate utf8_estonian_ci default NULL,
+  media_id int(11) unsigned NOT NULL default '0',
   tagtype_id int(11) unsigned NOT NULL default '0',
-  `name` varchar(200) collate utf8_estonian_ci default NULL,
-  note text collate utf8_estonian_ci,
+  `value` varchar(255) collate utf8_estonian_ci default NULL,
   created_time timestamp NULL default NULL,
   created_user_id int(11) unsigned NOT NULL default '0',
-  changed_time timestamp NULL default NULL,
-  changed_user_id int(11) unsigned NOT NULL default '0',
+  deleted_time timestamp NULL default NULL,
+  deleted_user_id int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (id),
-  UNIQUE KEY tagtype_name (tagtype_id,`name`),
-  FULLTEXT KEY `name` (`name`)
+  KEY media_id (media_id),
+  KEY old_id (old_id),
+  KEY tagtype_id (tagtype_id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci;
-
---
--- RELATIONS FOR TABLE tags:
---   changed_user_id
---       users -> id
---   created_user_id
---       users -> id
---   tagtype_id
---       tagtypes -> id
---
 
 -- --------------------------------------------------------
 
@@ -343,14 +262,6 @@ CREATE TABLE tagtypes (
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci;
 
---
--- RELATIONS FOR TABLE tagtypes:
---   changed_user_id
---       users -> id
---   created_user_id
---       users -> id
---
-
 -- --------------------------------------------------------
 
 --
@@ -369,14 +280,6 @@ CREATE TABLE usergroups (
   PRIMARY KEY  (id),
   KEY old_id (old_id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci;
-
---
--- RELATIONS FOR TABLE usergroups:
---   changed_user_id
---       users -> id
---   created_user_id
---       users -> id
---
 
 -- --------------------------------------------------------
 
@@ -429,16 +332,6 @@ CREATE TABLE users (
   KEY old_id (old_id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci PACK_KEYS=0;
 
---
--- RELATIONS FOR TABLE users:
---   changed_user_id
---       users -> id
---   created_user_id
---       users -> id
---   usergroup_id
---       usergroups -> id
---
-
 -- --------------------------------------------------------
 
 --
@@ -459,18 +352,6 @@ CREATE TABLE users_libraries (
   KEY library_id (library_id),
   KEY userright_id (userright_id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci;
-
---
--- RELATIONS FOR TABLE users_libraries:
---   changed_user_id
---       users -> id
---   created_user_id
---       users -> id
---   userright_id
---       userrights -> id
---   user_id
---       users -> id
---
 
 -- --------------------------------------------------------
 

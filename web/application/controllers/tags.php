@@ -11,32 +11,37 @@ class Tags extends Controller {
 	}
 
 	function index() {
-		redirect('tags/view/all');
-	}
-
-
-	function view($id = null) {
 
 		$this->session->protect('library');
 
-		if($id=='all') {
+		$tags = $this->tags_model->find(null, false);
 
-		}	elseif (!isnumeric($id)) {
-			redirect('tags/view/all');
-		} else {
-		
+		if(isset($tags['data'])) $view['tags'] = $tags['data'];
+
+		$view['page_title'] = $this->lang1->str('tags');
+		$view['page_footer'] = $this->lang1->str('foundnrows', $tags['row_count']);
+		$view['content'] = $this->load->view('tags/taglist_view', $view, True);
+		$view['menu'] = $this->session->get_menu('tags');
+		$this->load->view('main', $view);
+
+	}
+
+
+	function view($tagtype = null) {
+
+		$this->session->protect('library');
+
+		$tags = $this->tags_model->find($tagtype, true);
+
+		if(isset($tags['data'])) {
+			$firstrow = reset($tags['data']);
+			$view['page_title'] = ucfirst($this->lang1->str($firstrow['name']));
+			$view['tags'] = $tags['data'];
 		}
-		
-		$media = $this->media_model->find($filter_array, 1, 50, True, False);
 
-		if(isset($media['data'])) {
-			$view['media'] = $media['data'];
-			$view['page_footer'] = $this->lang1->str('foundnrows', $media['row_count']);
-		}
-
-		$view['page_title'] = $this->lang1->str('catalogue');
-		$view['menu'] = $this->session->get_menu('library');
-		$view['content'] = $this->load->view('library/media_table_view', $view, True);
+		$view['page_footer'] = $this->lang1->str('foundnrows', $firstrow['values_count']);
+		$view['content'] = $this->load->view('tags/tag_view', $view, True);
+		$view['menu'] = $this->session->get_menu('tags');
 		$this->load->view('main', $view);
 
 	}
