@@ -146,7 +146,7 @@ a:hover {
 	padding: 0px;
 	margin: 0px;
 	display: block;
-	position: fixed;
+	position: absolute;
 	left: 161px;
 	bottom: 29px;
 	right: 0px;
@@ -154,10 +154,21 @@ a:hover {
 	overflow:auto;
 }
 
+.right_frame_column {
+	position: absolute;
+	padding: 0px;
+	margin: 0px;
+	border-right-width: 1px;
+	border-right-color: #404040;
+	border-right-style: solid;
+	bottom: 0px;
+	top: 0px;
+	overflow:auto;
+}
 
 
 
-#left_bottom {
+#login {
 	border-top-color: #404040;
 	border-top-style: solid;
 	border-top-width: 1px;
@@ -262,7 +273,6 @@ a:hover {
 }
 
 .table_row_even {
-	padding: 0px;
 	margin: 0px;
 	padding-top: 3px;
 	padding-bottom: 3px;
@@ -273,7 +283,6 @@ a:hover {
 }
 
 .table_row_odd {
-	padding: 0px;
 	margin: 0px;
 	padding-top: 3px;
 	padding-bottom: 3px;

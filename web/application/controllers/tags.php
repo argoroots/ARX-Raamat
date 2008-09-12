@@ -40,9 +40,9 @@ class Tags extends Controller {
 		}
 
 		$view['page_footer'] = $this->lang1->str('foundnrows', $firstrow['values_count']);
-		$view['content'] = $this->load->view('tags/tag_view', $view, True);
+//		$view['content'] = $this->load->view('tags/tag_view', $view, True);
 		$view['menu'] = $this->session->get_menu('tags');
-		$this->load->view('main', $view);
+		$this->load->view('tags/tag_view', $view);
 
 	}
 

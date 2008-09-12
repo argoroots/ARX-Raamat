@@ -1,20 +1,5 @@
-<div style="
-	border-right-width: 1px;
-	border-right-color: #404040;
-	border-right-style: solid;
-	padding:0px;
-	margin:0px;
+<div style="width:200px; left:121px" class="right_frame_column">
 
-	position: absolute;
-	display: block;
-	min-width: 160px;
-	right: 0px;
-	left: 0px;
-	top: 0px;
-	bottom: 0px;
-
-	overflow:auto;
-">
 <?php if(isset($tags)) foreach ($tags as $tag_id => $tag): ?>
 
 <?php 
@@ -30,3 +15,4 @@
 <?php endforeach; ?>
 
 </div>
+<div id="tagvalues">XXX</div>
