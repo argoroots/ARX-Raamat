@@ -7,12 +7,40 @@ class Library extends Controller {
 //		$this->output->enable_profiler(TRUE);
 
 		$this->load->model('media_model');
-		$this->load->model('search_model');
+		$this->load->model('tags_model');
 	}
 
+
+
+
+//kuvab tagitüüpide listi
 	function index() {
-		redirect('library/search');
+
+		$this->session->protect('library');
+
+		$view['tags'] = $this->tags_model->get_tags();
+
+		$view['page_title'] = $this->lang1->str('tags');
+		$view['content'] = $this->load->view('tags/taglist_view', $view, True);
+		$view['menu'] = $this->session->get_menu('library');
+		$this->load->view('main', $view);
+
 	}
+
+
+
+//kuvab etteantud tagi väärtused
+	function tag($tagtype = null) {
+
+		$this->session->protect('library');
+
+		$view['tagvalues'] = $this->tags_model->get_tagvalues($tagtype);
+		$this->load->view('tags/tagvauelist_view', $view);
+
+	}
+
+
+
 
 //formi poolt submititakse otsing siia ja see suunab urlile edasi
 	function submit_search() {
@@ -36,7 +64,7 @@ class Library extends Controller {
 	}
 
 //otsib etteantud stringi järgi
-	function search($filter = null, $page = null) {
+	function search($filter = null, $page = null, $ajax = false) {
 
 		$this->session->protect('library');
 
@@ -54,7 +82,7 @@ class Library extends Controller {
 			}
 			$view['quicksearch'] = $filter;
 		} else {//oli array - kasutame seda
-			$media =  $this->media_model->find($filter_array, $page, $result_per_page, True, False);
+			$media = $this->media_model->find($filter_array, $page, $result_per_page, True, False);
 			$view['page_filter'] = $filter_array;
 		}
 		
@@ -66,9 +94,13 @@ class Library extends Controller {
 		}
 
 		$view['page_title'] = $this->lang1->str('catalogue');
-		$view['menu'] = $this->session->get_menu('library');
-		$view['content'] = $this->load->view('library/media_table_view', $view, True);
-		$this->load->view('main', $view);
+		$view['menu'] = $this->session->get_menu('search');
+		if($ajax == true) {
+			$this->load->view('library/media_table_view', $view);
+		} else {
+			$view['content'] = $this->load->view('library/media_table_view', $view, True);
+			$this->load->view('main', $view);
+		}
 
 	}
 

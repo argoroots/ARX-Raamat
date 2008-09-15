@@ -2,7 +2,7 @@ html, body {
 	font: 11px "Lucida Grande", Verdana, Arial, sans-serif;
 	margin: 0px;
 	padding: 0px;
-	overflow:hide;
+	overflow: auto;
 }
 
 
@@ -67,6 +67,7 @@ img {
 a:link, a:visited, a:active {
 	color: #30455B;
 	text-decoration: none;
+	outline: none;
 }
 
 a:hover {
@@ -151,19 +152,22 @@ a:hover {
 	bottom: 29px;
 	right: 0px;
 	top: 52px;
-	overflow:auto;
+	overflow: auto;
 }
 
 .right_frame_column {
-	position: absolute;
 	padding: 0px;
 	margin: 0px;
 	border-right-width: 1px;
-	border-right-color: #404040;
+	border-right-color: #c8c5b7;
 	border-right-style: solid;
+	overflow: auto;
+	overflow-y:auto;
+	overflow-x:hidden;
 	bottom: 0px;
 	top: 0px;
-	overflow:auto;
+	min-width:90px;
+	position: absolute;
 }
 
 
@@ -272,6 +276,12 @@ a:hover {
 	text-align: center;
 }
 
+a.black_a {
+	color: black;
+	display: block;
+	outline: none;
+}
+
 .table_row_even {
 	margin: 0px;
 	padding-top: 3px;
@@ -292,9 +302,9 @@ a:hover {
 	background-color: #FFFFFF;
 }
 
-a.black_a {
-	color: black;
-	display: block;
+.table_row_selected {
+	background-color: #3080DF;
+	color: #FFFFFF;
 }
 
 #adsense_top2 {

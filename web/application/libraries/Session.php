@@ -186,13 +186,13 @@ class CI_Session {
 // tagastab menüü ja tabid
 	function get_menu($current = Null) {
 		
+		if($_SESSION['rights']['library']>0) $vastus[$this->CI->lang1->str('library')][$this->CI->lang1->str('search')] = Array(
+			'url' => 'library/search',
+			'current' => ($current=='search') ? True : False
+		);
 		if($_SESSION['rights']['library']>0) $vastus[$this->CI->lang1->str('library')][$this->CI->lang1->str('catalogue')] = Array(
 			'url' => 'library',
 			'current' => ($current=='library') ? True : False
-		);
-		if($_SESSION['rights']['library']>0) $vastus[$this->CI->lang1->str('library')][$this->CI->lang1->str('tags')] = Array(
-			'url' => 'tags',
-			'current' => ($current=='tags') ? True : False
 		);
 		if($_SESSION['rights']['lending']>0) $vastus[$this->CI->lang1->str('lending')][$this->CI->lang1->str('lending')] = Array(
 			'url' => 'lending',
