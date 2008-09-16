@@ -17,8 +17,11 @@ class Tags_model extends Model {
 			tagtypes
 		ORDER BY sortorder
 		');
-
-		$vastus = $tagtypes->result_array();
+		foreach ($tagtypes->result_array() as $row) {
+			$data[$row['id']] = $row;
+			unset($data[$row['id']]['id']);
+		}
+		$vastus = $data;
 
 		return $vastus;
 

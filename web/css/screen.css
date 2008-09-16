@@ -159,7 +159,7 @@ a:hover {
 	padding: 0px;
 	margin: 0px;
 	border-right-width: 1px;
-	border-right-color: #c8c5b7;
+	border-right-color: #404040;
 	border-right-style: solid;
 	overflow: auto;
 	overflow-y:auto;
@@ -276,36 +276,52 @@ a:hover {
 	text-align: center;
 }
 
-a.black_a {
-	color: black;
+
+
+
+
+
+
+a.row_even {
+	margin: 0px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #000000;
 	display: block;
 	outline: none;
-}
-
-.table_row_even {
-	margin: 0px;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	padding-left: 5px;
-	padding-right: 5px;
-	display: block;
 	background-color: #F1F5FA;
 }
-
-.table_row_odd {
+a.row_odd {
 	margin: 0px;
 	padding-top: 3px;
 	padding-bottom: 3px;
 	padding-left: 5px;
 	padding-right: 5px;
+	color: #000000;
 	display: block;
+	outline: none;
 	background-color: #FFFFFF;
 }
-
-.table_row_selected {
+a.row_selected {
 	background-color: #3080DF;
 	color: #FFFFFF;
 }
+a.row_header {
+	background-color: #DFE2E4;
+	color: #505D6D;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-shadow: 0px 1px 1px white;
+}
+
+
+
+
+
+
+
 
 #adsense_top2 {
 	margin: 0px;

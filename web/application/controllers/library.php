@@ -21,7 +21,8 @@ class Library extends Controller {
 		$view['tags'] = $this->tags_model->get_tags();
 
 		$view['page_title'] = $this->lang1->str('tags');
-		$view['content'] = $this->load->view('tags/taglist_view', $view, True);
+		$view['column'] = 1;
+		$view['content'] = $this->load->view('library/tagslist_view', $view, True);
 		$view['menu'] = $this->session->get_menu('library');
 		$this->load->view('main', $view);
 
@@ -29,13 +30,21 @@ class Library extends Controller {
 
 
 
+
 //kuvab etteantud tagi väärtused
-	function tag($tagtype = null) {
+	function list_tagvalues($tagtype = null) {
 
 		$this->session->protect('library');
 
-		$view['tagvalues'] = $this->tags_model->get_tagvalues($tagtype);
-		$this->load->view('tags/tagvauelist_view', $view);
+		$tagvalues = $this->tags_model->get_tagvalues($tagtype);
+		
+		foreach($tagvalues as $key => $value) {
+			$view['data'][$key]['title'] = $value['value'];
+			$view['data'][$key]['url'] = site_url('library/search/'. rawurlencode(serialize(array('type'=>'all','search'=>array(array('tagtype'=>$value['tagtype'],'operator'=>'is','value'=>$value['value']))))) .'/1/true');
+		}
+		
+		$view['column'] = 2;
+		$this->load->view('column_view', $view);
 
 	}
 
@@ -96,7 +105,13 @@ class Library extends Controller {
 		$view['page_title'] = $this->lang1->str('catalogue');
 		$view['menu'] = $this->session->get_menu('search');
 		if($ajax == true) {
-			$this->load->view('library/media_table_view', $view);
+			if(isset($view['media'])) foreach($view['media'] as $key => $value) :
+				$view['data'][$key]['title'] = $value['title'];
+				$view['data'][$key]['url'] = site_url('library/view/'. $key .'/true');
+			endforeach;
+			
+			$view['column'] = 3;
+			$this->load->view('column_view', $view);
 		} else {
 			$view['content'] = $this->load->view('library/media_table_view', $view, True);
 			$this->load->view('main', $view);
@@ -105,7 +120,7 @@ class Library extends Controller {
 	}
 
 //näitab üht kirjet ID järgi
-	function view($id = null) {
+	function view($id = null, $ajax = false) {
 
 		$this->session->protect('library');
 
@@ -122,8 +137,13 @@ class Library extends Controller {
 
 		$view['page_title'] = $this->lang1->str('catalogue');
 		$view['menu'] = $this->session->get_menu('library');
-		$view['content'] = $this->load->view('library/item_view', $view, True);
-		$this->load->view('main', $view);
+		if($ajax == true) {
+			$view['column'] = 4;
+			$this->load->view('library/item_view', $view);
+		} else {
+			$view['content'] = $this->load->view('library/item_view', $view, True);
+			$this->load->view('main', $view);
+		}
 
 	}
 
