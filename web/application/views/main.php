@@ -42,7 +42,7 @@
 <?php endforeach;?>
 
 	
-		<div id="left_bottom" <?php if(!isset($login_username)) echo 'style="display:none;"'; ?>>
+		<div id="login" <?php if(!isset($login_username)) echo 'style="display:none;"'; ?>>
 
 <?php if($this->session->is_guest==true) { /* Kasutaja on külaline */ ?>
 			<form action="https://test.arx.ee/users/login" method="post" style="width: 200px;">
@@ -88,7 +88,7 @@
 		</div>
 		<div id="footer">
 						<?php if($this->session->is_guest==true) { 
-							echo $this->arxui->footer_button(array('javascript:void(0);" onclick="Effect.toggle(\'left_bottom\',\'blind\',{duration:0.3})'=>$this->lang1->str('login')), 'float:left;');
+							echo $this->arxui->footer_button(array('javascript:void(0);" onclick="Effect.toggle(\'login\',\'blind\',{duration:0.3})'=>$this->lang1->str('login')), 'float:left;');
 						} else { 
 							echo $this->arxui->footer_button(array(site_url('users/logout') => $this->lang1->str('logout')), 'float:left;');
 						} ?>
