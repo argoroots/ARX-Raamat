@@ -10,8 +10,12 @@
 
 		<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
 
-		<script src="<?= site_url('javascripts/scriptaculous/prototype.js') ?>" type="text/javascript" charset="utf-8"></script>
-		<script src="<?= site_url('javascripts/scriptaculous/scriptaculous.js') ?>" type="text/javascript" charset="utf-8"></script>
+		<script src="http://www.google.com/jsapi"></script>
+		<script>
+			google.load("prototype", "1.6");
+			google.load("scriptaculous", "1.8.1")
+		</script>
+
 		<script src="<?= site_url('javascripts/search.js') ?>" type="text/javascript" charset="utf-8"></script>
 
 	</head>
