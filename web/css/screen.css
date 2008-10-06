@@ -29,7 +29,6 @@ h1 {
 
 h2 {
 	padding-top: 20px;
-	border-bottom-color: #c8c5b7;
 	padding-right: 4px;
 	padding-bottom: 0px;
 	margin-left: 22px;
@@ -39,6 +38,7 @@ h2 {
 	color: #747474;
 	padding-left: 4px;
 	font-size: 12px;
+	border-bottom-color: #c8c5b7;
 	border-bottom: solid 1px;
 }
 
@@ -156,6 +156,7 @@ a:hover {
 }
 
 .right_frame_column {
+	max-width: 300px;
 	padding: 0px;
 	margin: 0px;
 	border-right-width: 1px;
@@ -168,6 +169,7 @@ a:hover {
 	top: 0px;
 	min-width:90px;
 	position: absolute;
+	background-color: #FFFFFF;
 }
 
 
@@ -468,6 +470,39 @@ div.autocomplete ul li {
 	padding: 2px;
 	margin: 0px;
 	text-align: left;
+}
+
+.horisontal_table{
+	margin-left: 25px;
+	margin-bottom: 0px;
+	margin-right: 25px;
+	margin-top: 10px;
+}
+
+.horisontal_table th {
+	padding-left: 4px;
+	padding-bottom: 2px;
+	padding-right: 4px;
+	padding-top: 2px;
+	margin: 0px;
+	color: #747474;
+	font-weight: bold;
+	text-align: center;
+	border-color: #CCCCCC;
+	border-width: 0px 1px 0px 0px;
+	border-style: solid;
+}
+
+.horisontal_table td {
+	padding-left: 4px;
+	padding-bottom: 2px;
+	padding-right: 4px;
+	padding-top: 2px;
+	margin: 0px;
+	text-align: left;
+	border-color: #CCCCCC;
+	border-width: 1px 1px 0px 0px;
+	border-style: solid;
 }
 
 .footer_button {
