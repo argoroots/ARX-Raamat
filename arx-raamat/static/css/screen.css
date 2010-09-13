@@ -1,0 +1,17 @@
+* {
+	outline-style:none;
+	outline-width:0;
+}
+
+html, body {
+	background: #E9E9E9;
+	font-family: 'Lucida Grande', Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	text-align: left;
+}
+
+textarea {
+	font-family: 'Lucida Grande', Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	height: auto;
+}

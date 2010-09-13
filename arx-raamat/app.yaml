@@ -1,8 +1,56 @@
 application: arx-raamat
-version: 1
+version: dev
 runtime: python
 api_version: 1
 
+
+
+error_handlers:
+
+- error_code: over_quota
+  file: errors/quota.html
+
+- error_code: dos_api_denial
+  file: errors/dos.html
+
+- error_code: timeout
+  file: errors/timeout.html
+
+#- file: errors/default.html
+
+
+
 handlers:
-- url: .*
-  script: main.py
+
+#BO Framework
+- url: /_ah/login_required
+  script: bo/controllers/login.py
+
+- url: /login(.*)
+  script: bo/controllers/login.py
+
+- url: /user(.*)
+  script: bo/controllers/user.py
+  login: required
+
+
+
+#static files
+- url: /css
+  static_dir: static/css
+
+- url: /images
+  static_dir: static/images
+
+- url: /javascript
+  static_dir: static/javascript
+
+- url: /favicon.ico
+  static_files: static/images/favicon.ico
+  upload: static/images/favicon.ico
+
+
+
+#public controllers
+- url: /
+  script: controllers/frontpage.py
