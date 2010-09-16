@@ -10,7 +10,9 @@
         <link href="/css/blueprint/typography.css" rel="stylesheet" type="text/css" />
         <link href="/css/blueprint/forms.css" rel="stylesheet" type="text/css" />
         <link href="/css/blueprint/fancy-type/screen.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/css/screen.css" />
+        <link href="/css/screen.css" rel="stylesheet" type="text/css" />
+
+        <link href="/css/slickmap.css" rel="stylesheet" type="text/css" />
 
         <script src="http://www.google.com/jsapi" type="text/javascript"></script>
         <script type="text/javascript">
@@ -39,15 +41,17 @@
 
     </head>
     <body>
-        <div id="container" class="container prepend-top append-bottom">
+        <div id="container" class="container">
 
-            <div id="content" class="span-95 last">
+            <div id="content" class="span-95 prepend-top last">
 
             {% block content %}
             {% endblock %}
 
             </div>
+            <div id="footer" class="span-95 prepend-top last">
+                Copyright ©<a href="http://validator.w3.org/check?uri=referer" >2010</a> Argo Roots
+            </div>
         </div>
     </body>
 </html>
-

@@ -1,61 +1,86 @@
 {% extends "main.html" %}
 
 {% block content %}
-
-<div id="header" class="span-95 last">
-    <img src="/images/logo_small.png" width="60px" height="20px" />
-</div>
-<div class="span-23 whitebox">
-    <h2>{{ str.login }}</h2>
-    <img id="mobiilid" class="openid active" src="/images/openid/mobiilid.png" width="88" height="31" alt="Mobiil ID" />
-    <img id="idkaart" class="openid active" src="/images/openid/idkaart.png" width="88" height="31" alt="ID Kaart" />
-    <img id="google" class="openid active" src="/images/openid/google.png" width="88" height="31" alt="Google" />
-    <img id="yahoo" class="openid active" src="/images/openid/yahoo.png" width="88" height="31" alt="Yahoo" />
-    <img id="myspace" class="openid active" src="/images/openid/myspace.png" width="88" height="31" alt="mySpace" />
-    <img id="myopenid" class="openid active" src="/images/openid/myopenid.png" width="88" height="31" alt="myOpenID" />
-    <img id="youropenid" class="openid active" src="/images/openid/openid.png" width="88" height="31" alt="OpenID" />
-    <form id="openid_form" class="hide" method="get" action="/_ah/login_required">
-        <fieldset>
-            {{ str.openid_url }}:<br />
-            {% if continue %}
-            <input type="hidden" name="continue" value="{{continue|escape}}" />
-            {% endif %}
-            <input type="text" id="openid_url" class="span-23 last" name="openid" value="" />
-            <a href="" id="submit_openid_form" class="span-8 button" style="margin-top:5px; float:right;">{{ str.login }}</a>
-        </fieldset>
-    </form>
+<div class="span-95 prepend-top" style="margin:40px 0px; text-align:center;">
+    <img src="/images/Application_200.png" width="200px" height="200px" alt="logo" /><br />
+    <h1 style="">
+        {{ str.login }}
+    </h1>
 </div>
 
-<div class="span-66 push-3 last">
+<div class="span-93 push-2">
+    <ul id="primaryNav" class="col6">
+        <li id="first">
+            <a href=""><img id="mobiilid" class="openid active" src="/images/openid/mobiilid.png" width="88" height="31" alt="Mobiil ID" /></a>
+        </li>
+        <li>
+            <a href=""><img id="idkaart" class="openid active" src="/images/openid/idkaart.png" width="88" height="31" alt="ID Kaart" /></a>
+        </li>
+        <li>
+            <a href=""><img id="google" class="openid active" src="/images/openid/google.png" width="88" height="31" alt="Google" /></a>
+        </li>
+        <li>
+            <a href=""><img id="yahoo" class="openid active" src="/images/openid/yahoo.png" width="88" height="31" alt="Yahoo" /></a>
+        </li>
+        <li>
+            <a href=""><img id="myspace" class="openid active" src="/images/openid/myspace.png" width="88" height="31" alt="mySpace" /></a>
+        </li>
+        <li>
+            <a href=""><img id="myopenid" class="openid active" src="/images/openid/myopenid.png" width="88" height="31" alt="myOpenID" /></a>
+        </li>
+    </ul>
+</div>
+
+<div class="span-91 push-2" style="text-align:justify;">
     {{ str.openid_info }}
+</div>
+
+
+<div class="span-35 push-2 prepend-top">
+    <h2>{{ str.new_user }}</h2>
+    <span style="font-size:10px;">{{ str.new_user_info }}</span><br />
+    <input type="text" id="email" class="span-20" name="email" value="" placeholder="{{ str.enter_email }}" />
+    <a href="" id="submit_register_form" class="span-8 prepend-top last button">{{ str.send_invate }}</a>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $("#mobiilid").click(function () {openid_submit("openid.ee/server/xrds/mid", this);});
-        $("#idkaart").click(function () {openid_submit("openid.ee/server/xrds/eid", this);});
-        $("#google").click(function () {openid_submit("google.com/accounts/o8/id", this);});
-        $("#yahoo").click(function () {openid_submit("yahoo.com", this);});
-        $("#myspace").click(function () {openid_submit("myspace.com", this);});
-        $("#myopenid").click(function () {openid_submit("myopenid.com", this);});
-
-        $("img#youropenid").click(function () {
-            $("form#openid_form").toggle('blind');
-        });
+        $("img#mobiilid").click(function () {openid_submit("openid.ee/server/xrds/mid", this);});
+        $("img#idkaart").click(function () {openid_submit("openid.ee/server/xrds/eid", this);});
+        $("img#google").click(function () {openid_submit("google.com/accounts/o8/id", this);});
+        $("img#yahoo").click(function () {openid_submit("yahoo.com", this);});
+        $("img#myspace").click(function () {openid_submit("myspace.com", this);});
+        $("img#myopenid").click(function () {openid_submit("myopenid.com", this);});
 
         function openid_submit(url, img) {
             $(img).addClass("openid-selected");
-            $("#openid_url").val(url);
-            $("#openid_form").submit();
+            $("input#openid_url").val(url);
+            $("form#openid_form").submit();
         }
 
-        $("#submit_register_form").click(function () {
-            if($("input#register_email").val() != "") {
-                $("form#register_form").submit();
-            };
+
+        $("input#email").keydown(function(e) {
+            if((e.charCode == 13 || e.keyCode == 13)) {
+                registration_submit()
+                return false;
+            }
+        });
+
+        $("a#submit_register_form").click(function () {
+            registration_submit()
             return false;
         });
+
+        function registration_submit() {
+            if($("input#email").val() != "") {
+                $("div#register_form").hide();
+                $.post("/login/new", { "email": $("input#email").val() },
+                    function(data){
+                        $("div#register_form").replaceWith(data);
+                    });
+            };
+        }
 
     });
 </script>

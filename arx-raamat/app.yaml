@@ -52,5 +52,12 @@ handlers:
 
 
 #public controllers
+- url: /catalog
+  script: controllers/catalog.py
+
+- url: /person
+  script: controllers/person.py
+
 - url: /
   script: controllers/frontpage.py
+

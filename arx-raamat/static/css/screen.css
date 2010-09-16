@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono);
+
 * {
 	outline-style:none;
 	outline-width:0;
@@ -5,13 +7,160 @@
 
 html, body {
 	background: #E9E9E9;
-	font-family: 'Lucida Grande', Arial, Verdana, Helvetica, sans-serif;
-	font-size: 12px;
+    font-family: 'Helvetica Neue', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+	font-size: 13px;
 	text-align: left;
+    color: #454A4E;
+    -webkit-font-smoothing: antialiased;
+}
+
+input {
+    padding: 3px;
 }
 
 textarea {
-	font-family: 'Lucida Grande', Arial, Verdana, Helvetica, sans-serif;
-	font-size: 12px;
+    font-family: 'Helvetica Neue', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+	font-size: 13px;
 	height: auto;
+}
+
+fieldset {
+    padding: 0px;
+	border: none;
+}
+
+a {
+    color: #000000;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1, h1 a, h1 a:hover, h1 a:active, h1 a:visited {
+    padding-top: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #2041A2;
+	text-shadow: rgba(0,0,0,0.3) 1px 1px 3px;
+}
+
+h2, h2 a, h2 a:hover, h2 a:active, h2 a:visited {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: gray;
+}
+
+#footer {
+    text-align: center;
+    font-size: 10px;
+    color: gray;
+}
+
+#footer a {
+    color: gray;
+}
+
+#content {
+    background: #FFFFFF right top;
+    background-repeat: no-repeat;
+    background-image: url('/images/beta.png');
+    border: 1px solid #B9B9B9;
+    box-shadow: #CCCCCC 2px 3px 4px;
+    -moz-box-shadow: #CCCCCC 2px 3px 4px;
+    -webkit-box-shadow: #CCCCCC 2px 3px 4px;
+}
+
+#leftmenu {
+    margin-top: 0px;
+    margin-bottom: 20px;
+    margin-left: -1px;
+}
+
+#leftmenu ul li a {
+    padding: 1px 0px 6px 20px;
+    display: block;
+}
+
+#leftmenu ul li a:hover {
+    font-weight: bold;
+}
+
+#leftmenu ul .selected a {
+    padding-top: 5px;
+    font-weight: bold;
+	white-space: nowrap;
+    color: #FFFFFF;
+    background-color: #cee3ac;
+	border: 1px solid #b8da83;
+	border-right: none;
+    box-shadow: #CCCCCC -2px 1px 4px;
+    -moz-box-shadow: #CCCCCC -2px 1px 4px;
+    -webkit-box-shadow: #CCCCCC -2px 1px 4px;
+}
+
+#leftmenu ul .selected a:before {
+    float: right;
+    margin-top: -5px;
+	width: 0;
+	height: 0;
+	border-top: 15px solid transparent;
+	border-bottom: 15px solid transparent;
+	border-right:15px solid white;
+}
+
+#page {
+    min-height: 500px;
+	-webkit-box-shadow: rgba(0,0,0,0.3) -1px 0px 3px;
+	-moz-box-shadow: rgba(0,0,0,0.3) -1px 0px 3px; /* FF 3.5+ */
+}
+
+
+.whitebox {
+    padding: 10px;
+    background: #FFFFFF;
+    border: 1px solid #B9B9B9;
+}
+
+.bluebox {
+    padding: 10px;
+    background: #E8F1FF;
+    border: 1px solid #B9B9B9;
+}
+
+
+
+.button {
+    font-size: 10px;
+    font-weight: bold;
+    line-height: normal;
+    cursor: pointer;
+    background-color: #23AA3D;
+    color: #FFFFFF;
+    padding: 1px 15px 4px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: #CCCCCC 1px 2px 3px;
+    -moz-box-shadow: #CCCCCC 1px 2px 3px;
+    -webkit-box-shadow: #CCCCCC 1px 2px 3px;
+}
+
+.button:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.button:active {
+    position: relative;
+    top: 1px;
+    color: #FFFFFF;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
 }
