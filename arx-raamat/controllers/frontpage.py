@@ -11,7 +11,7 @@ class Frontpage(webapp.RequestHandler):
 
 def main():
     Route([
-             ('/', Frontpage),
+             ('/beta', Frontpage),
             ])
 
 

@@ -36,6 +36,9 @@ handlers:
 
 
 #static files
+- url: /v7setup
+  static_dir: static/v7setup
+
 - url: /css
   static_dir: static/css
 
@@ -45,19 +48,23 @@ handlers:
 - url: /javascript
   static_dir: static/javascript
 
-- url: /favicon.ico
-  static_files: static/images/favicon.ico
-  upload: static/images/favicon.ico
 
 
+#controllers
+- url: /beta
+  script: controllers/frontpage.py
+  login: required
 
-#public controllers
 - url: /catalog
   script: controllers/catalog.py
+  login: required
 
 - url: /person
   script: controllers/person.py
+  login: required
+
+- url: /v7(.*)
+  script: controllers/v7.py
 
 - url: /
-  script: controllers/frontpage.py
-
+  script: controllers/v7.py

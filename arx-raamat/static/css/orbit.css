@@ -1,0 +1,25 @@
+/* CONTAINER */
+div.orbit { width: 1px; height: 1px; overflow: hidden; position: relative; -moz-box-shadow: 0 0 10px rgba(0,0,0,.25); background: url('/images/orbit/loading.gif') no-repeat center center; }
+div.orbit img { position: absolute; top: 0; left: 0; }
+
+/* TIMER */
+div.timer { width: 40px; height: 40px; overflow: hidden; position: absolute; top: 10px; right:10px; opacity: .6; cursor: pointer; z-index: 1000; }
+span.rotator { display: block; width: 40px; height: 40px; position: absolute; top: 0; left: -20px; background: url('/images/orbit/rotator-black.png') no-repeat; z-index: 3; }
+span.mask { display: block; width: 20px; height: 40px; position: absolute; top: 0; right: 0; z-index: 2; overflow: hidden; }
+span.rotator.move { left: 0; }
+span.mask.move { width: 40px; left: 0; background: url('/images/orbit/timer-black.png') repeat 0px 0px;  }
+span.pause { display: block; width: 40px; height: 40px; position: absolute; top: 0; left: 0px; background: url('/images/orbit/pause-black.png') no-repeat; z-index: 4; opacity: 0; }
+div.timer:hover span.pause,
+span.pause.active,
+div.timer:hover span.pause.active { opacity: 1; }
+
+/* CAPTIONS */
+div.caption { background: rgba(0,0,0,.6); width: 100%; z-index: 1000; position: absolute; bottom:-50px; color: #fff; }
+div.caption p { padding: 8px 10px 8px; font-size: 14px; text-shadow: 0px 1px 0px rgba(0,0,0,.8); margin: 0; }
+
+/* DIRECTIONAL NAV */
+div.orbit:hover div.slider-nav { display: block; }
+div.slider-nav { display: none; }
+div.slider-nav span { width: 33px; height: 33px; text-indent: -9999px; position: absolute; z-index: 1000; top: 190px; cursor: pointer; }
+div.slider-nav span.right { background: url('/images/orbit/right-arrow.png'); right: 10px; }
+div.slider-nav span.left { background: url('/images/orbit/left-arrow.png'); left: 10px; }
