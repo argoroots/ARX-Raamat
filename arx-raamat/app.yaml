@@ -66,5 +66,11 @@ handlers:
 - url: /v7(.*)
   script: controllers/v7.py
 
+- url: /registreerimine.php
+  script: controllers/v7.py
+
+- url: /versioon.php
+  script: controllers/v7.py
+
 - url: /
   script: controllers/v7.py
