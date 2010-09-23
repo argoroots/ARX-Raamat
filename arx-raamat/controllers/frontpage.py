@@ -3,15 +3,13 @@ from bo import *
 
 class Frontpage(webapp.RequestHandler):
     def get(self):
-        if User().current().is_guest == True:
-            View(self, '', 'frontpage.html')
-        else:
-            self.redirect('/dashboard')
+        #self.redirect('/v7')
+        View(self, '', 'frontpage.html')
 
 
 def main():
     Route([
-             ('/beta', Frontpage),
+             ('/', Frontpage),
             ])
 
 

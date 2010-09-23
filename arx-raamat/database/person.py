@@ -1,7 +1,6 @@
 from google.appengine.ext import db
 from google.appengine.ext import search
 
-from database import *
 from bo.user import *
 
 

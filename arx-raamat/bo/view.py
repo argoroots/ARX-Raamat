@@ -17,8 +17,10 @@ def view(self, page_title, templatefile, values={}):
         values['site_name'] = SYSTEM_TITLE
         values['page_title'] = '&nbsp;'
     values['site_url'] = self.request.headers.get('host')
-    values['user'] = Person().current()
-    values['logouturl'] = users.create_logout_url('/')
+    if User().current():
+        values['user'] = User().current()
+        values['logouturl'] = users.create_logout_url('/')
+    
     path = os.path.join(os.path.dirname(__file__), '..', 'templates', templatefile)
     self.response.out.write(template.render(path, values))
 

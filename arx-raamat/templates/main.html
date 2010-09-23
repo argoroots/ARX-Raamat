@@ -45,7 +45,17 @@
     <body>
         <div id="container" class="container">
 
-            <div id="content" class="span-95 prepend-top last">
+            <div id="header" class="span-94 prepend-1 prepend-top last">
+                <a href="/" id="header_title">ARX-Raamat</a>
+                <div id="header_menu" class="span-50">
+                    {% if user %}
+                    <span style="padding-right:7px; font-style:italic;">{{ str.welcome }} {{ user.nickname }}!</span>
+                    <a href="{{ logouturl }}">{{ str.logout }}</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div id="content" class="span-95 last">
 
             {% block content %}
             {% endblock %}

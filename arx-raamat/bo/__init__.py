@@ -29,8 +29,10 @@ def View(self, page_title, templatefile, values={}):
 
 
 def Translate(key = None):
-
-    languagefile = 'translations.' + User().current().language
+    if User().current():
+        languagefile = 'translations.' + User().current().language
+    else:
+        languagefile = 'translations.' + SYSTEM_LANGUAGE
 
     l = __import__(languagefile, globals(), locals(), ['translation'], -1)
 

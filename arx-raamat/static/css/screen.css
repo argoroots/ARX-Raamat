@@ -4,7 +4,8 @@
 }
 
 html, body {
-	background: #E9E9E9;
+	background: #E6E6E6;
+    1font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, Verdana, sans-serif;
     font-family: 'Helvetica Neue', 'HelveticaNeue', Helvetica, Arial, sans-serif;
 	font-size: 13px;
 	text-align: left;
@@ -38,7 +39,7 @@ a:hover {
 
 h1, h1 a, h1 a:hover, h1 a:active, h1 a:visited {
     padding-top: 20px;
-    font-size: 30px;
+    font-size: 24px;
     font-weight: bold;
     color: #2041A2;
 	text-shadow: rgba(0,0,0,0.3) 1px 1px 3px;
@@ -51,6 +52,33 @@ h2, h2 a, h2 a:hover, h2 a:active, h2 a:visited {
     text-decoration: none;
     color: gray;
 }
+
+#header_menu {
+    float: right;
+    padding-top: 15px;
+    text-align: right;
+}
+
+#header_menu a {
+    margin: 0px;
+    padding: 0px 10px;
+    display: inline;
+    font-size: 12px;
+    border-left: 1px solid #B9B9B9;
+    color: #454A4E;
+}
+
+#header_title {
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    color: #2041A2;
+}
+
+#header_title:hover {
+    text-decoration: none;
+}
+
 
 #footer {
     text-align: center;
