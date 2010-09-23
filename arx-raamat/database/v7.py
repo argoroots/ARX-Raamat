@@ -24,3 +24,13 @@ class v7user(db.Model):
     registered_time =   db.DateTimeProperty(auto_now_add=True)
     check_lasttime =    db.DateTimeProperty()
     check_count =       db.IntegerProperty()
+
+
+class v7error(db.Model):
+    registered_time =   db.DateTimeProperty(auto_now_add=True)
+    library_id =        db.IntegerProperty(default=0)
+    library_name =      db.StringProperty(default='')
+    programm_id =       db.StringProperty(default='')
+    error_function  =   db.StringProperty(default='')
+    error_number =      db.StringProperty(default='')
+    error_text =        db.StringProperty(default='')

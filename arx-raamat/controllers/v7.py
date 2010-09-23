@@ -148,14 +148,46 @@ class CheckVersion(webapp.RequestHandler):
         self.response.out.write('ARX-Raamat 7.0.150')
 
 
+class ErrorReport(webapp.RequestHandler):
+    def get(self):
+        library_id = int(unquote(self.request.get('Asutus_ID', 0)))
+        library_name = unquote(self.request.get('Asutus_Nimi'))
+        programm_id = unquote(self.request.get('Programm_ID'))
+        error_function = unquote(self.request.get('Asutus_Aadress'))
+        error_number = unquote(self.request.get('Asutus_Linn'))
+        error_text = unquote(self.request.get('Asutus_Postiindeks'))
+
+        u = v7error()
+        u.library_id = library_id
+        u.library_name = library_name
+        u.programm_id = programm_id
+        u.error_function = error_function
+        u.error_number = error_number
+        u.error_text = error_text
+        u.put()
+
+        SendMail(
+            to = 'argo@roots.ee',
+            subject = 'Err - ' + u.error_number + ': ' + u.error_function,
+            message = 'ERROR:<br><br>' + u.error_text
+        )
+
+
+class GetHelp(webapp.RequestHandler):
+    def get(self, url = None):
+        View(self, '', 'v7help.html')
+
+
 def main():
     Route([
-             ('/', ShowInfo),
+             ('/v7', ShowInfo),
              ('/v7/setup', GetSetup),
              ('/v7/keygen', GetKegen),
              ('/v7/manual', GetManual),
+             (r'/help(.*)', GetHelp),
              ('/registreerimine.php', RegisterNew),
              ('/versioon.php', CheckVersion),
+             ('/vearaport.php', ErrorReport),
             ])
 
 

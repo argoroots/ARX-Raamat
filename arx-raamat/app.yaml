@@ -51,10 +51,6 @@ handlers:
 
 
 #controllers
-- url: /beta
-  script: controllers/frontpage.py
-  login: required
-
 - url: /catalog
   script: controllers/catalog.py
   login: required
@@ -66,11 +62,17 @@ handlers:
 - url: /v7(.*)
   script: controllers/v7.py
 
+- url: /help(.*)
+  script: controllers/v7.py
+
 - url: /registreerimine.php
   script: controllers/v7.py
 
 - url: /versioon.php
   script: controllers/v7.py
 
-- url: /
+- url: /vearaport.php
   script: controllers/v7.py
+
+- url: /
+  script: controllers/frontpage.py
