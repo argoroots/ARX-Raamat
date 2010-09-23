@@ -1,5 +1,4 @@
 from google.appengine.ext import db
-from google.appengine.ext import search
 
 
 class v7download(db.Model):

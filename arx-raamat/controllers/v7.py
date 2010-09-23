@@ -153,9 +153,9 @@ class ErrorReport(webapp.RequestHandler):
         library_id = int(unquote(self.request.get('Asutus_ID', 0)))
         library_name = unquote(self.request.get('Asutus_Nimi'))
         programm_id = unquote(self.request.get('Programm_ID'))
-        error_function = unquote(self.request.get('Asutus_Aadress'))
-        error_number = unquote(self.request.get('Asutus_Linn'))
-        error_text = unquote(self.request.get('Asutus_Postiindeks'))
+        error_function = unquote(self.request.get('Viga_Funktsioon'))
+        error_number = unquote(self.request.get('Viga_Nr'))
+        error_text = unquote(self.request.get('Viga_Tekst'))
 
         u = v7error()
         u.library_id = library_id
