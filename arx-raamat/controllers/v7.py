@@ -131,7 +131,7 @@ class CheckVersion(webapp.RequestHandler):
             library_name = unquote(self.request.get('Asutus_Nimi'))
             programm_id = unquote(self.request.get('Programm_ID'))
 
-            u = db.Query(v7user).filter('library_id', library_id).filter('library_name', library_name).filter('programm_id', programm_id).get()
+            u = db.Query(v7user).filter('library_id', library_id).filter('programm_id', programm_id).get()
 
             if not u:
                 u = v7user()

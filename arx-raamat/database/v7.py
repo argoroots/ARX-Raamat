@@ -22,8 +22,8 @@ class v7user(db.Model):
     contact_mail =      db.StringProperty(default='')
     programm_id =       db.StringProperty(default='')
     registered_time =   db.DateTimeProperty(auto_now_add=True)
-    check_lasttime =    db.DateTimeProperty()
-    check_count =       db.IntegerProperty()
+    check_lasttime =    db.DateTimeProperty(auto_now_add=True)
+    check_count =       db.IntegerProperty(default=0)
 
 
 class v7error(db.Model):

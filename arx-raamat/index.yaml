@@ -1,1 +1,6 @@
 indexes:
+- kind: v7user
+  properties:
+  - name: programm_id
+  - name: library_id
+    direction: desc
