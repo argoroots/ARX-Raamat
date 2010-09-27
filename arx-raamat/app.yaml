@@ -4,7 +4,6 @@ runtime: python
 api_version: 1
 
 
-
 error_handlers:
 
 - error_code: over_quota
@@ -47,6 +46,14 @@ handlers:
 
 - url: /javascript
   static_dir: static/javascript
+
+- url: /favicon.ico
+  static_files: static/images/favicon.png
+  upload: static/images/favicon.png
+
+- url: /robots.txt
+  static_files: static/robots.txt
+  upload: static/robots.txt
 
 
 
