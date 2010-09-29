@@ -6,7 +6,6 @@ import re
 from google.appengine.api import urlfetch
 from BeautifulSoup import BeautifulSoup
 from BeautifulSoup import BeautifulStoneSoup
-import urllib
 
 
 # Lookup book data from Apollo.ee DB by book ID
@@ -18,21 +17,17 @@ def GetBookByID(book_id):
     data_object = soup.find('div', attrs={'class' : 'wrapRaamat'})
     article_object = soup.find('div', attrs={'class' : 'wrapArtikkel'})
     
-    # Authors need special parsing - one book can have multiple authors.
-    authors = []
-    for n in data_object.findAll('a', attrs={'title': 'Veel sellelt autorilt'}):
-        authors.append(''.join(n.findAll(text=True)))    
     
     # This is the main data dict
-    data = {'ID': book_id,
+    data = {'id': book_id,
             'title': data_object.h2,
             'description': data_object.p,
-            'authors': authors,
+            'authors': ParseAuthors(data_object),
             'date_published': FindByPosition(data_object, 'Ilmumisaasta ', 4),
             'isbn': FindByPosition(data_object, 'ISBN-13 ',13),
             'publisher': ReSearch(data_object, r'Kirjastus (.*?)<br />'),
-            'price_client': ''.join(soup.find('span', attrs={'class' : 'tooteSoodusHind'})),
-            'price_normal': ''.join(soup.find('span', attrs={'class' : 'tooteHind'})),
+            'price_client': soup.find('span', attrs={'class' : 'tooteSoodusHind'}),
+            'price_normal': soup.find('span', attrs={'class' : 'tooteHind'}),
             'format': ReSearch(data_object, r'Formaat (.*?);'),
             'number_of_pages': ReSearch(data_object, r'Lehekülgi (.*?);'),
             'img_url': 'http://apollo.ee' + article_object('img')[0]['src']}
@@ -46,21 +41,47 @@ def GetBookByID(book_id):
 
 
 
-# Search Apollo for a book. search_terms is a dict with form data.
-# search_terms example: search_terms = {'name': 'muinasjutud', 'desc': 'lastele'}
-# --- INCOMPLETE! ----
-def SearchBook(search_terms):
-    search_terms['search'] = 'Otsi'
-    search_terms['department'] = '1'
+# Search Apollo for a book. N.B! Only returns first 15 results!
+# Returns a list with nested dict-s, one for each result
+def SearchBook(search_term):
     
-    search_terms = urllib.urlencode(search_terms)
-    apollo_url = 'http://apollo.ee/advsearch.php?'+search_terms
+    # Post the search and get the HTML of the result page.
+    apollo_url = 'http://apollo.ee/search.php?keyword='+search_term
     soup = BeautifulSoup(urlfetch.fetch(apollo_url).content)
-    data_object = soup.find('div', attrs={'class' : 'sisuWrap'})
+    result_block = soup.find('div', attrs={'class' : 'otsingTulemusRaamat'})
     
-    return str(data_object)
+    # Since the results are poorly structured we have to split it into individual parts.
+    data_objects = str(result_block).split('<div class="sisuSplitter">&nbsp;</div>')
+    data = []
+    for data_object in data_objects:
+    	current_soup = BeautifulSoup(data_object)
+    	
+    	# Primary data gathering
+    	current_info = {'id': ReSearch(current_soup, r'php/(.*?)"'),
+    					'title': current_soup.find('a'),
+    					'description': current_soup.find('p'),
+    					'authors': ParseAuthors(current_soup)}
+    	
+    	# Get around UTF-8 problems
+    	nice_current_info = {}
+    	for i in current_info:
+    		nice_current_info[i] = ConvertSoup(StripHTML(current_info[i]))
+    	data.append(nice_current_info)
+    	nice_current_info = None
+    
+    return str(data)
 
+# ------------------------------ Helper functions --------------------------------- #
 
+# Authors need special parsing - one book can have multiple authors.
+def ParseAuthors(soup):
+    authors = []
+    for n in soup.findAll('a', attrs={'title': 'Veel sellelt autorilt'}):
+        authors.append(''.join(n.findAll(text=True)))
+    if not authors:
+    	return None
+    else:
+    	return authors
 
 
 # Custom search. Get data that follows search_string in the haystack
@@ -79,10 +100,16 @@ def StripHTML(data):
 
 
 # Regex search
-def ReSearch(haystack, needle):
+def ReSearch(haystack, needle,type='str'):
 	p = re.compile(needle).search(str(haystack))
 	if p:
-		return p.group(1)
+		result = p.group(1)
+		if type == 'int':
+			try:
+				result = int(p.group(1))
+			except:
+				result = None
+		return result
 	else:
 		return None
 
