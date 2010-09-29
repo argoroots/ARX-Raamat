@@ -5,7 +5,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 class ApiCallHandler(handler.ApiCallHandler):
     def CheckIsAdmin(self):
 
-        return True
+        return False
 
 
 application = webapp.WSGIApplication([('.*', ApiCallHandler)])

@@ -3,6 +3,7 @@ from google.appengine.api import mail
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp import util
+from google.appengine.api import users
 
 from bo.user import *
 from bo.settings import *
@@ -23,6 +24,7 @@ def View(self, page_title, templatefile, values={}):
         values['page_title'] = '&nbsp;'
     values['site_url'] = self.request.headers.get('host')
     values['user'] = User().current()
+    values['loginurl'] = users.create_login_url('/')
     values['logouturl'] = users.create_logout_url('/')
     path = os.path.join(os.path.dirname(__file__), '..', 'templates', templatefile)
     self.response.out.write(template.render(path, values))
