@@ -92,17 +92,14 @@ ol, ul {
 #primaryNav li:last-child {
 	background: url('/images/slickmap/L1-right.png') center top no-repeat;
 }
-a:link:before,
-a:visited:before {
+#primaryNav li a:link:before,
+#primaryNav li a:visited:before {
 	content: " "attr(alt)" ";
 	display: block;
 	text-transform: uppercase;
 	font-size: 10px;
 	margin-bottom: 5px;
 	word-wrap: break-word;
-}
-#primaryNav li a:link:before,
-#primaryNav li a:visited:before {
 	color: #78a9c0;
 }
 

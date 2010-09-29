@@ -5,6 +5,8 @@
 
         <title>{{ site_name }}</title>
 
+        <meta name="author" content="Argo Roots">
+
         <link href="/images/favicon.png" rel="shortcut icon" type="image/png" />
 
         <link href="/css/blueprint/reset.css" rel="stylesheet" type="text/css" />
@@ -12,9 +14,9 @@
         <link href="/css/blueprint/typography.css" rel="stylesheet" type="text/css" />
         <link href="/css/blueprint/forms.css" rel="stylesheet" type="text/css" />
         <link href="/css/blueprint/fancy-type/screen.css" rel="stylesheet" type="text/css" />
+        <link href="/css/slickmap.css" rel="stylesheet" type="text/css" />
         <link href="/css/screen.css" rel="stylesheet" type="text/css" />
 
-        <link href="/css/slickmap.css" rel="stylesheet" type="text/css" />
 
         <script src="http://www.google.com/jsapi" type="text/javascript"></script>
         <script type="text/javascript">
@@ -46,11 +48,14 @@
         <div id="container" class="container">
 
             <div id="header" class="span-94 prepend-1 prepend-top last">
-                <a href="/" id="header_title">ARX-Raamat</a>
-                <div id="header_menu" class="span-50">
+                <div id="header_title" class="span-20">
+                    <a href="/">ARX-Raamat</a>
+                </div>
+                <div id="header_menu" class="span-60">
                     {% if user %}
-                    <span style="padding-right:7px; font-style:italic;">{{ str.welcome }} {{ user.nickname }}!</span>
-                    <a href="{{ logouturl }}">{{ str.logout }}</a>
+                    <span style="padding-right:7px; font-style:italic;">{{ str.welcome }} {{ user.nickname }}!</span> <a href="{{ logouturl }}">{{ str.logout }}</a>
+                    {% else %}
+                    <a href="{{ loginurl }}" style="border:none;">{{ str.login }}</a>
                     {% endif %}
                 </div>
             </div>
