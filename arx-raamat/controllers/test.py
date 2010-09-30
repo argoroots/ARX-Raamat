@@ -11,7 +11,8 @@ class ApolloSearchTest(webapp.RequestHandler):
 class ApolloBookTest(webapp.RequestHandler):
     def get(self, url):
         result = GetBookByID(url)
-        self.response.out.write(result)
+        for n in result:
+        	self.response.out.write(n + ' => ' + result[n] + '<br />')
 
 
 def main():
