@@ -88,3 +88,6 @@ handlers:
 
 - url: /vearaport.php
   script: controllers/v7.py
+
+- url: /apollo_cron(.*)
+  script: importers/apollo_cron.py

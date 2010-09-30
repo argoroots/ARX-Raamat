@@ -3,6 +3,8 @@
 def translation():
     return {
     	'':					'',
+    	'apollo_failure_msg':       'Hei Admin...\nGAE Cron teavitab sind sellest, et ARXi Apollo importija läks katki.\nKontrolli Apollo HTML syntaxit käsitsi.\n Teate saatis /importers/apollo_cron.py',
+    	'apollo_failure_msg_title':              'ARX Apollo Importer Katki',
         'catalog':              'Kataloog',
         'english':              'Inglise',
         'estonian':             'Eesti',

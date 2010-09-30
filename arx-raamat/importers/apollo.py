@@ -14,6 +14,9 @@ from BeautifulSoup import BeautifulStoneSoup
 def GetBookByID(book_id):
     apollo_url = 'http://apollo.ee/product.php/' + book_id
     soup = BeautifulSoup(urlfetch.fetch(apollo_url).content)
+    if ReSearch(soup, r'Toodet (.*?) eksisteeri'):
+    	return None # If 404
+    
     data_object = soup.find('div', attrs={'class' : 'wrapRaamat'})
     article_object = soup.find('div', attrs={'class' : 'wrapArtikkel'})
 
@@ -25,15 +28,15 @@ def GetBookByID(book_id):
     # This is the main data dict
     data = {
         'id': book_id,
-        'isbn10': FindByPosition(data_object, 'ISBN-10 ',10),
-        'isbn13': FindByPosition(data_object, 'ISBN-13 ',13),
+        'isbn10': ReSearch(data_object, r'ISBN-10 (.*?)(;|<br />)'),
+        'isbn13': ReSearch(data_object, r'ISBN-13 (.*?)(;|<br />)'),
         'title': data_object.h2,
         'subtitle': soup.find('h3', attrs={'style' : 'font-weight:normal;'}),
         'series': soup.find('a', attrs={'title' : 'Veel samast sarjast'}),
         'description': data_object.p,
-        'authors': ParseAuthors(data_object),
+        'authors': ParseAuthors(data_object), # Errors with non-English alphabets. Reason unknown. Needs fixing.
         'publisher': ReSearch(data_object, r'Kirjastus (.*?)<br />'),
-        'published': FindByPosition(data_object, 'Ilmumisaasta ', 4),
+        'published': ReSearch(data_object, r'Ilmumisaasta (.*?)(;|<br />)'),
         'translator': ReSearch(data_object, r'Tõlkinud (.*?)<br />'),
         'editors': editors,
         'illustrator': ReSearch(data_object, r'Illustreerinud (.*?)<br />'),
@@ -49,6 +52,9 @@ def GetBookByID(book_id):
     for i in data:
         nice_data[i] = ConvertSoup(StripHTML(data[i]))
 
+    # ----------------------------------------------------------------------------------------------------------- #
+    # N.B! When changing the structure of the output dict, you MUST UPDATE the stored1-4 values in apollo_cron.py !
+    # ----------------------------------------------------------------------------------------------------------- #
     return nice_data
 
 
@@ -60,7 +66,9 @@ def SearchBook(search_term):
 
     # Post the search and get the HTML of the result page.
     apollo_url = 'http://apollo.ee/search.php?keyword='+search_term
-    soup = BeautifulSoup(urlfetch.fetch(apollo_url).content)
+    soup = BeautifulSoup(urlfetch.fetch(apollo_url, deadline=10).content)
+    if ReSearch(soup, r'Tooteid (.*?) leitud'):
+    	return None # If 404
     result_block = soup.find('div', attrs={'class' : 'otsingTulemusRaamat'})
 
     # Since the results are poorly structured we have to split it into individual parts.
@@ -83,8 +91,9 @@ def SearchBook(search_term):
     		nice_current_info[i] = ConvertSoup(StripHTML(current_info[i]))
     	data.append(nice_current_info)
     	nice_current_info = None
+    	current_soup = None
 
-    return str(data)
+    return data
 
 # ------------------------------ Helper functions --------------------------------- #
 
@@ -99,18 +108,6 @@ def ParseAuthors(soup):
     	return authors
 
 
-# Custom search. Get data that follows search_string in the haystack
-# Example: haystack = 'Aasta 1967 talv' | needle = 'sta ' | length = 4
-# 	...would return 1967
-def FindByPosition(haystack, needle, length):
-	position = str(haystack).find(str(needle))
-	if position != -1:
-		position += len(needle)
-		return str(haystack)[(position):(position+length)]
-	else:
-		return None
-
-
 # Strip out any HTML tags found in input string
 def StripHTML(data):
     data = str(data)
@@ -118,17 +115,11 @@ def StripHTML(data):
     return p.sub('', data)
 
 
-# Regex search
-def ReSearch(haystack, needle,type='str'):
+# Regex search - find needle in haystack and return it
+def ReSearch(haystack, needle):
 	p = re.compile(needle).search(str(haystack))
 	if p:
-		result = p.group(1)
-		if type == 'int':
-			try:
-				result = int(p.group(1))
-			except:
-				result = None
-		return result
+		return p.group(1)
 	else:
 		return None
 

@@ -3,9 +3,12 @@ from importers.apollo import *
 
 class ApolloSearchTest(webapp.RequestHandler):
     def get(self, url):
-        #url = '0817496'
+        
         result = SearchBook(url)
-        self.response.out.write(result)
+        for i in result:
+        	self.response.out.write('<hr />')
+        	for m in i:
+        		self.response.out.write(m + '=>' + i[m] + '<br />')
 
 
 class ApolloBookTest(webapp.RequestHandler):
