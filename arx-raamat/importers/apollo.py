@@ -45,6 +45,7 @@ def GetBookByID(book_id):
         'dimensions': ReSearch(data_object, r'Mõõtmed (.*?)<br />'),
         'pages': ReSearch(data_object, r'Lehekülgi (.*?);'),
         'image': 'http://apollo.ee' + article_object('img')[0]['src'],
+        'url': apollo_url,
     }
 
     # Trouble with encoding, convert every member of data dict
@@ -53,7 +54,7 @@ def GetBookByID(book_id):
         nice_data[i] = ConvertSoup(StripHTML(data[i]))
 
     # ----------------------------------------------------------------------------------------------------------- #
-    # N.B! When changing the structure of the output dict, you MUST UPDATE the stored1-4 values in apollo_cron.py !
+    # N.B! When changing the structure of the output dict, you MUST UPDATE the stored values in apollo_cron.py !
     # ----------------------------------------------------------------------------------------------------------- #
     return nice_data
 

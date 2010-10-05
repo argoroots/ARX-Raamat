@@ -5,6 +5,7 @@
 
 import pickle
 import hashlib
+import random
 from bo import *
 from importers.apollo import *
 
@@ -12,33 +13,25 @@ class ApolloCronTest(webapp.RequestHandler):
     def get(self, param):
         
         # I know something about those 4 books. If my info is not the same as Apollo's response
-        # ...and it is so with all 4 of them, then it's a good guess the admin needs to check the syntax manually.
+        # ...then it's a good guess the admin needs to check the syntax manually.
+        known_data = {
+        '0722492': '4c817381eabb0af5db834258f09e2102',
+        '0761862': 'dba4ea11c0c2a59ba011b6ac6c34bfc2',
+        '0305224': 'a86a02c949e3f41de6fac971964b5863',
+        '3289239': '29920ee3407050e50658d0d95a381dd2',
+        }
         
-        # Pickle it - make dict a string
-        result1 = pickle.dumps(set(GetBookByID('0722492').items())) # Videvik
-        result2 = pickle.dumps(set(GetBookByID('0761862').items())) # Musta pori nakku
-        result3 = pickle.dumps(set(GetBookByID('0305224').items())) # HP 7
-        result4 = pickle.dumps(set(GetBookByID('3289239').items())) # Hobevalge
-        
-        # MD5 it - make a long string short
-        result1 = hashlib.md5(result1).hexdigest()
-        result2 = hashlib.md5(result2).hexdigest()
-        result3 = hashlib.md5(result3).hexdigest()
-        result4 = hashlib.md5(result4).hexdigest()
-        
-        # These are the saved MD5 values. N.B! If something in apollo.py output dict is changed these MUST BE updated.
-        stored1 = ''
-        stored2 = ''
-        stored3 = ''
-        stored4 = ''
-        
-        self.response.out.write((result1, result2, result3, result4))
+        random.seed()
+        random_check = random.randrange(0,3)
+        book_id = known_data.keys()
+        result = pickle.dumps(set(GetBookByID(book_id[random_check]).items())) # Pickle it - make dict a string
+        result = hashlib.md5(result).hexdigest() # MD5 it - make a long string short
         
         # Notify admins about system failure.
-        if result1 != stored1 or result2 != stored2 or result3 != stored3 or result4 != stored4:
-            #SendMail('ando@roots.ee',Translate('apollo_failure_msg_title'), Translate('apollo_failure_msg'))
-            a=3
-        self.response.out.write('<br />1')
+        if result != known_data[book_id[random_check]]:
+			SendMail('ando@roots.ee',Translate('apollo_failure_msg_title'), Translate('apollo_failure_msg'))
+			self.response.out.write('Something is broken.<br />')
+        self.response.out.write('Cron done.')
         
 
 def main():
