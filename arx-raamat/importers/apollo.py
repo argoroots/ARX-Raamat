@@ -16,9 +16,14 @@ def GetBookByID(book_id):
     soup = BeautifulSoup(urlfetch.fetch(apollo_url).content)
     if ReSearch(soup, r'Toodet (.*?) eksisteeri'):
     	return None # If 404
-    
+
     data_object = soup.find('div', attrs={'class' : 'wrapRaamat'})
     article_object = soup.find('div', attrs={'class' : 'wrapArtikkel'})
+
+    # If there are any authors, put them in a list. If not, leave it be.
+    authors = None
+    if data_object.findAll('a', attrs={'title': 'Veel sellelt autorilt'}):
+        authors = data_object.findAll('a', attrs={'title': 'Veel sellelt autorilt'})
 
     # If there are any editors, put them in a list. If not, leave it be.
     editors = ReSearch(data_object, r'Toimetanud (.*?)<br />')
@@ -34,7 +39,7 @@ def GetBookByID(book_id):
         'subtitle': soup.find('h3', attrs={'style' : 'font-weight:normal;'}),
         'series': soup.find('a', attrs={'title' : 'Veel samast sarjast'}),
         'description': data_object.p,
-        'authors': ParseAuthors(data_object), # Errors with non-English alphabets. Reason unknown. Needs fixing.
+        'authors': authors,
         'publisher': ReSearch(data_object, r'Kirjastus (.*?)<br />'),
         'published': ReSearch(data_object, r'Ilmumisaasta (.*?)(;|<br />)'),
         'translator': ReSearch(data_object, r'Tõlkinud (.*?)<br />'),
@@ -83,7 +88,7 @@ def SearchBook(search_term):
             'id': ReSearch(current_soup, r'php/(.*?)"'),
             'title': current_soup.find('a'),
     		'description': current_soup.find('p'),
-    		'authors': ParseAuthors(current_soup),
+    		'authors': current_soup.findAll('a', attrs={'title': 'Veel sellelt autorilt'}),
         }
 
     	# Get around UTF-8 problems
@@ -97,17 +102,6 @@ def SearchBook(search_term):
     return data
 
 # ------------------------------ Helper functions --------------------------------- #
-
-# Authors need special parsing - one book can have multiple authors.
-def ParseAuthors(soup):
-    authors = []
-    for n in soup.findAll('a', attrs={'title': 'Veel sellelt autorilt'}):
-        authors.append(''.join(n.renderContents()))
-    if not authors:
-    	return None
-    else:
-    	return authors
-
 
 # Strip out any HTML tags found in input string
 def StripHTML(data):
@@ -127,7 +121,7 @@ def ReSearch(haystack, needle):
 
 # Converts non-English symbols for output
 def ConvertSoup(input):
-    result = BeautifulStoneSoup(''.join(input), convertEntities=BeautifulStoneSoup.ALL_ENTITIES)
+    result = BeautifulStoneSoup(input, convertEntities=BeautifulStoneSoup.ALL_ENTITIES)
     return result.renderContents()
 
 # -- End of file -- #
