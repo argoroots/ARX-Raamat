@@ -1,21 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head profile="http://gmpg.org/xfn/11">
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<!DOCTYPE html>
+<html lang="et">
+    <head>
+        <meta charset="utf-8" />
 
         <title>{{ site_name }}</title>
 
         <meta name="author" content="Argo Roots" />
 
-        <link href="/images/favicon.png" rel="shortcut icon" type="image/png" />
+        <link rel="icon" href="/images/favicon.png" sizes="64x64" type="image/png">
 
-        <link href="/css/blueprint/reset.css" rel="stylesheet" type="text/css" />
-        <link href="/css/blueprint/grid.css" rel="stylesheet" type="text/css" />
-        <link href="/css/blueprint/typography.css" rel="stylesheet" type="text/css" />
-        <link href="/css/blueprint/forms.css" rel="stylesheet" type="text/css" />
-        <link href="/css/blueprint/fancy-type/screen.css" rel="stylesheet" type="text/css" />
-        <link href="/css/slickmap.css" rel="stylesheet" type="text/css" />
-        <link href="/css/screen.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="/css/screen.css" />
+        <link rel="stylesheet" href="/css/slickmap.css" />
 
 
         <script src="http://www.google.com/jsapi" type="text/javascript"></script>
@@ -23,11 +18,15 @@
             google.load("jquery", "1");
         </script>
 
-        <script src="/javascript/jquery.autocomplete.js" type="text/javascript"></script>
+        <!--script src="/javascript/jquery.autocomplete.js" type="text/javascript"></script>
         <script src="/javascript/jquery.elastic.js" type="text/javascript"></script>
-        <script src="/javascript/jquery.placeholder.js" type="text/javascript"></script>
+        <script src="/javascript/jquery.placeholder.js" type="text/javascript"></script-->
 
         {{ page_meta }}
+
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
 
         <script type="text/javascript">
 
@@ -45,30 +44,26 @@
 
     </head>
     <body>
-        <div id="container" class="container">
-
-            <div id="header" class="span-94 prepend-1 prepend-top last">
-                <div id="header_title" class="span-20">
-                    <a href="/">ARX-Raamat</a>
-                </div>
-                <div id="header_menu" class="span-60">
-                    {% if user %}
-                    <span style="padding-right:7px; font-style:italic;">{{ str.welcome }} {{ user.nickname }}!</span> <a href="{{ logouturl }}">{{ str.logout }}</a>
-                    {% else %}
-                    <a href="{{ loginurl }}" style="border:none;">{{ str.login }}</a>
-                    {% endif %}
-                </div>
+        <header>
+            <h1><a href="/">ARX-Raamat</a></h1>
+            <div>
+                {% if user %}
+                <i>{{ str.welcome }} {{ user.nickname }}!</i> | <a href="{{ logouturl|escape }}">{{ str.logout }}</a>
+                {% else %}
+                <a href="{{ loginurl|escape }}" style="border:none;">{{ str.login }}</a>
+                {% endif %}
             </div>
+        </header>
 
-            <div id="content" class="span-95 last">
+        <section id="page">
 
-            {% block content %}
-            {% endblock %}
+        {% block content %}
+        {% endblock %}
 
-            </div>
-            <div id="footer" class="span-95 prepend-top append-bottom last">
-                <a href="http://validator.w3.org/check?uri=referer">Copyright ©2010 Argo Roots</a>
-            </div>
-        </div>
+        </section>
+
+        <footer>
+            <a href="http://validator.w3.org/check?uri=referer">Copyright ©2010 Argo Roots</a>
+        </footer>
     </body>
 </html>

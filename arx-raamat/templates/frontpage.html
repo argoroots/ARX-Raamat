@@ -1,14 +1,13 @@
 {% extends "main.html" %}
 
 {% block content %}
-<div class="span-95 prepend-top" style="margin:40px 0px; text-align:center;">
-    <a href="/" title="Arx"><img src="/images/Application_200.png" width="200px" height="200px" alt="logo" /></a><br />
-</div>
 
-<div class="span-93 push-2">
-    <ul id="primaryNav" class="span-90 col4">
+<img src="/images/Application_200.png" width="200" height="200" alt="logo" style="margin:40px auto; display:block;" />
+
+<nav>
+    <ul id="primaryNav" class="col4" style="padding-left:20px; width:920px;">
         <li id="first">
-            <a href="/catalog"><img src="/images/Catalog_50.png" width="50px" height="50px" alt="" />{{ str.catalog }}</a>
+            <a href="/catalog"><img src="/images/Catalog_50.png" width="50" height="50" alt="" />{{ str.catalog }}</a>
             <ul>
                 <li>
                     <a href="">{{ str.inventory }}</a>
@@ -19,7 +18,7 @@
             </ul>
         </li>
         <li>
-            <a href=""><img src="/images/Lending_50.png" width="50px" height="50px" alt="" />{{ str.lending }}</a>
+            <a href=""><img src="/images/Lending_50.png" width="50" height="50" alt="" />{{ str.lending }}</a>
             <ul>
                 <li>
                     <a href="/person">{{ str.persons }}</a>
@@ -27,13 +26,12 @@
             </ul>
         </li>
         <li>
-            <a href=""><img src="/images/Statistics_50.png" width="50px" height="50px" alt="" />{{ str.statistics }}</a>
+            <a href=""><img src="/images/Statistics_50.png" width="50" height="50" alt="" />{{ str.statistics }}</a>
         </li>
         <li>
-            <a href=""><img src="/images/Preferences_50.png" width="50px" height="50px" alt="" />{{ str.preferences }}</a>
+            <a href=""><img src="/images/Preferences_50.png" width="50" height="50" alt="" />{{ str.preferences }}</a>
         </li>
     </ul>
-</div>
-
+</nav>
 
 {% endblock %}
