@@ -10,7 +10,6 @@
         <link rel="icon" href="/images/favicon.png" sizes="64x64" type="image/png">
 
         <link rel="stylesheet" href="/css/screen.css" />
-        <link rel="stylesheet" href="/css/slickmap.css" />
 
 
         <script src="http://www.google.com/jsapi" type="text/javascript"></script>
@@ -22,7 +21,8 @@
         <script src="/javascript/jquery.elastic.js" type="text/javascript"></script>
         <script src="/javascript/jquery.placeholder.js" type="text/javascript"></script-->
 
-        {{ page_meta }}
+        {% block head %}
+        {% endblock %}
 
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
