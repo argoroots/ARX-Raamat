@@ -26,23 +26,29 @@ handlers:
 
 - url: /v7setup
   static_dir: static/v7setup
+  expiration: "90d"
 
 - url: /css
   static_dir: static/css
+  expiration: "1d"
 
 - url: /images
   static_dir: static/images
+  expiration: "90d"
 
 - url: /javascript
   static_dir: static/javascript
+  expiration: "1d"
 
 - url: /favicon.ico
   static_files: static/images/favicon.png
   upload: static/images/favicon.png
+  expiration: "90d"
 
 - url: /robots.txt
   static_files: static/robots.txt
   upload: static/robots.txt
+  expiration: "90d"
 
 
 
