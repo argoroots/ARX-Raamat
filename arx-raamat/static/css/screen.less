@@ -1,8 +1,9 @@
 /* CONSTANTS */
 
 @text_color: #454A4E;
-@background_color: #E6E6E6;
-@font: 'Helvetica Neue', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+@background: #E8E8E8 url('/images/bg.png');
+@text_font: Georgia, Times, serif;
+@header_font: HelveticaNeue-Regular, 'Helvetica Neue', Helvetica, Arial, Tahoma, Verdana, sans-serif;
 
 
 
@@ -35,18 +36,19 @@ header, footer, aside, nav, article, section {
 
 
 
+
 /* GENERAL */
 
 body {
     margin: 0 auto;
     padding: 0px;
     width: 940px;
-    font-family: @font;
-    font-size: 13px;
+    font-family: @text_font;
+    font-size: 14px;
     text-align: left;
     line-height: 1.5;
     color: @text_color;
-    background: @background_color;
+    background: @background;
 }
 
 input {
@@ -54,13 +56,13 @@ input {
 }
 
 textarea {
-    font-family: @font;
+    font-family: @text_font;
     font-size: 13px;
     height: auto;
 }
 
 a {
-    color: #000000;
+    color: #6DA00B;
     text-decoration: none;
 
     :hover {
@@ -71,7 +73,7 @@ a {
 h1, h1 a, h1 a:hover, h1 a:active, h1 a:visited {
     font-size: 24px;
     font-weight: bold;
-    color: #2041A2;
+    color: #525252;
 }
 
 h2, h2 a, h2 a:hover, h2 a:active, h2 a:visited {
@@ -93,11 +95,12 @@ header {
     padding: 20px 10px 0px 10px;
 
     h1 {
-        text-shadow: rgba(0,0,0,0.3) 1px 1px 3px;
+        font-family: @header_font;
+        text-shadow: rgba(255, 255, 255, 0.796875) 0px 1px 0px;
         display: inline;
 
         a {
-            color: gray;
+            color: #525252;
 
             :hover {
                 text-decoration: none;
@@ -105,7 +108,7 @@ header {
         }
     }
 
-    div {
+    nav {
         padding-top: 14px;
         float: right;
     }
@@ -141,8 +144,16 @@ header {
 
     h1 {
         display: block;
+        padding-bottom: 10px;
+        font-family: @header_font;
+        text-transform: uppercase;
+        color: #616161;
+        font-size: 21px;
+        font-weight: 200;
+        letter-spacing: 2px;
     }
 }
+
 
 
 
@@ -203,6 +214,7 @@ header {
 
 
 
+
 /* FOOTER */
 
 footer {
@@ -221,7 +233,7 @@ footer {
 
 
 
-
+/* BUTTONS */
 
 .button {
     font-size: 10px;

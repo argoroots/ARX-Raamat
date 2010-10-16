@@ -46,13 +46,13 @@
     <body>
         <header>
             <h1><a href="/">ARX-Raamat</a></h1>
-            <div>
+            <nav>
                 {% if user %}
                 <i>{{ str.welcome }} {{ user.nickname }}!</i> | <a href="{{ logouturl|escape }}">{{ str.logout }}</a>
                 {% else %}
                 <a href="{{ loginurl|escape }}" style="border:none;">{{ str.login }}</a>
                 {% endif %}
-            </div>
+            </nav>
         </header>
 
         <section id="page">
