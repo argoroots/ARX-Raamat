@@ -10,13 +10,7 @@ from database import *
 
 class ShowInfo(webapp.RequestHandler):
     def get(self):
-        page_meta = """
-            <!-- Orbit -->
-            <script type="text/javascript" src="/javascript/jquery.orbit.min.js"></script>
-            <link href="/css/orbit.css" rel="stylesheet" type="text/css" />
-        """
-
-        View(self, '7', 'v7.html', {'page_meta':page_meta})
+        View(self, '7', 'v7.html')
 
 
 class GetSetup(webapp.RequestHandler):
@@ -165,12 +159,6 @@ class ErrorReport(webapp.RequestHandler):
         u.error_number = error_number
         u.error_text = error_text
         u.put()
-
-        SendMail(
-            to = 'argo@roots.ee',
-            subject = 'Err - ' + u.error_number + ': ' + u.error_function,
-            message = 'ERROR:<br><br>' + u.error_text
-        )
 
 
 class GetHelp(webapp.RequestHandler):
