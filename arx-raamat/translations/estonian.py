@@ -11,6 +11,8 @@ def translation():
         'estonian':             'Eesti',
         'groups':               'Grupid',
         'inventory':            'Inventuur',
+    	'invitation_email':     'Kutsun Sind kasutama raamatukogu infosüsteemi <a href="http://www.arx.ee">ARX-raamat</a>.<br /><br />Kutse aktsepteerimiseks kliki alloleval viitel, või kopeeri see enda brauseri aadressiribale:<br />%s<br /><br /><br /><br />Tänud!',
+    	'invitation_subject':   'KUTSE: ARX-Raamat',
         'language':             'Keel',
         'lending':              'Laenutus',
         'login':                'Sisene',
@@ -25,5 +27,14 @@ def translation():
         'user':                 'Kasutaja',
         'user_preferences':     'Kasutaja seaded',
         'welcome':              'Tere tulemast',
+        'signup_welcome':       'Tere tulemast kasutama ARX-Raamat\'ut!',
+        'signup_message':       '* ARX-Raamat kasutab kasutajate tuvastamiseks Google kontot (gmail, orkut, blogger jne). Google edastab meile vaid teie e-maili aadressi. Me ei saa teada teie parooli ega muud Google kontoga seotud infot.',
+        'forename':             'Eesnimi',
+        'surname':              'Perekonnanimi',
+        'email':                'Email',
+        'signup_submit':        'Sisene Google kontoga *',
+        'signup_err_forename':  'Sisestage eesnimi!',
+        'signup_err_surname':   'Sisestage perekonnanimi!',
+        'signup_err_email':     'Sisestage email!',
 
-}
+    }

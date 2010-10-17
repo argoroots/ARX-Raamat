@@ -30,6 +30,14 @@ def View(self, page_title, templatefile, values={}):
     self.response.out.write(template.render(path, values))
 
 
+def LogIn(self, url = '/'):
+    self.redirect(users.create_login_url(url))
+
+
+def LogOut(self, url = '/'):
+    self.redirect(users.create_logout_url(url))
+
+
 def Translate(key = None):
     if User().current():
         languagefile = 'translations.' + User().current().language

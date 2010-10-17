@@ -1,0 +1,72 @@
+{% extends "main.html" %}
+
+{% block head %}
+<script src="/javascript/jquery.validate.min.js" type="text/javascript"></script>
+<style type="text/css">
+    header nav {
+        display: none;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<section id="wide_content">
+
+    <img src="/images/Application_200.png" width="200" height="200" alt="logo" style="margin:40px auto; display:block;" />
+    <h1 style="text-align:center;">{{ str.signup_welcome }}</h1>
+
+    <form id="signupform" action="" method="post">
+        <div>
+            <label for="forename">{{ str.forename }}</label>
+            <input type="text" id="forename" name="forename" value="{{ person.forename }}" autofocus />
+        </div>
+        <div>
+            <label for="surname">{{ str.surname }}</label>
+            <input type="text" id="surname" name="surname" value="{{ person.surname }}" />
+        </div>
+        <div style="padding-right:0px;">
+            <label for="email">{{ str.email }}</label>
+            <input type="text" id="email" name="email" value="{{ person.email }}"  disabled="disabled" />
+        </div>
+    </form>
+
+    <div id="signupform_submit" class="">{{ str.signup_submit }}</div>
+
+    <span style="font-size:12px;">{{ str.signup_message }}</span>
+
+</section>
+
+<script>
+    $(document).ready(function(){
+        $("#signupform").validate({
+            debug: true,
+            rules: {
+                forename: "required",
+                surname: "required",
+                email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                forename: "{{ str.signup_err_forename }}",
+                surname: "{{ str.signup_err_surname }}",
+                email: {
+                    required: "{{ str.signup_err_email }}",
+                    email: "{{ str.signup_err_email }}"
+                }
+            },
+            submitHandler: function(form) {
+   	            form.submit();
+            }
+        });
+
+        $("#signupform_submit").click(function() {
+            $("#signupform").submit();
+        });
+    });
+</script>
+
+{% endblock %}

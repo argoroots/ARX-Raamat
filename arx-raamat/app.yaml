@@ -60,6 +60,9 @@ handlers:
 - url: /bulka
   script: controllers/bulka.py
 
+- url: /signup(.*)
+  script: controllers/signup.py
+
 
 
 #protected controllers
@@ -71,6 +74,10 @@ handlers:
 - url: /person
   script: controllers/person.py
   login: required
+
+- url: /admin(.*)
+  script: controllers/admin.py
+  login: admin
 
 - url: /test(.*)
   script: controllers/test.py

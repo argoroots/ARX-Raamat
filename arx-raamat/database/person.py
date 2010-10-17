@@ -2,16 +2,20 @@ from google.appengine.ext import db
 from google.appengine.ext import search
 
 from bo.user import *
+from database import *
 
 
 class Person(search.SearchableModel):
-    forename    = db.StringProperty()
-    surname     = db.StringProperty()
-    idcode      = db.StringProperty()
-    birth_date  = db.DateProperty()
-    gender      = db.StringProperty()
-    note        = db.TextProperty()
-    user        = db.ReferenceProperty(User, collection_name='person')
+    library         = db.ReferenceProperty(Library, collection_name='persons')
+    forename        = db.StringProperty(default='')
+    surname         = db.StringProperty(default='')
+    email           = db.StringProperty()
+    idcode          = db.StringProperty(default='')
+    birth_date      = db.DateProperty()
+    gender          = db.StringProperty()
+    note            = db.TextProperty(default='')
+    activation_key  = db.StringProperty()
+    user            = db.ReferenceProperty(User, collection_name='persons')
 
     def current(self):
         return db.Query(Person).filter('user =', User().current()).get()
