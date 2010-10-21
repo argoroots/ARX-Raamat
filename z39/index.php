@@ -25,7 +25,7 @@ Sends z39.50 request to helios.nlib.ee and shows result as json. Inputs (GET par
         $id = yaz_connect($server);
         yaz_syntax($id, "marc21");
         yaz_range($id, 1, $range);
-        yaz_search($id, "rpn", "@or @or @attr 1=7 \"$query\" @attr 1=4 \"$query\" @attr 1=1003 \"$query\""); //ISBN or Title or Author
+        yaz_search($id, "rpn", "@or @or @attr 1=7 \"$query\" @attr 1=4 \"$query\" @attr 1=1003 \"$query\""); //ISBN or Title or Author - http://www.loc.gov/z3950/agency/defns/bib1.html
         yaz_wait();
         if(yaz_error($id)) exit('ERROR: '. yaz_error($id));
 
