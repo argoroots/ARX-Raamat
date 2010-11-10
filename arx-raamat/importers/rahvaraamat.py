@@ -12,5 +12,5 @@ def RahvaraamatImageByISBN(isbn):
         img = div.find('img')
         if img:
             imgsrc = img['src'].replace('/product_2/', '/product_5/')
-        if imgsrc != '/Content/Img/thumbs/blank_2.gif'
+        if imgsrc != '/Content/Img/thumbs/blank_2.gif':
             return imgsrc

@@ -44,7 +44,7 @@ def GetBookByID(book_id):
         'published': ReSearch(data_object, r'Ilmumisaasta (.*?)(;|<br />)'),
         'translator': ReSearch(data_object, r'Tõlkinud (.*?)<br />'),
         'editors': editors,
-        'illustrator': ReSearch(data_object, r'Illustreerinud (.*?)<br />'),
+        'illustrator': ReSearch(data_object, r'Illustreerinud (.*?)<br />').split(','),
         'price': soup.find('span', attrs={'class' : 'tooteHind'}),
         'format': ReSearch(data_object, r'Formaat (.*?)(;|<br />)'),
         'dimensions': ReSearch(data_object, r'Mõõtmed (.*?)<br />'),
@@ -102,6 +102,23 @@ def SearchBook(search_term):
     return data
 
 # ------------------------------ Helper functions --------------------------------- #
+
+
+# Authors need special parsing - one book can have multiple authors.
+def ParseAuthors(soup):
+    authors = []
+    #for n in soup.findAll('a', attrs={'title': 'Veel sellelt autorilt'}):
+    #    authors.append(''.join(n.renderContents()))
+    authors = ConvertSoup(StripHTML(soup.findAll('a', attrs={'title': 'Veel sellelt autorilt'})))
+    authors = unicode(authors.split(','))
+    #for index, author in enumerate(authors):
+    #	authors[index] = author.strip()
+    if not authors:
+    	return None
+    else:
+    	return authors
+
+
 
 # Strip out any HTML tags found in input string
 def StripHTML(data):
