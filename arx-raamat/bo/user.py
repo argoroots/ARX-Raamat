@@ -15,6 +15,7 @@ class User(db.Model):
     created     = db.DateTimeProperty(auto_now_add=True)
     last_seen   = db.DateTimeProperty()
 
+    @property
     def current(self):
         user = users.get_current_user()
         if user:
@@ -24,7 +25,7 @@ class User(db.Model):
                 u.user_id = user.user_id()
                 u.email = user.email()
                 u.nickname = user.nickname()
-                
+
             u.last_seen = datetime.today()
             u.put()
 

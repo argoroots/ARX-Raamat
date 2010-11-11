@@ -23,7 +23,7 @@ def View(self, page_title, templatefile, values={}):
         values['site_name'] = SYSTEM_TITLE
         values['page_title'] = '&nbsp;'
     values['site_url'] = self.request.headers.get('host')
-    values['user'] = User().current()
+    values['user'] = User().current
     values['loginurl'] = users.create_login_url('/')
     values['logouturl'] = users.create_logout_url('/')
     path = os.path.join(os.path.dirname(__file__), '..', 'templates', templatefile)
@@ -39,8 +39,8 @@ def LogOut(self, url = '/'):
 
 
 def Translate(key = None):
-    if User().current():
-        languagefile = 'translations.' + User().current().language
+    if User().current:
+        languagefile = 'translations.' + User().current.language
     else:
         languagefile = 'translations.' + SYSTEM_LANGUAGE
 
