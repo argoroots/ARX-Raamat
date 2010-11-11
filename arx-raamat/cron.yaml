@@ -1,4 +1,1 @@
 cron:
-- description: Check if Apollo.ee has changed it's Book search HTML. If so, notify admins.
-  url: /apollo_cron/gae
-  schedule: every 24 hours
