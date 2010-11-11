@@ -19,7 +19,7 @@ Sends z39.50 request to helios.nlib.ee and shows result as json. Inputs (GET par
 
 
     //gets MARC21 records from server (as XML) and return those as JSON list
-    function getMarc($query, $range=10) {
+    function getMarc($query, $range) {
         $server = 'helios.nlib.ee:212/innopac';
 
         $id = yaz_connect($server);
