@@ -35,7 +35,9 @@ class SendInvites(webapp.RequestHandler):
                 if not p:
                     p = Person()
                     p.library = db.Key(self.request.get('library'))
-                    p.email = email
+                    p.email = email.lower()
+                    p.type = 'admin'
+                    p.status = 'new'
 
                 p.activation_key = key
                 p.save()

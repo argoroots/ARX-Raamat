@@ -28,7 +28,7 @@
         </div>
         <div style="padding-right:0px;">
             <label for="email">{{ str.email }}</label>
-            <input type="text" id="email" name="email" value="{{ person.email }}"  disabled="disabled" />
+            <input type="text" id="email" name="email" value="{{ person.email }}" readonly />
         </div>
     </form>
 
@@ -41,20 +41,33 @@
 <script>
     $(document).ready(function(){
         $("#signupform").validate({
-            debug: true,
             rules: {
-                forename: "required",
-                surname: "required",
+                forename: {
+                    required: true,
+                    minlength: 3
+                },
+                surname: {
+                    required: true,
+                    minlength: 3
+                },
                 email: {
                     required: true,
+                    minlength: 5,
                     email: true
                 }
             },
             messages: {
-                forename: "{{ str.signup_err_forename }}",
-                surname: "{{ str.signup_err_surname }}",
+                forename: {
+                    required: "{{ str.signup_err_forename }}",
+                    minlength: jQuery.format("{{ str.signup_err_minlength }}")
+                },
+                surname: {
+                    required: "{{ str.signup_err_forename }}",
+                    minlength: jQuery.format("{{ str.signup_err_minlength }}")
+                },
                 email: {
                     required: "{{ str.signup_err_email }}",
+                    minlength: jQuery.format("{{ str.signup_err_minlength }}"),
                     email: "{{ str.signup_err_email }}"
                 }
             },
