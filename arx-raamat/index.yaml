@@ -1,4 +1,52 @@
 indexes:
+
+- kind: Person
+  properties:
+  - name: library
+  - name: status
+  - name: forename
+  - name: surname
+
+
+- kind: Person
+  properties:
+  - name: status
+  - name: type
+  - name: forename
+  - name: surname
+
+- kind: Person
+  properties:
+  - name: library
+  - name: status
+  - name: type
+  - name: forename
+  - name: surname
+
+
+- kind: Group
+  properties:
+  - name: library
+  - name: name
+
+
+- kind: Tag
+  properties:
+  - name: type
+  - name: value
+
+- kind: TagType
+  properties:
+  - name: is_public
+  - name: name
+
+- kind: Item
+  properties:
+  - name: tags
+  - name: title
+
+
+
 - kind: v7user
   properties:
   - name: programm_id

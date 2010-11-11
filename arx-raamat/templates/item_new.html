@@ -1,0 +1,31 @@
+<div style="padding:20px;">
+    <img src="/images/close.png" alt="Close" id="close_dropdown" style="float:right;" />
+    <h1>{{ str.new_book }}</h1>
+    {{ str.new_book_description }}<br />
+    <form id="search_form" action="" method="post" style="text-align:center; margin:20px;">
+        {{ str.title_or_isbn }}: <input type="text" id="search_text" name="search_text" style="width:200px;margin-left:10px;" />
+        <input type="submit" id="search_submit" value="{{ str.search }}" />
+    </form>
+</div>
+
+<div id="search_results" style="max-height:350px; overflow:auto;">
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#search_form").submit(function() {
+            $('#search_results').html('<img src="/images/ajax-loader.gif" style="margin: 0px auto 30px auto; display:block;" />');
+            $.post('/item/searchfornew', { search_text: $("#search_text").val() }, function(data) {
+                $('#search_results').html(data);
+            });
+            return false;
+        });
+
+        $("#close_dropdown").click(function(){
+            $(this).parent().parent().slideUp();
+        });
+        $("#close_dropdown").hover(function(){
+            $(this).css("cursor", "pointer");
+        });
+    });
+</script>

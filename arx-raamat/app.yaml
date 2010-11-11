@@ -63,15 +63,22 @@ handlers:
 - url: /signup(.*)
   script: controllers/signup.py
 
+- url: /domain(.*)
+  script: controllers/domain.py
+
 
 
 #protected controllers
 
-- url: /catalog
+- url: /catalog(.*)
   script: controllers/catalog.py
   login: required
 
-- url: /person
+- url: /item(.*)
+  script: controllers/item.py
+  login: required
+
+- url: /person(.*)
   script: controllers/person.py
   login: required
 

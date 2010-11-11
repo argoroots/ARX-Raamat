@@ -132,6 +132,7 @@ header {
     padding: 0px;
     width: 100%;
     display: table;
+    min-height: 400px;
     background: #FFFFFF right top;
     background-repeat: no-repeat;
     border: 1px solid @bordercolor;
@@ -144,6 +145,7 @@ header {
         padding-bottom: 10px;
         font-family: @header_font;
         text-transform: uppercase;
+        text-align: left;
         color: #616161;
         font-size: 21px;
         font-weight: 200;
@@ -237,7 +239,9 @@ footer {
     padding: 10px;
     text-align: center;
     white-space: nowrap;
-    font-size: 10px;
+    font-size: 11px;
+    font-family: @header_font;
+    letter-spacing: 1px;
     color: gray;
 
     a {
@@ -249,7 +253,30 @@ footer {
 
 
 
+/* DROPDOWN */
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    margin-left: -325px;
+    width: 650px;
+    margin-bottom: 20px;
+    padding: 0px;
+    background: #F7F7F7;
+    border: 1px solid @bordercolor;
+    border-top: none;
+    box-shadow: #CCCCCC 2px 3px 4px;
+    -moz-box-shadow: #CCCCCC 2px 3px 4px;
+    -webkit-box-shadow: #CCCCCC 2px 3px 4px;
+}
+
+
+
+
 /* FORMS */
+
 #signupform {
     margin: 20px 0px;
     padding: 10px 20px;
@@ -314,36 +341,51 @@ footer {
 
 
 
+/* TABLE */
+
+.table {
+    display: table;
+    margin: 20px 0px;
+    width: 100%;
+}
+
+.table_row {
+    display: table-row;
+}
+
+.table_row:nth-child(even) {
+        background: white;
+}
+
+.table_row:nth-child(odd) {
+        background: #E9F4FA;
+}
+
+.table_cell {
+    display: table-cell;
+    padding: 5px 10px;
+}
+
+
+
 /* BUTTONS */
 
 .button {
-    font-size: 10px;
-    font-weight: bold;
-    line-height: normal;
-    cursor: pointer;
-    background-color: #23AA3D;
-    color: #FFFFFF;
-    padding: 1px 15px 4px 15px;
+    width: 200px;
+    margin: 20px auto;
+    padding: 5px 10px 4px 10px;
     text-align: center;
-    text-decoration: none;
-    display: block;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
+    text-transform: uppercase;
+    font-family: @header_font;
+    font-size: 12px;
+    white-space: nowrap;
+    letter-spacing: 1px;
+    color: #FFFFFF;
+    cursor: pointer;
+    background: #6DA00B;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     box-shadow: #CCCCCC 1px 2px 3px;
     -moz-box-shadow: #CCCCCC 1px 2px 3px;
     -webkit-box-shadow: #CCCCCC 1px 2px 3px;
-
-    :hover {
-        color: #FFFFFF;
-        text-decoration: none;
-    }
-
-    :active {
-        position: relative;
-        top: 1px;
-        color: #FFFFFF;
-        box-shadow: none;
-        -moz-box-shadow: none;
-        -webkit-box-shadow: none;
-    }
 }
