@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="et">
+    <head>
+        <meta charset="utf-8" />
+        <meta name = "viewport" content = "width = device-width, height = device-height" />
+
+        <style type="text/css">
+            body, html {
+            	font: 13px "Lucida Grande", Verdana,  Arial;
+            	margin: 0px;
+            	padding: 10px;
+            	background: #FFFFFF;
+            }
+        </style>
+     </head>
+     <body>
+        {% if picture %}
+        <img src="{{ picture }}" width="100%" /><br>
+        <br>
+        {% endif %}
+        <b>{{ book.title.0 }}</b><br>
+        <br>
+        {{ book.isbn|join:"<br>" }}<br>
+        <br>
+        {{ book.authors.0.name }}<br>
+        {{ book.published_by.0 }} {{ book.published_date.0 }}<br>
+        <br>
+        {{ book.tag|join:", " }}<br>
+        <br>
+        {{ book.notes|join:"<br>" }}<br>
+     </body>
+ </html>

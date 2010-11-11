@@ -53,7 +53,7 @@ class Scan(webapp.RequestHandler):
         picture = None
 
         if code:
-            result = EsterSearch(code)
+            result = EsterSearch(code, 1)
             if result:
                 book = result[0]
             picture = ShowImage(code)
