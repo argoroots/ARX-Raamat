@@ -7,7 +7,6 @@ from importers.apollo import *
 from importers.rahvaraamat import *
 from importers.raamatukoi import *
 from importers.googlebooks import *
-from importers.lasering import *
 from importers.amazon import *
 
 
@@ -15,19 +14,26 @@ class AmazonSearchTest(webapp.RequestHandler):
     def get(self, url):
         keywords = unquote(url).decode('utf8').strip('/')
 
-        result = AmazonBookSearch(keywords)
+        result = SearchBook(keywords)
+        strng = ''
+        for item in result:
+            for i in item:
+            	strng = strng + i + ' => ' + item[i] + '<br />'
+            strng = strng + '<hr />'
+        self.response.out.write(strng)
 
-        self.response.headers['Content-Type'] = 'text/xml'
-        self.response.out.write(result)
-
-
-class LaseringTest(webapp.RequestHandler):
+class AmazonTest(webapp.RequestHandler):
     def get(self, url):
-        result = GetItemByID(url)
-        for n in result:
-        	self.response.out.write(n + ' => ' + result[n] + '<br />')
+        keywords = unquote(url).decode('utf8').strip('/')
 
-
+        result = GetBook(keywords)
+        strng = ''
+        for item in result:
+            
+            strng = strng + item + ' => ' + result[item] + '<br />'
+            
+        self.response.out.write(strng)
+        
 class Search(webapp.RequestHandler):
     def get(self, string):
 
@@ -79,8 +85,8 @@ def main():
     Route([
              (r'/test/search/(.*)', Search),
              (r'/test/scan/(.*)', Scan),
-             ('/test/lasering/(.*)', LaseringTest),
-             ('/test/amazon/(.*)', AmazonSearchTest),
+             ('/test/amazon/search/(.*)', AmazonSearchTest),
+             ('/test/amazon/(.*)', AmazonTest),
             ])
 
 
