@@ -22,6 +22,7 @@ class AmazonSearchTest(webapp.RequestHandler):
             strng = strng + '<hr />'
         self.response.out.write(strng)
 
+# N.B! Some values can be None or a list; then the test function will fail
 class AmazonTest(webapp.RequestHandler):
     def get(self, url):
         keywords = unquote(url).decode('utf8').strip('/')
