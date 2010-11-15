@@ -82,6 +82,10 @@ handlers:
   script: controllers/person.py
   login: required
 
+- url: /preferences(.*)
+  script: controllers/preferences.py
+  login: required
+
 - url: /admin(.*)
   script: controllers/admin.py
   login: admin

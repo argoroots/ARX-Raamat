@@ -25,9 +25,10 @@ footer{padding:10px;text-align:center;white-space:nowrap;font-size:11px;font-fam
 #signupform input.error{border:1px solid #CC0000;}
 #signupform_submit{width:200px;margin:20px auto;padding:10px 20px;text-align:center;1text-transform:uppercase;font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;font-size:13px;font-weight:bold;letter-spacing:1px;color:#FFFFFF;cursor:pointer;background:#0e81c5 url('/images/slickmap/white-highlight.png') top left repeat-x;1border:1px solid #b9b9b9;-moz-border-radius:5px;-webkit-border-radius:5px;box-shadow:#CCCCCC 1px 2px 3px;-moz-box-shadow:#CCCCCC 1px 2px 3px;-webkit-box-shadow:#CCCCCC 1px 2px 3px;}#signupform_submit :hover{color:#FFFFFF;}
 #signupform_submit :active{position:relative;top:1px;color:#FFFFFF;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;}
-.table{display:table;margin:20px 0px;width:100%;}
+.table,.vertical_table{display:table;margin:20px 0px;width:100%;}
 .table_row{display:table-row;}
 .table_row:nth-child(even){background:white;}
-.table_row:nth-child(odd){background:#E9F4FA;}
+.table .table_row:nth-child(odd){background:#E9F4FA;}
+.vertical_table .header_cell{text-align:right;font-weight:bold;}
 .table_cell{display:table-cell;padding:5px 10px;}
 .button{width:200px;margin:20px auto;padding:5px 10px 4px 10px;text-align:center;text-transform:uppercase;font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;font-size:12px;white-space:nowrap;letter-spacing:1px;color:#FFFFFF;cursor:pointer;background:#6DA00B;-moz-border-radius:4px;-webkit-border-radius:4px;box-shadow:#CCCCCC 1px 2px 3px;-moz-box-shadow:#CCCCCC 1px 2px 3px;-webkit-box-shadow:#CCCCCC 1px 2px 3px;}

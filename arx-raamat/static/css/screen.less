@@ -343,7 +343,7 @@ footer {
 
 /* TABLE */
 
-.table {
+.table, .vertical_table {
     display: table;
     margin: 20px 0px;
     width: 100%;
@@ -357,8 +357,13 @@ footer {
         background: white;
 }
 
-.table_row:nth-child(odd) {
+.table .table_row:nth-child(odd) {
         background: #E9F4FA;
+}
+
+.vertical_table .header_cell {
+    text-align: right;
+    font-weight: bold;
 }
 
 .table_cell {
