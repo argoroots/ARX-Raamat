@@ -44,9 +44,9 @@
             </div>
             <div class="table_cell">
                 <select id="language" name="language">
-                    <option value="estonian"{% ifequal user.language "estonian" %} selected{% endifequal %}>{{ str.estonian }}</option>
-                    <option value="english"{% ifequal user.language "english" %} selected{% endifequal %}>{{ str.english }}</option>
-                    <option value="russian"{% ifequal user.language "russian" %} selected{% endifequal %}>{{ str.russian }}</option>
+                    <option value="estonian"{% ifequal user.language "estonian" %} selected{% endifequal %}>{{ str.lang_estonian }}</option>
+                    <option value="english"{% ifequal user.language "english" %} selected{% endifequal %}>{{ str.lang_english }}</option>
+                    <option value="russian"{% ifequal user.language "russian" %} selected{% endifequal %}>{{ str.lang_russian }}</option>
                 </select><br />
             </div>
         </div>
