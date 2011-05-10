@@ -1,7 +1,12 @@
 application: arx
-version: dev
+version: 2011-02-12
 runtime: python
 api_version: 1
+
+
+
+builtins:
+- datastore_admin: on
 
 
 
@@ -30,15 +35,15 @@ handlers:
 
 - url: /css
   static_dir: static/css
-  expiration: "1d"
+  #expiration: "1d"
 
 - url: /images
   static_dir: static/images
-  expiration: "90d"
+  #expiration: "90d"
 
 - url: /javascript
   static_dir: static/javascript
-  expiration: "1d"
+  #expiration: "1d"
 
 - url: /favicon.ico
   static_files: static/images/favicon.png
@@ -62,9 +67,6 @@ handlers:
 
 - url: /signup(.*)
   script: controllers/signup.py
-
-- url: /domain(.*)
-  script: controllers/domain.py
 
 
 
