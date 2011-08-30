@@ -7,14 +7,23 @@ from importers import *
 
 
 class ShowItem(boRequestHandler):
-    def get(self, url):
-        id = url.strip('/')
+    def get(self, id, page = ''):
+
+        if page not in ['', 'copies', 'lending']:
+            page = ''
 
         tagtypes = TagType().get_public()
         item = Item().get_by_id(int(id))
 
-        self.view(item.displayname, 'catalog/item.html', {
-            'tagtypes': tagtypes,
+        nav = [
+            {'url': '/item/' + str(id), 'name': Translate('item_info'), 'selected': (page == '')},
+            {'url': '/item/' + str(id) + '/copies', 'name': Translate('item_copies'), 'selected': (page == 'copies')},
+            {'url': '/item/' + str(id) + '/lending', 'name': Translate('lending'), 'selected': (page == 'lending')},
+        ]
+
+        self.view(item.displayname, 'catalog/catalog.html', {
+            'image': item.image,
+            'nav': nav,
             'item': item,
         })
 
@@ -51,7 +60,7 @@ class ImageByIsbn(boRequestHandler):
     def get(self, url):
         isbn = unquote(url).decode('utf8').split(' ')[0]
 
-        imageurl = Cache().get('image_isbn_' + isbn)
+        imageurl = Cache().get('image_isbn' + isbn)
         if imageurl:
             self.redirect(imageurl)
         else:
@@ -75,7 +84,8 @@ def main():
              ('/item/add', AddNewItem),
              ('/item/searchfornew', SearchForNew),
              (r'/item/imagebyisbn/(.*)', ImageByIsbn),
-             (r'/item(.*)', ShowItem),
+             (r'/item/(.*)/(.*)', ShowItem),
+             (r'/item/(.*)', ShowItem),
             ])
 
 

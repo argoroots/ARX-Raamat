@@ -10,12 +10,19 @@
     {% include "../item/new_search.html" %}
 </div>
 
-{% include "leftmenu.html" %}
+<nav id="leftmenu">
+    <a href=""><img src="{{ image }}" width="100" alt="" /></a>
+    <ul>
+        {% for n in nav %}
+        <li{% if n.selected %} class="selected"{% endif %}>
+            <a href="{{ n.url }}">{{ n.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
 
 <section id="content">
-    <a href="#" id="add_new" class="button" style="float:right;margin:0px;width:100px;">{{ str.add_new }}</a>
     <h1>{{ page_title }}</h1>
-    <br />
     {% if tags %}
     {% include "tags.html" %}
     {% endif %}
@@ -26,6 +33,10 @@
 
     {% if item %}
     {% include "item.html" %}
+    {% endif %}
+
+    {% if copies %}
+    {% include "copies.html" %}
     {% endif %}
 </section>
 

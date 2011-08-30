@@ -9,12 +9,20 @@ class ShowTags(boRequestHandler):
             self.redirect('/catalog/author')
             return
 
-        tagtypes = TagType().get_public()
         tagtype = TagType().get_by_name(tagtype_name)
         tags = Tag().get_by_type_name(tagtype_name)
 
+        nav = []
+        for tt in TagType().get_public():
+            nav.append({
+                'url': '/catalog/' + tt.name,
+                'name': tt.displayname,
+                'selected': (tt.name == tagtype.name)
+            })
+
         self.view(tagtype.displayname, 'catalog/catalog.html', {
-            'tagtypes': tagtypes,
+            'image': '/images/Catalog_100.png',
+            'nav': sorted(nav, key=lambda k: k['name']),
             'tagtype': tagtype,
             'tags': tags,
         })
@@ -23,7 +31,6 @@ class ShowTags(boRequestHandler):
 class ShowItems(boRequestHandler):
     def get(self, tagtype_name, id):
 
-        tagtypes = TagType().get_public()
         tagtype = TagType().get_by_name(tagtype_name)
         tag = Tag().get_by_id(int(id))
 
@@ -32,8 +39,17 @@ class ShowItems(boRequestHandler):
         items.order('title')
         items.fetch(1000)
 
+        nav = []
+        for tt in TagType().get_public():
+            nav.append({
+                'url': '/catalog/' + tt.name,
+                'name': tt.displayname,
+                'selected': (tt.name == tagtype.name)
+            })
+
         self.view(tagtype.displayname + ' : ' + tag.value, 'catalog/catalog.html', {
-            'tagtypes': tagtypes,
+            'image': '/images/Catalog_100.png',
+            'nav': sorted(nav, key=lambda k: k['name']),
             'tagtype': tagtype,
             'items': items,
         })

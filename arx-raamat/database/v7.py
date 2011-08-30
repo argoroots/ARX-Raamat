@@ -1,6 +1,18 @@
 from google.appengine.ext import db
 
 
+class v7item(db.Model):
+    datetime     = db.DateTimeProperty(auto_now_add=True)
+    title        = db.StringProperty()
+    base64       = db.StringProperty()
+    encoding     = db.StringProperty()
+
+
+class v7encoding(db.Model):
+    encoding     = db.StringProperty()
+    count        = db.IntegerProperty(default=0)
+
+
 class v7download(db.Model):
     datetime    = db.DateTimeProperty(auto_now_add=True)
     type        = db.StringProperty()

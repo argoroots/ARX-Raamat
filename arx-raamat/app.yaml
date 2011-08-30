@@ -1,6 +1,6 @@
 application: arxapp
-version: 2011-05-19
-#version: dev
+#version: 2011-05-19
+version: dev
 runtime: python
 api_version: 1
 
@@ -71,6 +71,9 @@ handlers:
 
 - url: /signup(.*)
   script: controllers/signup.py
+
+- url: /v7import(.*)
+  script: controllers/v7import.py
 
 
 

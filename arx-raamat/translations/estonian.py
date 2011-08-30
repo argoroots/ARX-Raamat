@@ -21,6 +21,8 @@ def translation():
     	'invitation_subject':   'KUTSE: ARX-Raamat',
         'isbn':                 'ISBN',
         'item_added':           'Lisatud',
+        'item_copies':          'Eksemplarid',
+        'item_info':            'Info',
         'language':             'Keel',
         'lang_english':         'English',
         'lang_estonian':        'Eesti',

@@ -21,6 +21,8 @@ def translation():
         'invitation_subject':   'INVITATION: ARX-Raamat',
         'isbn':                 'ISBN',
         'item_added':           'Added',
+        'item_copies':          'Copies',
+        'item_info':            'Info',
         'language':             'Language',
         'lang_english':         'English',
         'lang_estonian':        'Eesti',

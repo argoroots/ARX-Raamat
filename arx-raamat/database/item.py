@@ -47,6 +47,14 @@ class Item(ChangeLogModel):
             return self.title
 
     @property
+    def image(self):
+        tags = self.tag
+        if 'isbn' in tags:
+            return '/item/imagebyisbn/' + tags['isbn'][0]
+        else:
+            return '/images/blank.png'
+
+    @property
     def tag(self):
         cache_key = 'item_tags_' + str(Person().current_library.key()) + '_' + str(self.key())
         tags = Cache().get(cache_key)
@@ -113,8 +121,8 @@ class TagType(ChangeLogModel):
         return db.Query(TagType).filter('name', name).get()
 
     def get_public(self):
-        #return db.Query(TagType).filter('url >', '').fetch(1000)
-        return db.Query(TagType).fetch(1000)
+        return db.Query(TagType).filter('url >', '').fetch(1000)
+        #return db.Query(TagType).fetch(1000)
 
 
 class Tag(ChangeLogModel):
