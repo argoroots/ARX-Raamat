@@ -63,8 +63,9 @@ class Item(ChangeLogModel):
                     'tagtype_id': tagtype.key().id(),
                     'tagtype_ordinar': tagtype.ordinar,
                     'tagtype_displayname': tagtype.displayname,
-                    'tagtype_url': tagtype.url,
-                    'tagtype_is_visible': tagtype.is_visible,
+                    'tagtype_name': tagtype.name,
+                    'tagtype_show_in_catalog': tagtype.show_in_catalog,
+                    'tagtype_is_visible': tagtype.show_in_item,
                     'displayname': t.displayname,
                     'value': t.value,
                     'note': t.note

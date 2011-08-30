@@ -13,7 +13,7 @@
         </div>
         <div class="table_cell" style="width:100%;">
             {% for t in tag.list|dictsort:"displayname" %}
-                {% if t.tagtype_url %}<a href="/catalog/{{ t.tagtype_url }}/{{ t.id }}">{{ t.displayname }}{% if t.note %} ({{ t.note }}){% endif %}</a>{% else %}{{ t.value }}{% endif %}{% if forloop.last %}{% else %}; {% endif %}{% endfor %}
+                {% if t.tagtype_show_in_catalog %}<a href="/catalog/{{ t.tagtype_name }}/{{ t.id }}">{{ t.displayname }}{% if t.note %} ({{ t.note }}){% endif %}</a>{% else %}{{ t.value }}{% endif %}{% if forloop.last %}{% else %}; {% endif %}{% endfor %}
         </div>
     </div>
     {% endifequal %}
