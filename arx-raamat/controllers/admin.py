@@ -54,6 +54,13 @@ class SendInvites(boRequestHandler):
         self.redirect('/admin')
 
 
+class TagTypesForAll(boRequestHandler):
+    def get(self):
+        for tt in db.Query(TagType).filter('is_for_all', True):
+            tt.libraries = db.Query(Library, keys_only=True).fetch(100)
+            tt.put()
+
+
 class TranslateAll(boRequestHandler):
     def get(self, from_lang, to_lang):
 
@@ -102,6 +109,7 @@ def main():
              ('/admin', ShowAdmin),
              ('/admin/library', AddLibrary),
              ('/admin/invite', SendInvites),
+             ('/admin/tagtypes', TagTypesForAll),
              (r'/admin/translate/(.*)/(.*)', TranslateAll),
              ('/admin/translate_csv', TranslateCSV),
             ])

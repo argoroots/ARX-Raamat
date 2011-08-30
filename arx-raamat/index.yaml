@@ -29,13 +29,6 @@ indexes:
 
 
 
-- kind: TagType
-  properties:
-  - name: show_in_catalog
-  - name: name
-
-
-
 - kind: Tag
   properties:
   - name: tagtype

@@ -114,6 +114,7 @@ class ChangeLog(db.Expando):
 
 
 class ChangeLogModel(db.Model):
+#class ChangeLogModel(db.Expando):
     def put(self):
         if self.is_saved():
             old = db.get(self.key())

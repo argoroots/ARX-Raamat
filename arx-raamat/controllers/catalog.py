@@ -3,17 +3,17 @@ from database.item import *
 
 
 class ShowTags(boRequestHandler):
-    def get(self, url):
-        tagtype_name = url.strip('/')
+    def get(self, tagtype_name):
+        tagtype_name = tagtype_name.strip('/')
         if not tagtype_name:
             self.redirect('/catalog/author')
             return
 
-        tagtype = TagType().get_by_name(tagtype_name)
-        tags = Tag().get_by_type_name(tagtype_name)
+        tagtype = TagType().GetByName(tagtype_name)
+        tags = Tag().GetByTypeName(tagtype_name)
 
         nav = []
-        for tt in TagType().get_public():
+        for tt in TagType().GetPublic():
             nav.append({
                 'url': '/catalog/' + tt.name,
                 'name': tt.displayname,
@@ -31,7 +31,7 @@ class ShowTags(boRequestHandler):
 class ShowItems(boRequestHandler):
     def get(self, tagtype_name, id):
 
-        tagtype = TagType().get_by_name(tagtype_name)
+        tagtype = TagType().GetByName(tagtype_name)
         tag = Tag().get_by_id(int(id))
 
         items = db.Query(Item)
@@ -40,7 +40,7 @@ class ShowItems(boRequestHandler):
         items.fetch(1000)
 
         nav = []
-        for tt in TagType().get_public():
+        for tt in TagType().GetPublic():
             nav.append({
                 'url': '/catalog/' + tt.name,
                 'name': tt.displayname,

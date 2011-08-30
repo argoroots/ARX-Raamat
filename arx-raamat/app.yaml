@@ -1,13 +1,7 @@
 application: arxapp
-#version: 2011-05-19
 version: dev
 runtime: python
 api_version: 1
-
-
-
-builtins:
-- datastore_admin: on
 
 
 
@@ -109,7 +103,7 @@ handlers:
 
 - url: /admin(.*)
   script: controllers/admin.py
-  #login: admin
+  login: admin
 
 
 

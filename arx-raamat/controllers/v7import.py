@@ -34,10 +34,10 @@ class ImportItem(boRequestHandler):
             for tag, values in book.iteritems():
                 if tag not in ['id', 'authors', 'marc21']:
                     for value in values:
-                        item.add_tag(type_name=tag, value=value)
+                        item.AddTag(type_name=tag, value=value)
                 if tag == 'authors':
                     for value in values:
-                        item.add_tag(type_name=value['role'], value=value['name'], note=value['date'])
+                        item.AddTag(type_name=value['role'], value=value['name'], note=value['date'])
 
         item.libraries = AddToList(Person().current_library.key(), item.libraries)
         item.put()
