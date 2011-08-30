@@ -1,42 +1,48 @@
 from bo import *
-from database import *
+from database.item import *
 
 
-class Frontpage(webapp.RequestHandler):
+class ShowTags(boRequestHandler):
     def get(self, url):
-
-        tagtype = url.strip('/')
-
-        if not tagtype:
+        tagtype_name = url.strip('/')
+        if not tagtype_name:
             self.redirect('/catalog/author')
+            return
 
-        tags = db.Query(Tag).filter('type', tagtype).order('value').fetch(1000)
+        tagtypes = TagType().get_public()
+        tagtype = TagType().get_by_name(tagtype_name)
+        tags = Tag().get_by_type_name(tagtype_name)
 
-        View(self, 'tagtype_' + tagtype, 'catalog.html', {
-            'tagtypes': GetTagTypes(),
+        self.view(tagtype.displayname, 'catalog/catalog.html', {
+            'tagtypes': tagtypes,
+            'tagtype': tagtype,
             'tags': tags,
-            'selected_type': tagtype,
         })
 
 
-class ShowItems(webapp.RequestHandler):
-    def get(self, tagtype, id):
+class ShowItems(boRequestHandler):
+    def get(self, tagtype_name, id):
 
+        tagtypes = TagType().get_public()
+        tagtype = TagType().get_by_name(tagtype_name)
         tag = Tag().get_by_id(int(id))
 
-        items = db.Query(Item).filter('tags', tag.key()).order('title').fetch(1000)
+        items = db.Query(Item)
+        items.filter('tags', tag.key())
+        items.order('title')
+        items.fetch(1000)
 
-        View(self, Translate('tagtype_' + tagtype) + ' : ' + tag.value, 'item_list.html', {
-            'tagtypes': GetTagTypes(),
+        self.view(tagtype.displayname + ' : ' + tag.value, 'catalog/catalog.html', {
+            'tagtypes': tagtypes,
+            'tagtype': tagtype,
             'items': items,
-            'selected_type': tagtype,
         })
 
 
 def main():
     Route([
              (r'/catalog/(.*)/(.*)', ShowItems),
-             (r'/catalog(.*)', Frontpage),
+             (r'/catalog(.*)', ShowTags),
             ])
 
 

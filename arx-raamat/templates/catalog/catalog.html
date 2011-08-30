@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+{% extends "../main.html" %}
 
 {% block head %}
 <script src="/javascript/jquery.simplemodal.1.4.min.js" type="text/javascript"></script>
@@ -7,27 +7,26 @@
 {% block content %}
 
 <div id="add_new_box" class="dropdown">
-    {% include "item_new.html" %}
+    {% include "../item/new_search.html" %}
 </div>
 
-<nav id="leftmenu">
-    <a href="/catalog"><img src="/images/Catalog_100.png" width="100" height="100" alt="" /></a>
-    <ul>
-        {% for type in tagtypes %}
-        <li{% ifequal type.name selected_type %} class="selected"{% endifequal %}>
-            <a href="/catalog/{{ type.name }}">{{ type.label }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-</nav>
+{% include "leftmenu.html" %}
 
 <section id="content">
     <a href="#" id="add_new" class="button" style="float:right;margin:0px;width:100px;">{{ str.add_new }}</a>
     <h1>{{ page_title }}</h1>
     <br />
-    {% for tag in tags %}
-        <a href="/catalog/{{ selected_type }}/{{ tag.key.id }}" title="{{ tag.note }}">{{ tag.value }}</a><br />
-    {% endfor %}
+    {% if tags %}
+    {% include "tags.html" %}
+    {% endif %}
+
+    {% if items %}
+    {% include "items.html" %}
+    {% endif %}
+
+    {% if item %}
+    {% include "item.html" %}
+    {% endif %}
 </section>
 
 <script type="text/javascript">

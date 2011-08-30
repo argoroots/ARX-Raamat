@@ -1,0 +1,21 @@
+<div class="table">
+    {% for i in items|dictsort:"displayname" %}
+    <div class="table_row">
+        <div class="table_cell" style="vertical-align:middle; width:20px;">
+            <img src={% if i.tag.isbn.0 %}"/item/imagebyisbn/{{ i.tag.isbn.0 }}"{% else %}"/images/blank.png"{% endif %} height="20" width="15" style="float:left;" />
+        </div>
+        <div class="table_cell">
+            <a href="/item/{{ i.key.id }}">{{ i.displayname }}</a>
+        </div>
+        <div class="table_cell">
+            {{ i.tag.author.0 }}
+        </div>
+        <div class="table_cell">
+            {{ i.tag.publishing_date.0 }}
+        </div>
+        <div class="table_cell">
+            {{ i.tag.publisher.0 }}
+        </div>
+    </div>
+    {% endfor %}
+</div>

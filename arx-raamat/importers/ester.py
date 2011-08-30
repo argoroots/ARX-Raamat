@@ -8,24 +8,28 @@ import re
 from BeautifulSoup import BeautifulSoup
 
 
+#http://www.loc.gov/marc/bibliographic/
 MARCMAP = {
     '020a': 'isbn',
     '022a': 'issn',
     '041a': 'language',
     '041h': 'original_language',
-    '072a': 'udk',
-    '080a': 'udk',
+    '072a': 'udc',
+    '080a': 'udc',
     '245a': 'title',
+    '245b': 'subtitle',
+    '245p': 'subtitle',
     '245n': 'number',
     '250a': 'edition',
-    '260a': 'published_place',
-    '260b': 'published_by',
-    '260c': 'published_date',
+    '260a': 'publishing_place',
+    '260b': 'publisher',
+    '260c': 'publishing_date',
     '300a': 'pages',
     '300c': 'dimensions',
     '440a': 'series',
-    '440p': 'series_name',
+    '440p': 'series',
     '440n': 'series_number',
+    '440v': 'series_number',
     '500a': 'notes',
     '501a': 'notes',
     '502a': 'notes',
@@ -48,6 +52,7 @@ def EsterSearch(search_term, records):
         for record in simplejson.loads(json_str):
             if GetType(record) == 'book':
                 item = GetRecord(record)
+                item['marc21'] = simplejson.dumps(record)
                 item['authors'] = GetAuthors(record)
                 item['id'] = GetID(record)
 

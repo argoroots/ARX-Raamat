@@ -12,8 +12,16 @@
 
     <div class="vertical_table">
         <div class="table_row">
-            <div class="header_cell">
+            <div class="header_cell" style="width:200px;">
                 {{ str.user }}:
+            </div>
+            <div class="table_cell" style="width:100%;">
+                {{ user.user }}
+            </div>
+        </div>
+        <div class="table_row">
+            <div class="header_cell">
+                {{ str.email }}:
             </div>
             <div class="table_cell">
                 {{ user.email }}
@@ -24,7 +32,7 @@
                 {{ str.created }}:
             </div>
             <div class="table_cell">
-                {{ user.created|date:"d.m.Y" }}
+                {{ user.added_datetime|date:"d.m.Y" }}
             </div>
         </div>
         <div class="table_row">
@@ -32,8 +40,8 @@
                 {{ str.libraries }}:
             </div>
             <div class="table_cell">
-                {% for person in user.persons %}
-                    {{ person.library.name }} ({{ person.forename }} {{ person.surname }})<br />
+                {% for library in user.libraries2 %}
+                    {{ library.name }}<br />
                 {% endfor %}
                 <a href="">{{ str.create_personal_library }}...</a>
             </div>
@@ -43,11 +51,23 @@
                 {{ str.language }}:
             </div>
             <div class="table_cell">
-                <select id="language" name="language">
-                    <option value="estonian"{% ifequal user.language "estonian" %} selected{% endifequal %}>{{ str.lang_estonian }}</option>
-                    <option value="english"{% ifequal user.language "english" %} selected{% endifequal %}>{{ str.lang_english }}</option>
-                    <option value="russian"{% ifequal user.language "russian" %} selected{% endifequal %}>{{ str.lang_russian }}</option>
+                <select id="language" name="language" class="autosave">
+                    <option value="estonian"{% ifequal preferences.language "estonian" %} selected{% endifequal %}>{{ str.lang_estonian }}</option>
+                    <option value="english"{% ifequal preferences.language "english" %} selected{% endifequal %}>{{ str.lang_english }}</option>
+                    <option value="russian"{% ifequal preferences.language "russian" %} selected{% endifequal %}>{{ str.lang_russian }}</option>
                 </select><br />
+            </div>
+        </div>
+        <div class="table_row">
+            <div class="header_cell">
+                {{ str.timezone }}:
+            </div>
+            <div class="table_cell">
+                <select id="timezone" name="timezone" class="autosave">
+                    {% for tz in timezones %}
+                    <option value="{{ tz }}"{% ifequal preferences.timezone tz %} selected{% endifequal %}>{{ tz }}</option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
     </div>
@@ -56,11 +76,21 @@
 
 <script>
     $(document).ready(function(){
-        $('#language').change(function() {
-            $.post('/preferences', { language: $(this).val() }, function(data) {
-                window.location = '';
-            });
+        $('.autosave').change(function() {
+            autoSave($(this), {});
         });
+
+        function autoSave(input, data) {
+            if(!data['field']) data['field'] = input.attr('name');
+            if(!data['value']) data['value'] = input.val();
+
+            $.post('/preferences', data, function(json) {
+                input.effect("highlight", {}, 1000);
+                if (data['field'] == 'language') {
+                    window.location.href = '';
+                }
+            }, "json");
+        }
     });
 </script>
 

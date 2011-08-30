@@ -1,90 +1,48 @@
 from bo import *
-from database import *
+from database.person import *
 
 
-class ShowStaff(webapp.RequestHandler):
-    def get(self):
+class ShowGroup(boRequestHandler):
+    def get(self, url):
+
+        group = url.strip('/')
+        if not group:
+            self.redirect('/persons/debtors')
+            return
 
         groups = db.Query(Group)
-        groups.filter('library', Person().current.library)
+        groups.filter('library', Person().current.current_library)
         groups.order('name')
-        groups.fetch(100)
+        groups.fetch(1000)
 
         persons = db.Query(Person)
-        persons.filter('library', Person().current.library)
-        persons.filter('status', 'normal')
-        persons.filter('type IN', ['staff', 'admin'])
+        persons.filter('library', Person().current.current_library)
+        if group == 'staff':
+            persons.filter('type IN', ['staff', 'admin'])
+        elif group == 'deptors':
+            persons.filter('type IN', ['staff', 'admin'])
+        else:
+            if group:
+                persons.filter('group', db.Key.from_path('Group', group))
         persons.order('forename')
         persons.order('surname')
         persons.fetch(1000)
 
-        View(self, '', 'person.html', {
+        self.view('', 'person/persons.html', {
             'groups': groups,
             'persons': persons,
-            'selected': 'staff',
+            'selected': group,
         })
 
 
-class ShowDebtors(webapp.RequestHandler):
-    def get(self):
+class ShowPerson(boRequestHandler):
+    def get(self, url):
         pass
-
-
-class ShowGroup(webapp.RequestHandler):
-    def get(self, url):
-
-        url = url.strip('/')
-
-        groups = db.Query(Group)
-        groups.filter('library', Person().current.library)
-        groups.order('name')
-        groups.fetch(100)
-
-        persons = db.Query(Person)
-        persons.filter('library', Person().current.library)
-        persons.filter('status', 'normal')
-        persons.filter('group', Group().get_by_id(int(url[1])))
-        persons.order('forename')
-        persons.order('surname')
-        persons.fetch(1000)
-
-        View(self, '', 'person.html', {
-            'groups': groups,
-            'persons': persons,
-            'selected': url,
-        })
-
-
-class ShowPerson(webapp.RequestHandler):
-    def get(self, url):
-
-        url = url.strip('/')
-
-        groups = db.Query(Group)
-        groups.filter('library', Person().current.library)
-        groups.order('name')
-        groups.fetch(100)
-
-        persons = db.Query(Person)
-        persons.filter('library', Person().current.library)
-        persons.filter('status', 'normal')
-        #persons.filter('group', Group().get_by_id(int(url[1])))
-        persons.order('forename')
-        persons.order('surname')
-        persons.fetch(1000)
-
-        View(self, '', 'person.html', {
-            'groups': groups,
-            'persons': persons,
-            'selected': url,
-        })
 
 
 def main():
     Route([
-             ('/person/staff', ShowStaff),
-             ('/person/debtors', ShowDebtors),
-             (r'/person/group(.*)', ShowGroup),
+             (r'/persons(.*)', ShowGroup),
              (r'/person(.*)', ShowPerson),
             ])
 

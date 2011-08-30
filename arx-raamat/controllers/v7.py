@@ -5,42 +5,15 @@ from urllib import unquote
 from cgi import escape
 
 from bo import *
-from database import *
+from database.v7 import *
 
 
-class ShowInfo(webapp.RequestHandler):
+class ShowInfo(boRequestHandler):
     def get(self):
-        View(self, '7', 'v7.html')
+        self.view('7', 'v7/info.html')
 
 
-class GetSetup(webapp.RequestHandler):
-    def get(self):
-        d = v7download()
-        d.type = 'setup'
-        d.ip = self.request.remote_addr
-        d.put()
-        self.redirect('/v7setup/ARX-Raamat7_Setup.exe')
-
-
-class GetKegen(webapp.RequestHandler):
-    def get(self):
-        d = v7download()
-        d.type = 'keygen'
-        d.ip = self.request.remote_addr
-        d.put()
-        self.redirect('/v7setup/ARX-Raamat7_Voti.exe')
-
-
-class GetManual(webapp.RequestHandler):
-    def get(self):
-        d = v7download()
-        d.type = 'manual'
-        d.ip = self.request.remote_addr
-        d.put()
-        self.redirect('/v7setup/ARX-Raamat7_Kasutusjuhend.pdf')
-
-
-class RegisterNew(webapp.RequestHandler):
+class RegisterNew(boRequestHandler):
     def get(self):
 
         if unquote(self.request.get('voti')) == 'true':
@@ -61,13 +34,7 @@ class RegisterNew(webapp.RequestHandler):
                 message = message + (u.library_phone + '##################################################')[:50]
                 message = message + ('Standard##########################################')
 
-            SendMail(
-                to = 'argo@roots.ee',
-                subject = 'Key - ' + u.library_name,
-                message = u.library_name
-            )
-
-            self.response.out.write(message)
+            self.echo(message, False)
 
         else:
             if unquote(self.request.get('Programm_ID')):
@@ -108,16 +75,10 @@ class RegisterNew(webapp.RequestHandler):
 
                 u.put()
 
-                SendMail(
-                    to = 'argo@roots.ee',
-                    subject = 'Reg - ' + u.library_name,
-                    message = u.library_name
-                )
-
-            self.response.out.write('ARX-Raamat REG_OK')
+            self.echo('ARX-Raamat REG_OK', False)
 
 
-class CheckVersion(webapp.RequestHandler):
+class CheckVersion(boRequestHandler):
     def get(self):
 
         if unquote(self.request.get('Asutus_ID')):
@@ -139,10 +100,10 @@ class CheckVersion(webapp.RequestHandler):
             u.check_lasttime = datetime.now()
             u.put()
 
-        self.response.out.write('ARX-Raamat 7.0.150')
+        self.echo('ARX-Raamat 7.0.150', False)
 
 
-class ErrorReport(webapp.RequestHandler):
+class ErrorReport(boRequestHandler):
     def get(self):
         library_id = int(unquote(self.request.get('Asutus_ID', 0)))
         library_name = unquote(self.request.get('Asutus_Nimi'))
@@ -161,18 +122,15 @@ class ErrorReport(webapp.RequestHandler):
         u.put()
 
 
-class GetHelp(webapp.RequestHandler):
+class ShowHelp(boRequestHandler):
     def get(self, url = None):
-        View(self, '', 'v7help.html')
+        self.view('', 'v7/help.html')
 
 
 def main():
     Route([
              ('/v7', ShowInfo),
-             ('/v7/setup', GetSetup),
-             ('/v7/keygen', GetKegen),
-             ('/v7/manual', GetManual),
-             (r'/help(.*)', GetHelp),
+             (r'/help(.*)', ShowHelp),
              ('/registreerimine.php', RegisterNew),
              ('/versioon.php', CheckVersion),
              ('/vearaport.php', ErrorReport),

@@ -1,14 +1,21 @@
+from pytz.gae import pytz
+
 from bo import *
+from database.person import *
 
 
-class ShowPreferences(webapp.RequestHandler):
+class ShowPreferences(boRequestHandler):
     def get(self):
-        View(self, 'preferences', 'preferences.html', {
-            'user': User().current,
+        self.view('preferences', 'preferences.html', {
+            'preferences': UserPreferences().current,
+            'timezones': pytz.common_timezones,
         })
 
     def post(self):
-        User().set_language(self.request.get('language'))
+        field = self.request.get('field').strip()
+        value = self.request.get('value').strip()
+
+        UserPreferences().set(field, value)
 
 
 def main():

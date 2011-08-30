@@ -1,13 +1,58 @@
+# -*- coding: windows-1251 -*-
+
 from google.appengine.api import memcache
 from urllib import unquote
+import urllib
+
+import chardet
 
 from bo import *
+from database.item import *
 from importers.ester import *
 from importers.apollo import *
 from importers.rahvaraamat import *
 from importers.raamatukoi import *
 from importers.googlebooks import *
 from importers.amazon import *
+
+
+class UtfTest(webapp.RequestHandler):
+    def get(self):
+
+        self.response.headers['Content-Type'] = 'text/plain; charset=UTF-8'
+
+        rawdata = urllib.urlopen('http://dev.latest.arx.appspot.com/css/Raamat.html').read()
+        aaa = chardet.detect(rawdata)
+
+        self.response.out.write(aaa)
+        self.response.out.write('\n')
+
+        sss = rawdata.decode(aaa['encoding'])
+        self.response.out.write(sss)
+        self.response.out.write('\n')
+        self.response.out.write('\n')
+
+        rawdata = urllib.urlopen('http://dev.latest.arx.appspot.com/css/Raamat2.html').read()
+        aaa = chardet.detect(rawdata)
+        self.response.out.write(aaa)
+        self.response.out.write('\n')
+
+        sss = rawdata.decode(aaa['encoding'])
+        self.response.out.write(sss)
+        self.response.out.write('\n')
+        self.response.out.write('\n')
+
+
+    def post(self):
+        string = self.request.get('string')
+
+
+        aaa = chardet.detect('üüõõžасдвцз')
+
+
+        #self.response.headers['Content-Type'] = 'text/plain; charset=UTF-8'
+        self.response.out.write(aaa)
+
 
 
 class AmazonSearchTest(webapp.RequestHandler):
@@ -30,11 +75,11 @@ class AmazonTest(webapp.RequestHandler):
         result = GetBook(keywords)
         strng = ''
         for item in result:
-            
+
             strng = strng + item + ' => ' + result[item] + '<br />'
-            
+
         self.response.out.write(strng)
-        
+
 class Search(webapp.RequestHandler):
     def get(self, string):
 
@@ -81,6 +126,12 @@ def ShowImage(isbn):
             result = GoogleImageByISBN(isbn)
     return result
 
+class TagTypeUpdate(webapp.RequestHandler):
+    def get(self):
+        for tt in TagType().all():
+            tt.is_visible = True
+            tt.put()
+
 
 def main():
     Route([
@@ -88,6 +139,7 @@ def main():
              (r'/test/scan/(.*)', Scan),
              ('/test/amazon/search/(.*)', AmazonSearchTest),
              ('/test/amazon/(.*)', AmazonTest),
+             ('/test/ttu', TagTypeUpdate),
             ])
 
 

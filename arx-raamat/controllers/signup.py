@@ -1,60 +1,66 @@
+from google.appengine.api import users
+
 from bo import *
-from database import *
+from database.person import *
 
 
-class PersonData(webapp.RequestHandler):
-    def get(self, id=None, key=None):
+class PersonData(boRequestHandler):
+    def get(self, url=None):
+        id = url.split('.')[0]
+        key = url.split('.')[1]
 
-        if User().current:
-            LogOut(self, '/signup/' + id + '/' + key)
+        if users.get_current_user():
+            self.logout('/signup/' + url)
 
         person = Person().get_by_id(int(id))
 
         if person and person.activation_key == key:
-            View(self, '', 'signup.html', {'person': person})
+            self.view('', 'signup.html', {'person': person})
         else:
             self.redirect('/')
 
-    def post(self, id=None, key=None):
+    def post(self, url=None):
+        id = url.split('.')[0]
+        key = url.split('.')[1]
 
-        if User().current:
-            LogOut(self, '/signup/' + id + '/' + key)
+        if users.get_current_user():
+            self.logout('/signup/' + url)
 
         person = Person().get_by_id(int(id))
 
         if person and person.activation_key == key:
             person.forename = self.request.get('forename').strip()
             person.surname = self.request.get('surname').strip()
-            person.email = self.request.get('email').strip()
-            person.save()
+            person.put()
 
-            LogIn(self, '/signup2/' + id + '/' + key)
+            self.login('/signup2/' + url)
         else:
             self.redirect('/')
 
 
-class JoinUser(webapp.RequestHandler):
-    def get(self, id=None, key=None):
+class JoinUser(boRequestHandler):
+    def get(self, url=None):
+        id = url.split('.')[0]
+        key = url.split('.')[1]
 
-        if not User().current:
-            LogOut(self, '/signup/' + id + '/' + key)
+        user = users.get_current_user()
+        if not user:
+            self.logout('/signup/' + url)
         else:
             person = Person().get_by_id(int(id))
-
             if person and person.activation_key == key:
-                person.user = User().current
+                person.user = user
                 person.activation_key = None
-                person.status = 'normal'
-                person.save()
+                person.put()
                 self.redirect('/')
             else:
-                LogOut(self)
+                self.logout()
 
 
 def main():
     Route([
-             ('/signup/(.*)/(.*)', PersonData),
-             ('/signup2/(.*)/(.*)', JoinUser),
+             ('/signup/(.*)', PersonData),
+             ('/signup2/(.*)', JoinUser),
             ])
 
 

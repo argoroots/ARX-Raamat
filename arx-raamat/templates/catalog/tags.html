@@ -1,0 +1,3 @@
+{% for tag in tags|dictsort:"displayname" %}
+    <a href="/catalog/{{ tagtype.name }}/{{ tag.key.id }}" title="{{ tag.note|default:"" }}">{{ tag.displayname }}</a><br />
+{% endfor %}

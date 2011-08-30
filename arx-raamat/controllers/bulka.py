@@ -1,18 +1,35 @@
-from google.appengine.ext.remote_api import handler
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
+from django.utils import simplejson
+import urllib
+import base64
 
-class ApiCallHandler(handler.ApiCallHandler):
-    def CheckIsAdmin(self):
+from bo import *
+from database import *
+import chardet
 
-        return False
 
+class Upload(webapp.RequestHandler):
+    def post(self):
+        if self.request.get('json'):
+            json_str = self.request.get('json')
+            scarset = chardet.detect(json_str)
 
-application = webapp.WSGIApplication([('.*', ApiCallHandler)])
+            #json_str = base64.b64decode(json_str)
+
+            json_str = json_str.decode(scarset['encoding'])
+
+            d = v7data()
+            d.item_json = json_str
+            d.put()
+
+            #item = simplejson.loads(json_str.decode(scarset['encoding']))
+
+            self.response.out.write(scarset)
 
 
 def main():
-    run_wsgi_app(application)
+    Route([
+             ('/bulka', Upload),
+            ])
 
 
 if __name__ == '__main__':

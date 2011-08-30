@@ -1,44 +1,47 @@
 indexes:
 
-- kind: Person
-  properties:
-  - name: library
-  - name: status
-  - name: forename
-  - name: surname
-
-
-- kind: Person
-  properties:
-  - name: status
-  - name: type
-  - name: forename
-  - name: surname
-
-- kind: Person
-  properties:
-  - name: library
-  - name: status
-  - name: type
-  - name: forename
-  - name: surname
-
-
 - kind: Group
   properties:
   - name: library
   - name: name
 
 
-- kind: Tag
+
+- kind: Person
   properties:
+  - name: library
+  - name: forename
+  - name: surname
+
+- kind: Person
+  properties:
+  - name: library
   - name: type
-  - name: value
+  - name: forename
+  - name: surname
+
+- kind: Person
+  properties:
+  - name: group
+  - name: library
+  - name: forename
+  - name: surname
+
+
 
 - kind: TagType
   properties:
-  - name: is_public
+  - name: show_in_catalog
   - name: name
+
+
+
+- kind: Tag
+  properties:
+  - name: tagtype
+  - name: value
+
+
 
 - kind: Item
   properties:

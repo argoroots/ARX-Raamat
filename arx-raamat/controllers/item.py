@@ -1,57 +1,73 @@
 from urllib import unquote
 
 from bo import *
-from database import *
+from database.person import *
+from database.item import *
 from importers import *
 
 
-class AddNewItem(webapp.RequestHandler):
-    def get(self):
+class ShowItem(boRequestHandler):
+    def get(self, url):
+        id = url.strip('/')
+
+        tagtypes = TagType().get_public()
+        item = Item().get_by_id(int(id))
+
+        self.view(item.displayname, 'catalog/item.html', {
+            'tagtypes': tagtypes,
+            'item': item,
+        })
+
+
+class AddNewItem(boRequestHandler):
+    def post(self):
 
         if self.request.get('item_id'):
             book = EsterGetByID(self.request.get('item_id'))
 
             item = db.Query(Item).filter('original_id', book['id']).get()
-            if item:
-                libs = item.libraries
-                libs.append(Person().current.library.key())
-                libs = list(set(libs))
-                item.libraries = libs
-            else:
-                tagkeys = []
+            if not item:
+                item = Item()
+                item.original_from = 'ester'
+                item.original_id = book['id']
+                item.marc21 = book['marc21']
+                item.title = book['title'][0]
+
                 for tag, values in book.iteritems():
-                    if tag not in ['authors', 'id']:
+                    if tag not in ['id', 'authors', 'marc21']:
                         for value in values:
-                            tagkeys.append(AddTag(tag, value))
+                            item.add_tag(type_name=tag, value=value)
                     if tag == 'authors':
                         for value in values:
-                            tagkeys.append(AddTag(value['role'], value['name'], value['date']))
+                            item.add_tag(type_name=value['role'], value=value['name'], note=value['date'])
 
-                item = Item()
-                item.added_by = str(Person().current.key())
-                item.original_id = book['id']
-                item.title = book['title'][0]
-                item.libraries.append(Person().current.library.key())
-                item.tags = tagkeys
-                item.put()
+            item.libraries = AddToList(Person().current_library.key(), item.libraries)
+            item.put()
 
-            #self.redirect('/item/edit/' + str(item.key().id()))
-            self.redirect('/catalog/author')
+            self.echo('/item/' + str(item.key().id()))
 
 
-class ImageByIsbn(webapp.RequestHandler):
-    def get(self, isbn):
-        isbnlist = unquote(isbn).decode('utf8').split(' ')
-        #self.response.out.write(ImageByISBN(isbnlist[0]))
-        self.redirect(ImageByISBN(isbnlist[0]))
+class ImageByIsbn(boRequestHandler):
+    def get(self, url):
+        isbn = unquote(url).decode('utf8').split(' ')[0]
+
+        imageurl = Cache().get('image_isbn_' + isbn)
+        if imageurl:
+            self.redirect(imageurl)
+        else:
+            imageurl = ImageByISBN(isbn)
+            if imageurl:
+                Cache().set('image_isbn_' + isbn, imageurl)
+                self.redirect(imageurl)
+            else:
+                self.redirect('/images/blank.png')
 
 
-class SearchForNew(webapp.RequestHandler):
+class SearchForNew(boRequestHandler):
     def post(self):
         string = self.request.get('search_text')
         result = EsterSearch(string, 30)
-        #self.response.out.write(result)
-        View(self, '', 'item_searchfornew.html', {'items': result})
+        self.view('', 'item/new_search_list.html', {'items': result})
 
 
 def main():
@@ -59,6 +75,7 @@ def main():
              ('/item/add', AddNewItem),
              ('/item/searchfornew', SearchForNew),
              (r'/item/imagebyisbn/(.*)', ImageByIsbn),
+             (r'/item(.*)', ShowItem),
             ])
 
 

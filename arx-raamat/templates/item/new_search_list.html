@@ -1,0 +1,33 @@
+<div class="table" style="margin:0px;">
+    {% for item in items %}
+    <div class="table_row">
+        <div class="table_cell">
+            <img src={% if item.isbn.0 %}"/item/imagebyisbn/{{ item.isbn.0 }}"{% else %}"/images/blank.png"{% endif %} height="40" width="30" style="float:left; margin-right:10px;" />
+
+            <b>{{ item.title.0 }}</b>{% if item.number.0 %} {{ item.number.0 }}{% endif %}<br />
+            <span style="font-size:11px;">{{ item.publisher.0 }} <b>{{ item.publishing_date.0 }}</b> {{ item.publishing_place.0 }}</span>
+        </div>
+        <div class="table_cell">
+            {{ item.authors.0.name }}
+        </div>
+        <div class="table_cell">
+            {{ item.type }}
+        </div>
+        <div class="table_cell" style="text-align:right; vertical-align:middle;">
+            <a href="javascript:void(0);" item_id="{{ item.id }}" class="add_item button" alt="">{{ str.add_item }}</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".add_item").click(function() {
+            $('#search_results').html('<img src="/images/ajax-loader.gif" style="margin: 0px auto 30px auto; display:block;" />');
+            $.post('/item/add', { item_id: $(this).attr('item_id') }, function(data) {
+                window.location.href = data;
+            });
+            return false;
+        });
+    });
+</script>

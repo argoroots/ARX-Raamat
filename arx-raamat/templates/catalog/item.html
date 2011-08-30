@@ -1,0 +1,59 @@
+{% extends "../main.html" %}
+
+{% block head %}
+<script src="/javascript/jquery.simplemodal.1.4.min.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+
+<div id="add_new_box" class="dropdown">
+    {% include "../item/new_search.html" %}
+</div>
+
+<nav id="leftmenu">
+    <a href=""><img src={% if item.tag.isbn.0 %}"/item/imagebyisbn/{{ item.tag.isbn.0 }}"{% else %}"/images/blank.png"{% endif %} width="145" style="float:right; padding-top:5px;" /></a>
+</nav>
+
+<section id="content">
+    <h1>{{ page_title }}</h1>
+
+{% regroup item.tags3|dictsort:"tagtype_displayname" by tagtype_displayname as tags %}
+
+<div class="vertical_table" style="width">
+    {% for tag in tags %}
+    {% ifequal tag.tagtype_is_visible True %}
+    <div class="table_row">
+        <div class="header_cell" style="width:170px;">
+            {% if tag.tagtype_url %}
+                <a href="/catalog/{{ tag.tagtype_url }}">{{ tag.grouper }}</a>:
+            {% else %}
+                {{ tag.grouper }}:
+            {% endif %}
+        </div>
+        <div class="table_cell" style="width:100%;">
+            {% for t in tag.list|dictsort:"displayname" %}
+                {% if t.tagtype_url %}<a href="/catalog/{{ t.tagtype_url }}/{{ t.id }}">{{ t.displayname }}{% if t.note %} ({{ t.note }}){% endif %}</a>{% else %}{{ t.value }}{% endif %}{% if forloop.last %}{% else %}; {% endif %}{% endfor %}
+        </div>
+    </div>
+    {% endifequal %}
+    {% endfor %}
+</div>
+
+</section>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#add_new").click(function() {
+            $("#add_new_box").slideDown();
+            $("#search_text").focus();
+            //$("#add_new_box").modal({
+	        //  position: [0,50],
+	        //  opacity:20,
+	        //  overlayCss: {backgroundColor:"#000000"},
+            //});
+            return false;
+        });
+    });
+</script>
+
+{% endblock %}

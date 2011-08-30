@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<nav id="leftmenu">
+    <a href="/status"><img src="/images/Backup_100.png" width="100" height="100" alt="" /></a>
+</nav>
+
+<section id="content">
+    <h1>{{ str.app_status }}</h1>
+    <p>{{ str.app_status_page_info }}</p>
+
+    <div class="table">
+        {% for s in services     %}
+        <div class="table_row">
+            <div class="table_cell">
+                {{ s.name }}
+            </div>
+            <div class="table_cell">
+                {{ s.status|yesno:"OK,Fail!" }}</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

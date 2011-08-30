@@ -1,5 +1,6 @@
-application: arx
-version: 2011-02-12
+application: arxapp
+version: 2011-05-19
+#version: dev
 runtime: python
 api_version: 1
 
@@ -65,6 +66,9 @@ handlers:
 - url: /bulka
   script: controllers/bulka.py
 
+- url: /status
+  script: controllers/status.py
+
 - url: /signup(.*)
   script: controllers/signup.py
 
@@ -80,6 +84,10 @@ handlers:
   script: controllers/item.py
   login: required
 
+- url: /persons(.*)
+  script: controllers/person.py
+  login: required
+
 - url: /person(.*)
   script: controllers/person.py
   login: required
@@ -88,13 +96,17 @@ handlers:
   script: controllers/preferences.py
   login: required
 
-- url: /admin(.*)
-  script: controllers/admin.py
-  login: admin
-
 - url: /test(.*)
   script: controllers/test.py
   login: required
+
+
+
+#admin controllers
+
+- url: /admin(.*)
+  script: controllers/admin.py
+  #login: admin
 
 
 
@@ -114,6 +126,3 @@ handlers:
 
 - url: /vearaport.php
   script: controllers/v7.py
-
-- url: /apollo_cron(.*)
-  script: importers/apollo_cron.py

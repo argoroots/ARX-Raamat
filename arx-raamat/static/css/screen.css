@@ -6,8 +6,8 @@ label{display:block;font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica
 a{color:#6DA00B;text-decoration:none;}a :hover{text-decoration:underline;}
 h1,h1 a,h1 a:hover,h1 a:active,h1 a:visited{font-size:24px;font-weight:bold;color:#525252;}
 h2,h2 a,h2 a:hover,h2 a:active,h2 a:visited{padding-top:20px;font-size:14px;font-weight:bold;text-transform:uppercase;text-decoration:none;color:gray;border-bottom:1px solid #B9B9B9;}
-header{padding:20px 10px 0px 10px;}header h1{font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;text-shadow:rgba(255, 255, 255, 0.796875) 0px 1px 0px;display:inline;}header h1 a{color:#525252;}header h1 a :hover{text-decoration:none;}
-header nav{padding-top:11px;float:right;}
+header{padding:20px 10px 0px 10px;}header h1{font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;text-shadow:rgba(255, 255, 255, 0.796875) 0px 1px 0px;display:inline;line-height:27px;}header h1 a{color:#525252;}header h1 a :hover{text-decoration:none;}
+header nav{padding:0px 0px 3px 0px;display:block;}
 #page{padding:0px;width:100%;display:table;min-height:400px;background:#FFFFFF right top;background-repeat:no-repeat;border:1px solid #b9b9b9;box-shadow:#CCCCCC 2px 3px 4px;-moz-box-shadow:#CCCCCC 2px 3px 4px;-webkit-box-shadow:#CCCCCC 2px 3px 4px;}#page h1{display:block;padding-bottom:10px;font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;text-transform:uppercase;text-align:left;color:#616161;font-size:21px;font-weight:200;letter-spacing:2px;}
 #content{width:720px;float:right;display:table-cell;padding:20px;text-align:justify;}
 #wide_content{display:table-cell;padding:20px;text-align:justify;}
