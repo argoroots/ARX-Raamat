@@ -1,96 +1,102 @@
 from google.appengine.api import memcache
 from google.appengine.api import urlfetch
-from urllib import quote
-from django.utils import simplejson
-from hashlib import md5
-import re
 
 from BeautifulSoup import BeautifulSoup
 
 
-#http://www.loc.gov/marc/bibliographic/
-MARCMAP = {
-    '020a': 'isbn',
-    '022a': 'issn',
-    '041a': 'language',
-    '041h': 'original_language',
-    '072a': 'udc',
-    '080a': 'udc',
-    '245a': 'title',
-    '245b': 'subtitle',
-    '245p': 'subtitle',
-    '245n': 'number',
-    '250a': 'edition',
-    '260a': 'publishing_place',
-    '260b': 'publisher',
-    '260c': 'publishing_date',
-    '300a': 'pages',
-    '300c': 'dimensions',
-    '440a': 'series',
-    '440p': 'series',
-    '440n': 'series_number',
-    '440v': 'series_number',
-    '500a': 'notes',
-    '501a': 'notes',
-    '502a': 'notes',
-    '504a': 'notes',
-    '505a': 'notes',
-    '520a': 'notes',
-    '525a': 'notes',
-    '530a': 'notes',
-    '650a': 'tag',
-    '655a': 'tag',
-}
+def EsterSearch(search_term):
+    items = []
+    if len(search_term) == 13 and search_term.isdigit():
+        soup = BeautifulSoup(urlfetch.fetch('http://tallinn.ester.ee/search*est/i?SEARCH='+search_term+'&searchscope=1&SUBMIT=OTSI').content)
+        id = soup.find('a', attrs={'id': 'recordnum'})['href'].replace('http://tallinn.ester.ee/record=', '').replace('~S1', '').replace('*est', '').strip()
+        items.append(EsterGetByID(id))
+    else:
+        soup = BeautifulSoup(urlfetch.fetch('http://tallinn.ester.ee/search*est/X?SEARCH='+search_term+'&searchscope=1&SUBMIT=OTSI').content)
+        for i in soup.findAll('table', attrs={'class': 'browseList'}):
+            cells = i.findAll('td')
+            id = cells[0].input['value'].strip()
+            title = cells[1].span.a.contents[0].strip()
+            isbn = cells[1].find(text='ISBN/ISSN').next.strip(':&nbsp;\n ').strip()
+            year = cells[4].contents[0].strip()
+            items.append({
+                'id': id,
+                'isbn': [isbn],
+                'title': [title],
+                'publishing_date': [year],
+            })
 
-
-def EsterSearch(search_term, records):
-    try:
-        z39_url = 'http://z39.arx.ee/?r=' + str(records) + '&q=' + quote(search_term.encode('utf-8'))
-        json_str = urlfetch.fetch(z39_url, deadline=10).content
-
-        data = []
-        for record in simplejson.loads(json_str):
-            if GetType(record) == 'book':
-                item = GetRecord(record)
-                item['marc21'] = simplejson.dumps(record)
-                item['authors'] = GetAuthors(record)
-                item['id'] = GetID(record)
-
-                data.append(item)
-
-                if memcache.get('ester_item_' + item['id']):
-                    memcache.replace(
-                        key = 'ester_item_' + item['id'],
-                        value = (item),
-                        time = 86400
-                    )
-                else:
-                    memcache.add(
-                        key = 'ester_item_' + item['id'],
-                        value = (item),
-                        time = 86400
-                    )
-
-        return data
-    except:
-        pass
+    return items
 
 
 def EsterGetByID(id):
-    return memcache.get('ester_item_' + id)
+    ester_url = 'http://tallinn.ester.ee/search~S1?/.'+id+'/.'+id+'/1%2C1%2C1%2CB/marc~'+id
+    soup = BeautifulSoup(urlfetch.fetch(ester_url).content)
+    item = ParseMARC(soup.find('pre').contents[0])
+    item['id'] = id
+    return item
 
 
-def GetRecord(record):
-    data = {}
-    for key, field in record.iteritems():
-        for value in field:
-            for tagkey, tagvalue in value.iteritems():
-                if key + tagkey in MARCMAP:
-                    tagvalue = CleanData(key + tagkey, tagvalue)
-                    if MARCMAP[key + tagkey] not in data:
-                        data[MARCMAP[key + tagkey]] = []
-                    data[MARCMAP[key + tagkey]].append(tagvalue)
-    return data
+def ParseMARC(data):
+    #http://www.loc.gov/marc/bibliographic/
+    marcmap = {
+        '020':  'isbn',
+        '022':  'issn',
+        '041':  'language',
+        '041h': 'original_language',
+        '072':  'udc',
+        '080':  'udc',
+        '245':  'title',
+        '245b': 'subtitle',
+        '245p': 'subtitle',
+        '245n': 'number',
+        '250':  'edition',
+        '260':  'publishing_place',
+        '260b': 'publisher',
+        '260c': 'publishing_date',
+        '300':  'pages',
+        '300c': 'dimensions',
+        '440':  'series',
+        '440p': 'series',
+        '440n': 'series_number',
+        '440v': 'series_number',
+        '500':  'notes',
+        '501':  'notes',
+        '502':  'notes',
+        '504':  'notes',
+        '505':  'notes',
+        '520':  'notes',
+        '525':  'notes',
+        '530':  'notes',
+        '650':  'tag',
+        '655':  'tag',
+    }
+    marc = {}
+    rows = []
+    rownum = 0
+    for row in data.strip().split('\n'):
+        if row[:7].strip():
+            rownum += 1
+            rows.append(row)
+        else:
+            rows[rownum-1] += row[7:]
+
+    for row in rows:
+        key = row[:3]
+        values = row[7:].split('|')
+        if values[0]:
+            if key in marcmap:
+                marckey = marcmap[key]
+                if marckey not in marc:
+                    marc[marckey] = []
+                marc[marckey].append(values[0].strip(' /;:'))
+        for v in values[1:]:
+            if v:
+                if key+v[0] in marcmap:
+                    marckey = marcmap[key+v[0]]
+                    if marckey not in marc:
+                        marc[marckey] = []
+                    marc[marckey].append(v[1:].strip(' /;:'))
+    return marc
 
 
 def CleanData(tag, value):
@@ -169,32 +175,3 @@ def GetType(record):
 
         if 'sdij'.find(a) > 0:
             return 'music'
-
-
-def GetID(record):
-
-    key = ''
-    if '020' in record:
-        if 'a' in record['020'][0]:
-            key = key + record['020'][0]['a']
-
-    if '100' in record:
-        if 'a' in record['100'][0]:
-            key = key + CleanData('100a', record['100'][0]['a'])
-
-    if '245' in record:
-        if 'a' in record['245'][0]:
-            key = key + CleanData('245a', record['245'][0]['a'])
-        if 'n' in record['245'][0]:
-            key = key + CleanData('245n', record['245'][0]['n'])
-
-    if '260' in record:
-        if 'c' in record['260'][0]:
-            key = key + CleanData('260c', record['260'][0]['c'])
-        if 'a' in record['260'][0]:
-            key = key + CleanData('260a', record['260'][0]['a'])
-
-    key = re.sub(r'[\s\-\?\!\#\&\.\,\:\;\"\'\[\]\(\)]', '', key).upper().encode('utf-8')
-    key = 'ester-' + md5(key).hexdigest()
-
-    return key
