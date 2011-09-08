@@ -75,7 +75,8 @@ class ImageByIsbn(boRequestHandler):
 class SearchForNew(boRequestHandler):
     def post(self):
         string = self.request.get('search_text')
-        result = EsterSearch(string, 30)
+        result = EsterSearch(string)
+        self.header('Content-Type', 'text/html; charset=UTF-8')
         self.view('', 'item/new_search_list.html', {'items': result})
 
 

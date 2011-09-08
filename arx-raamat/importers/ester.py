@@ -7,11 +7,11 @@ from BeautifulSoup import BeautifulSoup
 def EsterSearch(search_term):
     items = []
     if len(search_term) == 13 and search_term.isdigit():
-        soup = BeautifulSoup(urlfetch.fetch('http://tallinn.ester.ee/search*est/i?SEARCH='+search_term+'&searchscope=1&SUBMIT=OTSI').content)
+        soup = BeautifulSoup(urlfetch.fetch('http://tallinn.ester.ee/search*est/i?SEARCH='+search_term+'&searchscope=1&SUBMIT=OTSI', deadline=60).content)
         id = soup.find('a', attrs={'id': 'recordnum'})['href'].replace('http://tallinn.ester.ee/record=', '').replace('~S1', '').replace('*est', '').strip()
         items.append(EsterGetByID(id))
     else:
-        soup = BeautifulSoup(urlfetch.fetch('http://tallinn.ester.ee/search*est/X?SEARCH='+search_term+'&searchscope=1&SUBMIT=OTSI').content)
+        soup = BeautifulSoup(urlfetch.fetch('http://tallinn.ester.ee/search*est/X?SEARCH='+search_term+'&searchscope=1&SUBMIT=OTSI', deadline=60).content)
         for i in soup.findAll('table', attrs={'class': 'browseList'}):
             cells = i.findAll('td')
             id = cells[0].input['value'].strip()
@@ -20,9 +20,9 @@ def EsterSearch(search_term):
             year = cells[4].contents[0].strip()
             items.append({
                 'id': id,
-                'isbn': [isbn],
-                'title': [title],
-                'publishing_date': [year],
+                'isbn': [unicode(isbn)],
+                'title': [unicode(title)],
+                'publishing_date': [unicode(year)],
             })
 
     return items
@@ -88,14 +88,14 @@ def ParseMARC(data):
                 marckey = marcmap[key]
                 if marckey not in marc:
                     marc[marckey] = []
-                marc[marckey].append(values[0].strip(' /;:'))
+                marc[marckey].append(unicode(values[0].strip(' /;:')))
         for v in values[1:]:
             if v:
                 if key+v[0] in marcmap:
                     marckey = marcmap[key+v[0]]
                     if marckey not in marc:
                         marc[marckey] = []
-                    marc[marckey].append(v[1:].strip(' /;:'))
+                    marc[marckey].append(unicode(v[1:].strip(' /;:')))
     return marc
 
 
