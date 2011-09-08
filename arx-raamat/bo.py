@@ -10,15 +10,18 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp import util
 from django.core.validators import email_re
 from django.template.defaultfilters import striptags
+from django.template import Template
+from django.conf import settings
 from django.utils import simplejson
+import csv
+import cStringIO
 
 from datetime import timedelta
-from datetime import datetime
 import random
 import time
 import logging
-
-from settings import *
+import string
+import re
 
 
 def Route(url_mapping):
@@ -31,30 +34,73 @@ class boRequestHandler(webapp.RequestHandler):
         self.starttime = time.time()
         webapp.RequestHandler.__init__(self, *args, **kwargs)
 
-    def view(self, page_title, templatefile, values={}):
+    def authorize(self, controller=None):
+        from database.person import *
+        #from database.feedback import *
+
+        #if db.Query(QuestionaryPerson).filter('person', Person().current).filter('is_completed', False).filter('is_obsolete', False).get():
+        if 1==2:
+            #path = str(self.request.url)
+            #Cache().set('redirect_after_feedback', path)
+            #self.redirect('/feedback')
+            #return False
+            return True
+        else:
+            if controller and users.is_current_user_admin() == False:
+                rights = []
+                if Person().current.GetRoles():
+                    for role in Person().current.GetRoles():
+                        rights = rights + role.rights
+                    if controller in rights:
+                        return True
+                    else:
+                        return False
+                else:
+                    return False
+            else:
+                return True
+
+    def view(self, page_title = '', template_file = None, values={}, main_template='main/index.html'):
         controllertime = (time.time() - self.starttime)
         logging.debug('Controller: %ss' % round(controllertime, 2))
+
+        al = AccessLog()
+        al.remote_addr = self.request.remote_addr
+        al.path = self.request.path[:500]
+        al.query_string = self.request.query_string[:500]
+        al.url = self.request.url[:500]
+        al.put()
+
         from database.person import *
 
         browser = str(self.request.headers['User-Agent'])
-        if browser.find('MSIE 5') > -1 or browser.find('MSIE 6') > -1 or browser.find('MSIE 7') > -1:
-            path = os.path.join(os.path.dirname(__file__), 'templates', 'brausererror.html')
+        if browser.find('MSIE 5') > -1 or browser.find('MSIE 6') > -1 or browser.find('MSIE 7') > -1 or browser.find('MSIE 8') > -1:
+            path = os.path.join(os.path.dirname(__file__), 'errors', 'brauser.html')
             self.response.out.write(template.render(path, {}))
         else:
             values['str'] = Translate()
-            values['system_title'] = SYSTEM_TITLE.decode('utf8')
+            values['system_title'] = SystemPreferences().get('site_title')
+            values['system_logo'] = SystemPreferences().get('site_logo_url')
             if page_title:
-                values['site_name'] = SYSTEM_TITLE.decode('utf8') + ' - ' + Translate(page_title)
+                values['site_name'] = SystemPreferences().get('site_title') + ' - ' + Translate(page_title)
                 values['page_title'] = Translate(page_title)
             else:
-                values['site_name'] = SYSTEM_TITLE.decode('utf8')
+                values['site_name'] = SystemPreferences().get('site_title')
                 values['page_title'] = '&nbsp;'
             values['site_url'] = self.request.headers.get('host')
             values['user'] = Person().current
-            values['loginurl'] = users.create_logout_url(users.create_login_url('/'))
+            values['loginurl'] = users.create_login_url('/')
             values['logouturl'] = users.create_logout_url('/')
-            path = os.path.join(os.path.dirname(__file__), 'templates', templatefile)
+            values['version'] = self.request.environ["CURRENT_VERSION_ID"].split('.')[0]
+
+            if main_template:
+                main_template_file = open(os.path.join(os.path.dirname(__file__), 'templates', main_template))
+                values['main_template'] = Template(main_template_file.read())
+                main_template_file.close()
+
+            path = os.path.join(os.path.dirname(__file__), 'templates', template_file)
             self.response.out.write(template.render(path, values))
+
         viewtime = (time.time() - self.starttime)
         logging.debug('View: %ss' % round((viewtime - controllertime), 2))
         logging.debug('Total: %ss' % round(viewtime, 2))
@@ -67,20 +113,41 @@ class boRequestHandler(webapp.RequestHandler):
     def echo_json(self, dictionary):
         self.response.out.write(simplejson.dumps(dictionary))
 
+    def echo_csv(self, filename, rowslist):
+        csvfile = cStringIO.StringIO()
+        csvWriter = csv.writer(csvfile, quoting=csv.QUOTE_MINIMAL)
+        for row in rowslist:
+            csvWriter.writerow(row)
+        self.header('Content-Type', 'text/csv; charset=utf-8')
+        self.header('Content-Disposition', 'attachment; filename=' + unicode(filename.encode('utf-8'), errors='ignore') + '.csv')
+        self.echo(csvfile.getvalue())
+        csvfile.close()
+
     def header(self, key, value):
         self.response.headers[key] = value
 
-    def login(self, url='/'):
-        self.redirect(users.create_login_url(url))
 
-    def logout(self, url='/'):
-        self.redirect(users.create_logout_url(url))
+class SystemPreferences(db.Model):
+    value = db.StringProperty(multiline=True, default='')
+
+    def get(self, key_name):
+        sp = SystemPreferences().get_by_key_name(key_name)
+        if not sp:
+            sp = SystemPreferences(key_name=key_name)
+            sp.put()
+        return sp.value
+
+    def set(self, key_name, value):
+        sp = SystemPreferences().get_by_key_name(key_name)
+        if not sp:
+            sp = SystemPreferences(key_name=key_name)
+        sp.value = value
+        sp.put()
 
 
 class UserPreferences(db.Model):
-    language            = db.StringProperty(default=SYSTEM_LANGUAGE)
-    timezone            = db.StringProperty(default=SYSTEM_TIMEZONE)
-    model_version       = db.StringProperty(default='A')
+    language = db.StringProperty(default=SystemPreferences().get('default_language'))
+    timezone = db.StringProperty(default=SystemPreferences().get('default_timezone'))
 
     @property
     def current(self):
@@ -105,17 +172,30 @@ class UserPreferences(db.Model):
                 u.put()
 
 
+class AccessLog(db.Model):
+    datetime        = db.DateTimeProperty(auto_now_add=True)
+    user            = db.UserProperty(auto_current_user_add=True)
+    remote_addr     = db.StringProperty()
+    url             = db.TextProperty()
+    path            = db.StringProperty()
+    model_version   = db.StringProperty(default='A')
+
+
 class ChangeLog(db.Expando):
     kind_name       = db.StringProperty()
     property_name   = db.StringProperty()
-    user            = db.UserProperty(auto_current_user_add=True)
+    user            = db.StringProperty()
     datetime        = db.DateTimeProperty(auto_now_add=True)
-    model_version   = db.StringProperty(default='A')
+    model_version   = db.StringProperty(default='B')
 
 
 class ChangeLogModel(db.Model):
 #class ChangeLogModel(db.Expando):
-    def put(self):
+    def put(self, email=None):
+        if not email:
+            user = users.get_current_user()
+            if user:
+                email = user.email()
         if self.is_saved():
             old = db.get(self.key())
             for prop_key, prop_value in self.properties().iteritems():
@@ -132,6 +212,7 @@ class ChangeLogModel(db.Model):
                     cl = ChangeLog(parent=self)
                     cl.kind_name = self.kind()
                     cl.property_name = prop_key
+                    cl.user = email
                     if old_value:
                         cl.old_value = old_value
                     if new_value:
@@ -142,7 +223,6 @@ class ChangeLogModel(db.Model):
     @property
     def last_change(self):
         return db.Query(ChangeLog).ancestor(self).order('-datetime').get()
-
 
     def history(self, property=None, datetime=None):
         cl = db.Query(ChangeLog).ancestor(self)
@@ -166,7 +246,7 @@ def Translate(key = None):
     if users.get_current_user():
         languagefile = 'translations.' + UserPreferences().current.language
     else:
-        languagefile = 'translations.' + SYSTEM_LANGUAGE
+        languagefile = 'translations.' + SystemPreferences().get('default_language')
 
     l = __import__(languagefile, globals(), locals(), ['translation'], -1)
 
@@ -205,27 +285,30 @@ class Cache:
                 key = key + '_' + user.user_id()
         return memcache.get(key)
 
+def CheckMailAddress(email):
+    return email_re.match((email))
 
-def SendMail(to, subject, message, reply_to=None, html=True, attachments=None):
+
+def SendMail(to, subject, message=' ', reply_to=None, html=True, attachments=None):
     valid_to = []
     if isinstance(to, ListType):
         for t in to:
-            if email_re.match(t):
+            if CheckMailAddress(t):
                 valid_to.append(t)
     else:
-        if email_re.match(to):
+        if CheckMailAddress(to):
             valid_to.append(to)
     if len(valid_to) > 0:
         m = mail.EmailMessage()
-        m.sender = SYSTEM_EMAIL
+        m.sender = SystemPreferences().get('system_email')
         if reply_to:
-            if email_re.match(reply_to):
+            if CheckMailAddress(reply_to):
                 m.reply_to = reply_to
-        m.bcc = SYSTEM_EMAIL
+        m.bcc = SystemPreferences().get('system_email')
         m.to = valid_to
-        m.subject = SYSTEM_EMAIL_PREFIX + subject
+        m.subject = SystemPreferences().get('system_email_prefix') + subject
         if html == True:
-            m.html = SYSTEM_EMAIL_TEMPLATE % message
+            m.html = message
         else:
             m.body = message
         if attachments:
@@ -257,6 +340,21 @@ def rReplace(s, old, new, occurrence):
     return new.join(li)
 
 
+def StringToSortable(s):
+    return re.sub('[%s]' % re.escape(string.punctuation), '', s).lower().strip()
+
+
+def StringToSearchIndex(s):
+    result = []
+    s = s.lower()
+    wordlist = StrToList(s)
+    wordlist.append(s)
+    for w in wordlist:
+        for i in range(1, len(w)+1):
+            result = AddToList(w[:i], result)
+    return result
+
+
 def UtcToLocalDateTime(utc_time):
     utc = pytz.timezone('UTC')
     tz = pytz.timezone(UserPreferences().current.timezone)
@@ -276,6 +374,15 @@ def UtcFromLocalDateTime(local_time):
 def AddToList(s_value=None, s_list=[], unique=True):
     if s_value:
         s_list.append(s_value)
+    if unique==True:
+        return GetUniqueList(s_list)
+    else:
+        return s_list
+
+
+def RemoveFromList(s_value=None, s_list=[], unique=True):
+    if s_value in s_list:
+        s_list.remove(s_value)
     if unique==True:
         return GetUniqueList(s_list)
     else:

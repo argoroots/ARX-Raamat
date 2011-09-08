@@ -3,15 +3,10 @@
     <div class="table_row">
         <div class="table_cell">
             <img src={% if item.isbn.0 %}"/item/imagebyisbn/{{ item.isbn.0 }}"{% else %}"/images/blank.png"{% endif %} height="40" width="30" style="float:left; margin-right:10px;" />
-
-            <b>{{ item.title.0 }}</b>{% if item.number.0 %} {{ item.number.0 }}{% endif %}<br />
-            <span style="font-size:11px;">{{ item.publisher.0 }} <b>{{ item.publishing_date.0 }}</b> {{ item.publishing_place.0 }}</span>
         </div>
-        <div class="table_cell">
-            {{ item.authors.0.name }}
-        </div>
-        <div class="table_cell">
-            {{ item.type }}
+        <div class="table_cell" style="">
+            <b title="{{ item.title.0 }}">{{ item.title.0|truncatewords:10 }}</b><br />
+            <span style="font-size:11px;">{{ item.publishing_date.0 }}</span>
         </div>
         <div class="table_cell" style="text-align:right; vertical-align:middle;">
             <a href="javascript:void(0);" item_id="{{ item.id }}" class="add_item button" alt="">{{ str.add_item }}</a>
