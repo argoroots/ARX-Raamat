@@ -12,6 +12,9 @@
         <div class="header" style="text-align:right;">
             {{ str.copy_price }}
         </div>
+        <div class="header" style="text-align:right;">
+            {{ str.copy_quantity }}
+        </div>
     </div>
     {% for c in copies %}
     <div class="row">
@@ -26,6 +29,9 @@
         </div>
         <div class="cell" style="text-align:right;">
             {{ c.price }}
+        </div>
+        <div class="cell" style="text-align:right;">
+            {{ c.quantity }}
         </div>
     </div>
     {% endfor %}
