@@ -16,7 +16,7 @@ from importers.googlebooks import *
 from importers.amazon import *
 
 
-class AmazonSearchTest(webapp.RequestHandler):
+class AmazonSearchTest(boRequestHandler):
     def get(self, url):
         keywords = unquote(url).decode('utf8').strip('/')
 
@@ -30,7 +30,7 @@ class AmazonSearchTest(webapp.RequestHandler):
 
 
 # N.B! Some values can be None or a list; then the test function will fail
-class AmazonTest(webapp.RequestHandler):
+class AmazonTest(boRequestHandler):
     def get(self, url):
         keywords = unquote(url).decode('utf8').strip('/')
 
@@ -43,15 +43,16 @@ class AmazonTest(webapp.RequestHandler):
         self.response.out.write(strng)
 
 
-class EsterGet(webapp.RequestHandler):
+class EsterGet(boRequestHandler):
     def get(self, id):
 
         result = EsterGetByID(id)
 
-        self.response.out.write(str(result))
+        self.header('Content-Type', 'text/plain; charset=UTF-8')
+        self.response.out.write(result)
 
 
-class Search(webapp.RequestHandler):
+class Search(boRequestHandler):
     def get(self, string):
 
         result = EsterSearch(string)
@@ -70,7 +71,7 @@ class Search(webapp.RequestHandler):
         self.response.out.write('</pre>')
 
 
-class Scan(webapp.RequestHandler):
+class Scan(boRequestHandler):
     def get(self, code):
 
         book = None
@@ -99,7 +100,7 @@ def ShowImage(isbn):
     return result
 
 
-class TagTypeUpdate(webapp.RequestHandler):
+class TagTypeUpdate(boRequestHandler):
     def get(self):
         for tt in TagType().all():
             tt.is_visible = True

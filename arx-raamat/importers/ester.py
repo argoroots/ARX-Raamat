@@ -3,6 +3,43 @@ from google.appengine.api import urlfetch
 
 from BeautifulSoup import BeautifulSoup
 
+from HTMLParser import HTMLParser
+from urllib import quote
+
+#http://www.loc.gov/marc/bibliographic/
+MARCMAP = {
+    '020':  'isbn',
+    '022':  'issn',
+    '041':  'language',
+    '041h': 'original_language',
+    '072':  'udc',
+    '080':  'udc',
+    '245':  'title',
+    '245b': 'subtitle',
+    '245p': 'subtitle',
+    '245n': 'number',
+    '250':  'edition',
+    '260':  'publishing_place',
+    '260b': 'publisher',
+    '260c': 'publishing_date',
+    '300':  'pages',
+    '300c': 'dimensions',
+    '440':  'series',
+    '440p': 'series',
+    '440n': 'series_number',
+    '440v': 'series_number',
+    '500':  'notes',
+    '501':  'notes',
+    '502':  'notes',
+    '504':  'notes',
+    '505':  'notes',
+    '520':  'notes',
+    '525':  'notes',
+    '530':  'notes',
+    '650':  'tag',
+    '655':  'tag',
+}
+
 
 def EsterSearch(search_term):
     items = []
@@ -11,7 +48,7 @@ def EsterSearch(search_term):
         id = soup.find('a', attrs={'id': 'recordnum'})['href'].replace('http://tallinn.ester.ee/record=', '').replace('~S1', '').replace('*est', '').strip()
         items.append(EsterGetByID(id))
     else:
-        soup = BeautifulSoup(urlfetch.fetch('http://tallinn.ester.ee/search*est/X?SEARCH='+search_term+'&searchscope=1&SUBMIT=OTSI', deadline=60).content)
+        soup = BeautifulSoup(urlfetch.fetch('http://tallinn.ester.ee/search*est/X?SEARCH='+quote(search_term.encode('utf-8'))+'&searchscope=1&SUBMIT=OTSI', deadline=60).content)
         for i in soup.findAll('table', attrs={'class': 'browseList'}):
             cells = i.findAll('td')
             id = cells[0].input['value'].strip()
@@ -20,57 +57,23 @@ def EsterSearch(search_term):
             year = cells[4].contents[0].strip()
             items.append({
                 'id': id,
-                'isbn': [unicode(isbn)],
-                'title': [unicode(title)],
-                'publishing_date': [unicode(year)],
+                'isbn': [{'value': isbn}],
+                'title': [{'value': title}],
+                'publishing_date': [{'value': year}],
             })
 
     return items
 
 
 def EsterGetByID(id):
-    ester_url = 'http://tallinn.ester.ee/search~S1?/.'+id+'/.'+id+'/1%2C1%2C1%2CB/marc~'+id
-    soup = BeautifulSoup(urlfetch.fetch(ester_url).content)
-    item = ParseMARC(soup.find('pre').contents[0])
+    marc = urlfetch.fetch('http://tallinn.ester.ee/search~S1?/.'+id+'/.'+id+'/1%2C1%2C1%2CB/marc~'+id).content.split('<pre>')[1].split('</pre>')[0].strip()
+    item = ParseMARC(HTMLParser().unescape(marc))
     item['id'] = id
     return item
 
 
 def ParseMARC(data):
-    #http://www.loc.gov/marc/bibliographic/
-    marcmap = {
-        '020':  'isbn',
-        '022':  'issn',
-        '041':  'language',
-        '041h': 'original_language',
-        '072':  'udc',
-        '080':  'udc',
-        '245':  'title',
-        '245b': 'subtitle',
-        '245p': 'subtitle',
-        '245n': 'number',
-        '250':  'edition',
-        '260':  'publishing_place',
-        '260b': 'publisher',
-        '260c': 'publishing_date',
-        '300':  'pages',
-        '300c': 'dimensions',
-        '440':  'series',
-        '440p': 'series',
-        '440n': 'series_number',
-        '440v': 'series_number',
-        '500':  'notes',
-        '501':  'notes',
-        '502':  'notes',
-        '504':  'notes',
-        '505':  'notes',
-        '520':  'notes',
-        '525':  'notes',
-        '530':  'notes',
-        '650':  'tag',
-        '655':  'tag',
-    }
-    marc = {}
+    result = {}
     rows = []
     rownum = 0
     for row in data.strip().split('\n'):
@@ -83,67 +86,67 @@ def ParseMARC(data):
     for row in rows:
         key = row[:3]
         values = row[7:].split('|')
-        if values[0]:
-            if key in marcmap:
-                marckey = marcmap[key]
-                if marckey not in marc:
-                    marc[marckey] = []
-                marc[marckey].append(unicode(values[0].strip(' /;:')))
-        for v in values[1:]:
-            if v:
-                if key+v[0] in marcmap:
-                    marckey = marcmap[key+v[0]]
-                    if marckey not in marc:
-                        marc[marckey] = []
-                    marc[marckey].append(unicode(v[1:].strip(' /;:')))
-    return marc
+
+        if key in ['100', '700']:
+            if values[0]:
+                tag = 'author'
+                tag_value = CleanData(values[0])
+                tag_note = None
+                for v in values[1:]:
+                    if v:
+                        if v[0] == 'd':
+                            tag_note = CleanData(v[1:])
+                        if key == '700' and v[0] == 'e':
+                            tag = CleanData(v[1:])
+                if tag not in result:
+                    result[tag] = []
+                result[tag].append({'value': tag_value, 'note': tag_note})
+        else:
+            if values[0]:
+                if key in MARCMAP:
+                    tag = MARCMAP[key]
+                    if tag not in result:
+                        result[tag] = []
+                    result[tag].append({'value': CleanData(values[0], tag), 'note': None})
+            for v in values[1:]:
+                if v:
+                    if key+v[0] in MARCMAP:
+                        tag = MARCMAP[key+v[0]]
+                        if tag not in result:
+                            result[tag] = []
+                        result[tag].append({'value': CleanData(v[1:], tag), 'note': None})
+    return result
 
 
-def CleanData(tag, value):
+def CleanData(value, tag=None):
+    value = value.decode('utf-8').strip(' /,;:')
     if value[0:1] == '[' and value[-1] == ']':
         value = value[1:][:-1]
-    if tag == '260c' and not value[0:1].isdigit():
+    if tag == 'publishing_date' and not value[0:1].isdigit():
         value = value[1:]
-
     return value
 
 
-def GetAuthors(record):
-    result = []
-    if '100' in record:
-        for row in record['100']:
-            d = {}
-            if 'a' in row:
-                d['name'] = row['a']
-
-            if 'd' in row:
-                d['date'] = row['d']
-            else:
-                d['date'] = None
-
-            d['role'] = 'author'
-
-            result.append(d)
-
-    if '700' in record:
-        for row in record['700']:
-            d = {}
-            if 'a' in row:
-                d['name'] = row['a']
-
-            if 'd' in row:
-                d['date'] = row['d']
-            else:
-                d['date'] = None
-
-            if 'e' in row:
-                d['role'] = row['e']
-            else:
-                d['role'] = 'author'
-
-            result.append(d)
-
-    return result
+def unescape(text):
+    def fixup(m):
+        text = m.group(0)
+        if text[:2] == "&#":
+            # character reference
+            try:
+                if text[:3] == "&#x":
+                    return unichr(int(text[3:-1], 16))
+                else:
+                    return unichr(int(text[2:-1]))
+            except ValueError:
+                pass
+        else:
+            # named entity
+            try:
+                text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
+            except KeyError:
+                pass
+        return text # leave as is
+    return re.sub("&#?\w+;", fixup, text)
 
 
 def GetType(record):

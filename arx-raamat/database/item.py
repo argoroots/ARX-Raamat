@@ -13,7 +13,6 @@ class Item(ChangeLogModel):
     original_id     = db.StringProperty()
     title           = db.StringProperty()
     tags            = db.ListProperty(db.Key)
-    marc21          = db.TextProperty()
 
     @property
     def displayname(self):
@@ -94,6 +93,13 @@ class Item(ChangeLogModel):
         tag.put()
 
         self.tags = AddToList(tag.key(), self.tags)
+
+
+class Copy(ChangeLogModel):
+    model_version   = db.StringProperty(default='A')
+    added_datetime  = db.DateTimeProperty(auto_now_add=True)
+    added_by        = db.UserProperty(auto_current_user_add=True)
+    library         = db.ReferenceProperty(Library, collection_name='copies')
 
 
 class TagType(ChangeLogModel):

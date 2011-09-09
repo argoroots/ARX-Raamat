@@ -1,12 +1,12 @@
 <div class="table" style="margin:0px;">
     {% for item in items %}
     <div class="table_row">
-        <div class="table_cell">
-            <img src={% if item.isbn.0 %}"/item/imagebyisbn/{{ item.isbn.0 }}"{% else %}"/images/blank.png"{% endif %} height="40" width="30" style="float:left; margin-right:10px;" />
+        <div class="table_cell" style="vertical-align: middle;">
+            <img src={% if item.isbn.0 %}"/item/imagebyisbn/{{ item.isbn.0.value }}"{% else %}"/images/blank.png"{% endif %} height="50" width="35" style="" />
         </div>
-        <div class="table_cell" style="">
-            <b title="{{ item.title.0 }}">{{ item.title.0|truncatewords:10 }}</b><br />
-            <span style="font-size:11px;">{{ item.publishing_date.0 }}</span>
+        <div class="table_cell" style="width:100%;">
+            <b>{{ item.title.0.value }}</b><br />
+            <span style="font-size:11px;">{{ item.publishing_date.0.value }}</span>
         </div>
         <div class="table_cell" style="text-align:right; vertical-align:middle;">
             <a href="javascript:void(0);" item_id="{{ item.id }}" class="add_item button" alt="">{{ str.add_item }}</a>
