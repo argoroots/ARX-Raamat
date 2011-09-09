@@ -10,47 +10,47 @@
     <h1>{{ str.preferences }}</h1>
     {{ str.preferences_page_info }}
 
-    <div class="vertical_table">
-        <div class="table_row">
-            <div class="header_cell" style="width:200px;">
+    <div class="v-table">
+        <div class="row">
+            <div class="header" style="width:200px;">
                 {{ str.user }}:
             </div>
-            <div class="table_cell" style="width:100%;">
+            <div class="cell" style="width:100%;">
                 {{ user.user }}
             </div>
         </div>
-        <div class="table_row">
-            <div class="header_cell">
+        <div class="row">
+            <div class="header">
                 {{ str.email }}:
             </div>
-            <div class="table_cell">
+            <div class="cell">
                 {{ user.email }}
             </div>
         </div>
-        <div class="table_row">
-            <div class="header_cell">
+        <div class="row">
+            <div class="header">
                 {{ str.created }}:
             </div>
-            <div class="table_cell">
+            <div class="cell">
                 {{ user.added_datetime|date:"d.m.Y" }}
             </div>
         </div>
-        <div class="table_row">
-            <div class="header_cell">
+        <div class="row">
+            <div class="header">
                 {{ str.libraries }}:
             </div>
-            <div class="table_cell">
+            <div class="cell">
                 {% for library in user.libraries2 %}
                     {{ library.name }}<br />
                 {% endfor %}
                 <a href="">{{ str.create_personal_library }}...</a>
             </div>
         </div>
-        <div class="table_row">
-            <div class="header_cell">
+        <div class="row">
+            <div class="header">
                 {{ str.language }}:
             </div>
-            <div class="table_cell">
+            <div class="cell">
                 <select id="language" name="language" class="autosave">
                     <option value="estonian"{% ifequal preferences.language "estonian" %} selected{% endifequal %}>{{ str.lang_estonian }}</option>
                     <option value="english"{% ifequal preferences.language "english" %} selected{% endifequal %}>{{ str.lang_english }}</option>
@@ -58,11 +58,11 @@
                 </select><br />
             </div>
         </div>
-        <div class="table_row">
-            <div class="header_cell">
+        <div class="row">
+            <div class="header">
                 {{ str.timezone }}:
             </div>
-            <div class="table_cell">
+            <div class="cell">
                 <select id="timezone" name="timezone" class="autosave">
                     {% for tz in timezones %}
                     <option value="{{ tz }}"{% ifequal preferences.timezone tz %} selected{% endifequal %}>{{ tz }}</option>

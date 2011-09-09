@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 def translation():
@@ -8,11 +7,11 @@ def translation():
         'add_new': 'Добавить',
         'authors': 'Авторы',
         'catalog': 'Каталог',
-        'copy_barcode':         'Vöötkood',
-        'copy_date':            'Sissekande kpv',
-        'copy_number':          'Inventarinumber',
-        'copy_price':           'Hind',
-        'copy_quantity':        'Kogus',
+        'copy_barcode': 'Штрихкод',
+        'copy_date': 'Число',
+        'copy_number': 'Инвентарный номер',
+        'copy_price': 'Цена',
+        'copy_quantity': 'Количество',
         'create_personal_library': 'Создайте личную библиотеку',
         'created': 'Создано',
         'debtors': 'Должники',
