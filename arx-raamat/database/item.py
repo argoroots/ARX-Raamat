@@ -100,6 +100,12 @@ class Copy(ChangeLogModel):
     added_datetime  = db.DateTimeProperty(auto_now_add=True)
     added_by        = db.UserProperty(auto_current_user_add=True)
     library         = db.ReferenceProperty(Library, collection_name='copies')
+    item            = db.ReferenceProperty(Item, collection_name='copies')
+    number          = db.StringProperty()
+    date            = db.DateProperty(auto_now_add=True)
+    barcode         = db.StringProperty()
+    price           = db.FloatProperty(default=0.0)
+    note            = db.StringProperty()
 
 
 class TagType(ChangeLogModel):

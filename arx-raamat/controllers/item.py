@@ -7,24 +7,39 @@ from importers import *
 
 
 class ShowItem(boRequestHandler):
-    def get(self, id, page = ''):
-
-        if page not in ['', 'copies', 'lending']:
-            page = ''
-
+    def get(self, id):
         tagtypes = TagType().GetPublic()
         item = Item().get_by_id(int(id))
 
         nav = [
-            {'url': '/item/' + str(id), 'name': Translate('item_info'), 'selected': (page == '')},
-            {'url': '/item/' + str(id) + '/copies', 'name': Translate('item_copies'), 'selected': (page == 'copies')},
-            {'url': '/item/' + str(id) + '/lending', 'name': Translate('lending'), 'selected': (page == 'lending')},
+            {'url': '/item/' + str(id), 'name': Translate('item_info'), 'selected': True},
+            {'url': '/item/' + str(id) + '/copies', 'name': Translate('item_copies')},
+            #{'url': '/item/' + str(id) + '/lending', 'name': Translate('lending')},
         ]
 
         self.view(item.displayname, 'catalog/catalog.html', {
             'image': item.image,
             'nav': nav,
             'item': item,
+        })
+
+
+class ShowCopies(boRequestHandler):
+    def get(self, id):
+        tagtypes = TagType().GetPublic()
+        item = Item().get_by_id(int(id))
+        copies = db.Query(Copy).filter('item', item).filter('library', Person().current_library.key())
+
+        nav = [
+            {'url': '/item/' + str(id), 'name': Translate('item_info')},
+            {'url': '/item/' + str(id) + '/copies', 'name': Translate('item_copies'), 'selected': True},
+            #{'url': '/item/' + str(id) + '/lending', 'name': Translate('lending')},
+        ]
+
+        self.view(item.displayname, 'catalog/catalog.html', {
+            'image': item.image,
+            'nav': nav,
+            'copies': copies,
         })
 
 
@@ -49,6 +64,13 @@ class AddNewItem(boRequestHandler):
             item.libraries = AddToList(Person().current_library.key(), item.libraries)
             item.put()
 
+            copy = db.Query(Copy, keys_only=True).filter('Item', item).filter('Library', Person().current_library.key()).get()
+            if not copy:
+                copy = Copy()
+                copy.library = Person().current_library.key()
+                copy.item = item
+                copy.put()
+            
             self.echo('/item/' + str(item.key().id()))
 
 
@@ -86,7 +108,7 @@ def main():
              ('/item/add', AddNewItem),
              ('/item/searchfornew', SearchForNew),
              (r'/item/imagebyisbn/(.*)', ImageByIsbn),
-             (r'/item/(.*)/(.*)', ShowItem),
+             (r'/item/(.*)/copies', ShowCopies),
              (r'/item/(.*)', ShowItem),
             ])
 

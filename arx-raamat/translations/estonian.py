@@ -60,4 +60,8 @@ def translation():
         'user':                 'Kasutaja',
         'user_preferences':     'Kasutaja seaded',
         'welcome':              'Tere tulemast',
+        'copy_number':          'Inventarinumber',
+        'copy_barcode':         'Vöötkood',
+        'copy_date':            'Sissekande kpv',
+        'copy_price':           'Hind',
     }

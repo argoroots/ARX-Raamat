@@ -25,11 +25,11 @@ footer{padding:10px;text-align:center;white-space:nowrap;font-size:11px;font-fam
 #signupform input.error{border:1px solid #CC0000;}
 #signupform_submit{width:200px;margin:20px auto;padding:10px 20px;text-align:center;1text-transform:uppercase;font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;font-size:13px;font-weight:bold;letter-spacing:1px;color:#FFFFFF;cursor:pointer;background:#0e81c5 url('/images/slickmap/white-highlight.png') top left repeat-x;1border:1px solid #b9b9b9;-moz-border-radius:5px;-webkit-border-radius:5px;box-shadow:#CCCCCC 1px 2px 3px;-moz-box-shadow:#CCCCCC 1px 2px 3px;-webkit-box-shadow:#CCCCCC 1px 2px 3px;}#signupform_submit :hover{color:#FFFFFF;}
 #signupform_submit :active{position:relative;top:1px;color:#FFFFFF;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;}
-.table,.vertical_table{display:table;margin:20px 0px;width:100%;}
-.table_row{display:table-row;}
-.table_row:nth-child(even){background:white;}
-.table .table_row:nth-child(odd){background:#E9F4FA;}
-.vertical_table .header_cell{text-align:right;font-weight:bold;}
-.table_cell{display:table-cell;padding:5px 10px;}
+.h-table{display:table;margin:20px 0px;width:100%;}.h-table .row{display:table-row;}.h-table .row .cell,.h-table .row .header{display:table-cell;padding:5px 10px;vertical-align:middle;}
+.h-table .row .header{font-weight:bold;background:#FFFFFF;border-bottom:1px solid #b9b9b9;}
+.h-table .row:nth-child(even){background:white;}
+.h-table .row:nth-child(odd){background:#E9F4FA;}
+.v-table{display:table;margin:20px 0px;width:100%;}.v-table .row{display:table-row;}.v-table .row .cell,.v-table .row .header{display:table-cell;padding:5px 5px;}
+.v-table .row .header{text-align:right;font-weight:bold;}
 .button{width:200px;margin:20px auto;padding:5px 10px 4px 10px;text-align:center;text-transform:uppercase;font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;font-size:12px;white-space:nowrap;letter-spacing:1px;color:#FFFFFF;cursor:pointer;background:#6DA00B;-moz-border-radius:4px;-webkit-border-radius:4px;box-shadow:#CCCCCC 1px 2px 3px;-moz-box-shadow:#CCCCCC 1px 2px 3px;-webkit-box-shadow:#CCCCCC 1px 2px 3px;}
 #facebook{float:right;margin:5px 0px 0px 25px;background:#F9F9F9;border:none;overflow:hidden;width:250px;height:450px;border:none;overflow:hidden;}

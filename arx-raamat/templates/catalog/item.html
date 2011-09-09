@@ -1,17 +1,17 @@
 {% regroup item.tags3|dictsort:"tagtype_displayname" by tagtype_displayname as tags %}
 
-<div class="vertical_table" style="width">
+<div class="v-table" style="width">
     {% for tag in tags %}
     {% ifequal tag.tagtype_is_visible True %}
-    <div class="table_row">
-        <div class="header_cell" style="width:170px;">
+    <div class="row">
+        <div class="header" style="width:170px;">
             {% if tag.tagtype_url %}
                 <a href="/catalog/{{ tag.tagtype_url }}">{{ tag.grouper }}</a>:
             {% else %}
                 {{ tag.grouper }}:
             {% endif %}
         </div>
-        <div class="table_cell" style="width:100%;">
+        <div class="cell" style="width:100%;">
             {% for t in tag.list|dictsort:"displayname" %}
                 {% if t.tagtype_show_in_catalog %}<a href="/catalog/{{ t.tagtype_name }}/{{ t.id }}">{{ t.displayname }}{% if t.note %} ({{ t.note }}){% endif %}</a>{% else %}{{ t.value }}{% endif %}{% if forloop.last %}{% else %}; {% endif %}{% endfor %}
         </div>

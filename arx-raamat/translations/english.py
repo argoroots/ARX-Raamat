@@ -59,5 +59,8 @@ def translation():
         'udk':                  'UDC',
         'user':                 'User',
         'user_preferences':     'User preferences',
-        'welcome':              'Welcome',
+        'copy_number':          'Number',
+        'copy_barcode':         'Barcode',
+        'copy_date':            'Date',
+        'copy_price':           'Price',
 }

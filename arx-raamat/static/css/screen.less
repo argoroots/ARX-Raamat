@@ -344,33 +344,56 @@ footer {
 
 /* TABLE */
 
-.table, .vertical_table {
+.h-table {
     display: table;
     margin: 20px 0px;
     width: 100%;
+
+    .row {
+        display: table-row;
+
+        .cell, .header {
+            display: table-cell;
+            padding: 5px 10px;
+            vertical-align: middle;
+        }
+
+        .header {
+            font-weight: bold;
+            background: #FFFFFF;
+            border-bottom: 1px solid @bordercolor;
+        }
+
+        &:nth-child(even) {
+            background: white;
+        }
+
+        &:nth-child(odd) {
+            background: #E9F4FA;
+        }
+    }
 }
 
-.table_row {
-    display: table-row;
+.v-table {
+    display: table;
+    margin: 20px 0px;
+    width: 100%;
+
+    .row {
+        display: table-row;
+
+        .cell, .header {
+            display: table-cell;
+            padding: 5px 5px;
+        }
+
+        .header {
+            text-align: right;
+            font-weight: bold;
+        }
+    }
 }
 
-.table_row:nth-child(even) {
-    background: white;
-}
-
-.table .table_row:nth-child(odd) {
-    background: #E9F4FA;
-}
-
-.vertical_table .header_cell {
-    text-align: right;
-    font-weight: bold;
-}
-
-.table_cell {
-    display: table-cell;
-    padding: 5px 10px;
-}
 
 
 
