@@ -19,6 +19,7 @@ def translation():
         'debtors':              'Debtors',
         'edition':              'Edition',
         'email':                'Email',
+        'edit':                 'Edit',
         'forename':             'Forename',
         'groups':               'Groups',
         'inventory':            'Inventory',

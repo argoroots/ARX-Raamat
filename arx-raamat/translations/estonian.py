@@ -17,7 +17,7 @@ def translation():
         'create_personal_library': 'Loo isiklik raamatukogu',
         'created':              'Loodud',
         'debtors':              'Võlglased',
-        'edition':              'edition',
+        'edit':                 'Muuda',
         'email':                'Email',
         'forename':             'Eesnimi',
         'groups':               'Grupid',

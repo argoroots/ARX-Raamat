@@ -15,24 +15,49 @@
         <div class="header" style="text-align:right;">
             {{ str.copy_quantity }}
         </div>
+        <div class="header" style="text-align:right;">
+        </div>
     </div>
     {% for c in copies %}
     <div class="row">
         <div class="cell">
-            {{ c.number|default:"" }}
+            <span>{{ c.number|default:"" }}</span>
+            <input value="{{ c.number|default:"" }}" style="display:none; width:100%;" />
         </div>
         <div class="cell">
-            {{ c.barcode|default:"" }}
+            <span>{{ c.barcode|default:"" }}</span>
+            <input value="{{ c.barcode|default:"" }}" style="display:none; width:100%;" />
         </div>
         <div class="cell" style="text-align:center;">
-            {{ c.date|date:"d.m.Y" }}
+            <span>{{ c.date|date:"d.m.Y" }}</span>
+            <input value="{{ c.date|date:"d.m.Y" }}" style="display:none; width:100%;" maxlength="10" />
         </div>
         <div class="cell" style="text-align:right;">
-            {{ c.price }}
+            <span>{{ c.price }}</span>
+            <input value="{{ c.price }}" style="display:none; width:100%; text-align:right;" />
         </div>
         <div class="cell" style="text-align:right;">
-            {{ c.quantity }}
+            <span>{{ c.quantity }}</span>
+            <input value="{{ c.quantity }}" style="display:none; width:100%; text-align:right;" />
+        </div>
+        <div class="cell" style="text-align:right;">
+            <img class="edit" data-key="{{ c.key }}" src="/images/pencil32.png" style="vertical-align:middle; width:16px; height:16px; cursor:pointer;" title="{{ str.edit }}" />
+            <img class="save" data-key="{{ c.key }}" src="/images/check32.png" style="vertical-align:middle; width:16px; height:16px; cursor:pointer; display:none;" title="{{ str.save }}" />
         </div>
     </div>
     {% endfor %}
 </div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("img.edit").click(function() {
+            $("div.cell input").hide();
+            $("div.cell span").show();
+            $(this).parent().parent().find('span').hide();
+            $(this).parent().parent().find('input').show();
+            $('img.save').hide();
+            $('img.edit').show();
+            $(this).parent().find('img.edit').hide();
+            $(this).parent().find('img.save').show();
+        });
+    });
+</script>
