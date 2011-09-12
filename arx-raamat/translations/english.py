@@ -17,6 +17,7 @@ def translation():
         'create_personal_library': 'Create a personal library',
         'created':              'Created',
         'debtors':              'Debtors',
+        'delete':               'Delete',
         'edition':              'Edition',
         'email':                'Email',
         'edit':                 'Edit',

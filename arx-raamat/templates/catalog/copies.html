@@ -1,6 +1,8 @@
 <div class="h-table">
     <div class="row">
         <div class="header">
+        </div>
+        <div class="header">
             {{ str.copy_number }}
         </div>
         <div class="header">
@@ -15,34 +17,37 @@
         <div class="header" style="text-align:right;">
             {{ str.copy_quantity }}
         </div>
-        <div class="header" style="text-align:right;">
+        <div class="header">
         </div>
     </div>
     {% for c in copies %}
     <div class="row">
+        <div class="cell" style="">
+            <img class="delete toolbar" data-key="{{ c.key }}" src="/images/minus32.png" style="display:none;" title="{{ str.delete }}" />
+        </div>
         <div class="cell">
             <span>{{ c.number|default:"" }}</span>
-            <input value="{{ c.number|default:"" }}" style="display:none; width:100%;" />
+            <input value="{{ c.number|default:"" }}" style="display:none; width:140px;" />
         </div>
         <div class="cell">
             <span>{{ c.barcode|default:"" }}</span>
-            <input value="{{ c.barcode|default:"" }}" style="display:none; width:100%;" />
+            <input value="{{ c.barcode|default:"" }}" style="display:none; width:170px;" />
         </div>
         <div class="cell" style="text-align:center;">
             <span>{{ c.date|date:"d.m.Y" }}</span>
-            <input value="{{ c.date|date:"d.m.Y" }}" style="display:none; width:100%;" maxlength="10" />
+            <input value="{{ c.date|date:"d.m.Y" }}" style="display:none; width:116px;" maxlength="10" />
         </div>
         <div class="cell" style="text-align:right;">
             <span>{{ c.price }}</span>
-            <input value="{{ c.price }}" style="display:none; width:100%; text-align:right;" />
+            <input value="{{ c.price }}" style="display:none; width:90px; text-align:right;" />
         </div>
         <div class="cell" style="text-align:right;">
             <span>{{ c.quantity }}</span>
-            <input value="{{ c.quantity }}" style="display:none; width:100%; text-align:right;" />
+            <input value="{{ c.quantity }}" style="display:none; width:50px; text-align:right;" />
         </div>
         <div class="cell" style="text-align:right;">
-            <img class="edit" data-key="{{ c.key }}" src="/images/pencil32.png" style="vertical-align:middle; width:16px; height:16px; cursor:pointer;" title="{{ str.edit }}" />
-            <img class="save" data-key="{{ c.key }}" src="/images/check32.png" style="vertical-align:middle; width:16px; height:16px; cursor:pointer; display:none;" title="{{ str.save }}" />
+            <img class="edit toolbar" data-key="{{ c.key }}" src="/images/pencil32.png" style="" title="{{ str.edit }}" />
+            <img class="save toolbar" data-key="{{ c.key }}" src="/images/check32.png" style="display:none;" title="{{ str.save }}" />
         </div>
     </div>
     {% endfor %}
@@ -55,9 +60,11 @@
             $(this).parent().parent().find('span').hide();
             $(this).parent().parent().find('input').show();
             $('img.save').hide();
+            $('img.delete').hide();
             $('img.edit').show();
             $(this).parent().find('img.edit').hide();
             $(this).parent().find('img.save').show();
+            $(this).parent().parent().find('img.delete').show();
         });
     });
 </script>
