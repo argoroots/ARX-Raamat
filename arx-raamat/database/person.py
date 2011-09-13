@@ -8,6 +8,7 @@ class Library(ChangeLogModel):
     model_version   = db.StringProperty(default='A')
     added_datetime  = db.DateTimeProperty(auto_now_add=True)
     added_by        = db.UserProperty(auto_current_user_add=True)
+    is_deleted      = db.BooleanProperty(default=False)
     name            = db.StringProperty()
     note            = db.TextProperty()
 
@@ -16,6 +17,7 @@ class Group(ChangeLogModel):
     model_version   = db.StringProperty(default='A')
     added_datetime  = db.DateTimeProperty(auto_now_add=True)
     added_by        = db.UserProperty(auto_current_user_add=True)
+    is_deleted      = db.BooleanProperty(default=False)
     library         = db.ReferenceProperty(Library, collection_name='groups')
     name            = db.StringProperty(default='')
     note            = db.TextProperty(default='')
@@ -25,6 +27,7 @@ class Person(ChangeLogModel):
     model_version   = db.StringProperty(default='A')
     added_datetime  = db.DateTimeProperty(auto_now_add=True)
     added_by        = db.UserProperty(auto_current_user_add=True)
+    is_deleted      = db.BooleanProperty(default=False)
     libraries       = db.ListProperty(db.Key)
     user            = db.UserProperty()
     forename        = db.StringProperty(default='')
