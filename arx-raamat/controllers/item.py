@@ -1,4 +1,5 @@
 from urllib import unquote
+from datetime import datetime
 
 from bo import *
 from database.person import *
@@ -28,7 +29,7 @@ class ShowCopies(boRequestHandler):
     def get(self, id):
         tagtypes = TagType().GetPublic()
         item = Item().get_by_id(int(id))
-        copies = db.Query(Copy).filter('item', item).filter('library', Person().current_library.key())
+        copies = db.Query(Copy).filter('item', item).filter('library', Person().current_library)
 
         nav = [
             {'url': '/item/' + str(id), 'name': Translate('item_info')},
@@ -41,6 +42,23 @@ class ShowCopies(boRequestHandler):
             'nav': nav,
             'copies': copies,
         })
+
+    def post(self, id):
+        copy_key = self.request.get('copy').strip()
+        number = self.request.get('number').strip()
+        barcode = self.request.get('barcode').strip()
+        date = self.request.get('date').strip()
+        price = self.request.get('price').strip()
+        quantity = self.request.get('quantity', 1).strip()
+        if copy_key:
+            copy = Copy().get(copy_key)
+            if copy and copy.library.key() == Person().current_library.key():
+                copy.number = number
+                copy.barcode = barcode
+                copy.date = datetime.strptime(date, '%d.%m.%Y').date() if date else None
+                copy.price = float(price) if price else 0.0
+                copy.quantity = int(quantity) if quantity else 1
+                copy.put()
 
 
 class AddNewItem(boRequestHandler):
@@ -70,7 +88,7 @@ class AddNewItem(boRequestHandler):
                 copy.library = Person().current_library.key()
                 copy.item = item
                 copy.put()
-            
+
             self.echo('/item/' + str(item.key().id()))
 
 

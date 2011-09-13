@@ -26,24 +26,19 @@
             <img class="delete toolbar" data-key="{{ c.key }}" src="/images/minus32.png" style="display:none;" title="{{ str.delete }}" />
         </div>
         <div class="cell">
-            <span>{{ c.number|default:"" }}</span>
-            <input value="{{ c.number|default:"" }}" style="display:none; width:140px;" />
+            <input name="number" value="{{ c.number|default:"" }}" style="display:none; width:140px;" /><span></span>
         </div>
         <div class="cell">
-            <span>{{ c.barcode|default:"" }}</span>
-            <input value="{{ c.barcode|default:"" }}" style="display:none; width:170px;" />
+            <input name="barcode" value="{{ c.barcode|default:"" }}" style="display:none; width:170px;" /><span></span>
         </div>
         <div class="cell" style="text-align:center;">
-            <span>{{ c.date|date:"d.m.Y" }}</span>
-            <input value="{{ c.date|date:"d.m.Y" }}" style="display:none; width:116px;" maxlength="10" />
+            <input name="date" value="{{ c.date|date:"d.m.Y" }}" style="display:none; width:116px;"/><span></span>
         </div>
         <div class="cell" style="text-align:right;">
-            <span>{{ c.price }}</span>
-            <input value="{{ c.price }}" style="display:none; width:90px; text-align:right;" />
+            <input name="price" value="{{ c.price|floatformat:2 }}" style="display:none; width:90px; text-align:right;" /><span></span>
         </div>
         <div class="cell" style="text-align:right;">
-            <span>{{ c.quantity }}</span>
-            <input value="{{ c.quantity }}" style="display:none; width:50px; text-align:right;" />
+            <input name="quantity" value="{{ c.quantity }}" style="display:none; width:50px; text-align:right;" /><span></span>
         </div>
         <div class="cell" style="text-align:right;">
             <img class="edit toolbar" data-key="{{ c.key }}" src="/images/pencil32.png" style="" title="{{ str.edit }}" />
@@ -54,9 +49,12 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function(){
-        $("img.edit").click(function() {
-            $("div.cell input").hide();
-            $("div.cell span").show();
+        $('input').each(function() {
+            $(this).next('span').html($(this).val());
+        });
+        $('img.edit').click(function() {
+            $('div.cell input').hide();
+            $('div.cell span').show();
             $(this).parent().parent().find('span').hide();
             $(this).parent().parent().find('input').show();
             $('img.save').hide();
@@ -65,6 +63,24 @@
             $(this).parent().find('img.edit').hide();
             $(this).parent().find('img.save').show();
             $(this).parent().parent().find('img.delete').show();
+        });
+        $('img.save').click(function() {
+            data = {};
+            data['copy'] = $(this).data('key');
+            $(this).parent().parent().find('input').each(function() {
+                data[$(this).attr('name')] = $(this).val();
+                $(this).next('span').html($(this).val());
+            });
+            $.post('/item/0/copies', data, function(data) {
+                $('div.cell span').show();
+                $('div.cell input').hide();
+                $('img.save').hide();
+                $('img.delete').hide();
+                $('img.edit').show();
+            });
+        });
+        $('img.delete').click(function() {
+            $(this).parent().parent().remove();
         });
     });
 </script>
