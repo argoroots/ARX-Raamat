@@ -35,6 +35,7 @@ class ShowItems(boRequestHandler):
         tag = Tag().get_by_id(int(id))
 
         items = db.Query(Item)
+        items.filter('libraries', Person().current_library.key())
         items.filter('tags', tag.key())
         items.order('title')
         items.fetch(1000)

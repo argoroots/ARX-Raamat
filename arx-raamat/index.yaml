@@ -38,6 +38,7 @@ indexes:
 
 - kind: Item
   properties:
+  - name: libraries
   - name: tags
   - name: title
 
