@@ -108,7 +108,7 @@ class Copy(ChangeLogModel):
     barcode         = db.StringProperty()
     price           = db.FloatProperty(default=0.0)
     quantity        = db.IntegerProperty(default=1)
-    note            = db.StringProperty()
+    note            = db.TextProperty()
 
 
 class TagType(ChangeLogModel):

@@ -50,6 +50,7 @@ class ShowCopies(boRequestHandler):
         date = self.request.get('date').strip()
         price = self.request.get('price').strip()
         quantity = self.request.get('quantity', 1).strip()
+        note = self.request.get('note').strip()
         if copy_key:
             copy = Copy().get(copy_key)
             if copy and copy.library.key() == Person().current_library.key():
@@ -58,6 +59,7 @@ class ShowCopies(boRequestHandler):
                 copy.date = datetime.strptime(date, '%d.%m.%Y').date() if date else None
                 copy.price = float(price) if price else 0.0
                 copy.quantity = int(quantity) if quantity else 1
+                copy.note = note
                 copy.put()
 
 
