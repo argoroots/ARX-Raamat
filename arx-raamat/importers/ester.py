@@ -43,24 +43,39 @@ MARCMAP = {
 
 def EsterSearch(search_term):
     items = []
-    if (len(search_term) == 10 or len(search_term) == 13) and search_term.isdigit():
+    id = None
+    search_isbn = False
+    
+    if len(search_term) == 10 and search_term.isdigit():
+        search_isbn = True
+    if len(search_term) == 10 and search_term[:9].isdigit():
+        search_isbn = True
+    if len(search_term) == 13 and search_term.isdigit():
+        search_isbn = True
+
+    if search_isbn == True:
         soup = BeautifulSoup(urlfetch.fetch('http://tallinn.ester.ee/search*est/i?SEARCH='+search_term+'&searchscope=1&SUBMIT=OTSI', deadline=60).content)
         id = soup.find('a', attrs={'id': 'recordnum'})['href'].replace('http://tallinn.ester.ee/record=', '').replace('~S1', '').replace('*est', '').strip()
         items.append(EsterGetByID(id))
     else:
         soup = BeautifulSoup(urlfetch.fetch('http://tallinn.ester.ee/search*est/X?SEARCH='+quote(search_term.encode('utf-8'))+'&searchscope=1&SUBMIT=OTSI', deadline=60).content)
-        for i in soup.findAll('table', attrs={'class': 'browseList'}):
-            cells = i.findAll('td')
-            id = cells[0].input['value'].strip()
-            title = cells[1].span.a.contents[0].strip()
-            isbn = cells[1].find(text='ISBN/ISSN').next.strip(':&nbsp;\n ').strip()
-            year = cells[4].contents[0].strip()
-            items.append({
-                'id': id,
-                'isbn': [{'value': isbn}],
-                'title': [{'value': title}],
-                'publishing_date': [{'value': year}],
-            })
+        id = soup.find('a', attrs={'id': 'recordnum'})
+        if id:
+            id = id['href'].replace('http://tallinn.ester.ee/record=', '').replace('~S1', '').replace('*est', '').strip()
+            items.append(EsterGetByID(id))
+        else:
+            for i in soup.findAll('table', attrs={'class': 'browseList'}):
+                cells = i.findAll('td')
+                id = cells[0].input['value'].strip()
+                title = cells[1].span.a.contents[0].strip()
+                isbn = cells[1].find(text='ISBN/ISSN').next.strip(':&nbsp;\n ').strip()
+                year = cells[4].contents[0].strip()
+                items.append({
+                    'id': id,
+                    'isbn': [{'value': isbn}],
+                    'title': [{'value': title}],
+                    'publishing_date': [{'value': year}],
+                })
 
     return items
 
