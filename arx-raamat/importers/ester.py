@@ -43,7 +43,16 @@ MARCMAP = {
 
 def EsterSearch(search_term):
     items = []
-    if (len(search_term) == 10 or len(search_term) == 13) and search_term.isdigit():
+    search_isbn = False
+    
+    if len(search_term) == 10 and search_term.isdigit():
+        search_isbn = True
+    if len(search_term) == 10 and search_term[:9].isdigit():
+        search_isbn = True
+    if len(search_term) == 13 and search_term.isdigit():
+        search_isbn = True
+
+    if search_isbn == True:
         soup = BeautifulSoup(urlfetch.fetch('http://tallinn.ester.ee/search*est/i?SEARCH='+search_term+'&searchscope=1&SUBMIT=OTSI', deadline=60).content)
         id = soup.find('a', attrs={'id': 'recordnum'})['href'].replace('http://tallinn.ester.ee/record=', '').replace('~S1', '').replace('*est', '').strip()
         items.append(EsterGetByID(id))
