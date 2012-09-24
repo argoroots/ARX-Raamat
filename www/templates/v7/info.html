@@ -1,0 +1,69 @@
+{% extends '../index.html' %}
+
+{% block content %}
+
+<section id="wide_content"">
+
+    <p style="margin:5px;">ARX-Raamat 7 on MS Windows keskkonnas töötav raamatukogu infosüsteem, millega on võimalik teostada kõiki raamatukogus vajalikke operatsioone (andmete haldamine, laenutus, mahakandmine, statistika jm). Kuigi ARX-Raamat sisaldab spetsiaalselt kooliraamatukogu tööks vajalike osi (nt õpikute ja töövihikute haldamine), on seda võimalik edukalt kasutada ka muudes raamatukogudes.</p>
+
+    <h2>Ülevaade</h2>
+    <p style="margin:5px;"><b>Andmed:</b><br>ARX-Raamatu andmebaasi fond jaguneb raamatute, õpikute, perioodika, audio-video, töövihikute ja metoodilise kirjanduse vahel. Lisaks on andmed autorite, kirjastuste, liikide jm kohta. Võimalik (ja laenutamise jaoks vajalik) on sisestada andmed ka lugejate kohta. Lugejad saab jagada klassidesse. Andmeid on võimalik lisada, muuta, kustutada ja dubleerida. Samuti kõikide väljade järgi sorteerida, otsida ja filtreerida.<br><br><b>Toimingud:</b><br>Programm võimaldab lugejatele välja laenutada (ja jälle raamatukokku tagastada) kõiki fondis olevaid teavikuid. Saab vaadata ja välja trükkida võlglaste nimekirja või vaadata kelle käes on mingi raamat, õpik vm. teavik. Saab vaadata igapäevast laenutusstatistikat nii klasside kui ka meedia liikide kaupa ning vaadata muid statistilisi andmeid. Lisaks on võimalik teostada mahakandmist.</p>
+
+    <h2>Ekraanivaated</h2>
+    <p  style="margin:10px 0px; text-align:center;">
+        <a class="screenshots" rel="group1" href="{{ static_url('images/login.jpg') }}" title="Programmi sisenemine" style="margin:2px;"><img src="{{ static_url('images/login_small.jpg') }}" height="90" alt=""></a>
+        <a class="screenshots" rel="group1" href="{{ static_url('images/fond.jpg') }}" title="Raamatute fond" style="margin:2px;"><img src="{{ static_url('images/fond_small.jpg') }}" height="90" alt=""></a>
+        <a class="screenshots" rel="group1" href="{{ static_url('images/eksport.jpg') }}" title="Andmete eksport" style="margin:2px;"><img src="{{ static_url('images/eksport_small.jpg') }}" height="90" alt=""></a>
+        <a class="screenshots" rel="group1" href="{{ static_url('images/mahakandmine.jpg') }}" title="Mahakandmine" style="margin:2px;"><img src="{{ static_url('images/mahakandmine_small.jpg') }}" height="90" alt=""></a>
+        <a class="screenshots" rel="group1" href="{{ static_url('images/laenutus.jpg') }}" title="Laenutused" style="margin:2px;"><img src="{{ static_url('images/laenutus_small.jpg') }}" height="90" alt=""></a>
+        <a class="screenshots" rel="group1" href="{{ static_url('images/laenutus_lugeja.jpg') }}" title="Laenutuse 1. samm: Lugeja otsing" style="margin:2px;"><img src="{{ static_url('images/laenutus_lugeja_small.jpg') }}" height="90" alt=""></a>
+        <a class="screenshots" rel="group1" href="{{ static_url('images/laenutus_RA.jpg') }}" title="Laenutuse 2. samm: Raamatu otsing" style="margin:2px;"><img src="{{ static_url('images/laenutus_RA_small.jpg') }}" height="90" alt=""></a>
+        <a class="screenshots" rel="group1" href="{{ static_url('images/laenutus_OP.jpg') }}" title="Laenutuse 2. samm: Õpiku otsing" style="margin:2px;"><img src="{{ static_url('images/laenutus_OP_small.jpg') }}" height="90" alt=""></a>
+        <a class="screenshots" rel="group1" href="{{ static_url('images/laenutus_kinnitus.jpg') }}" title="Laenutuse 3. samm: Kinnitamine" style="margin:2px;"><img src="{{ static_url('images/laenutus_kinnitus_small.jpg') }}" height="90" alt=""></a>
+    </p>
+
+    <h2>Installeerimine</h2>
+    <ol style="margin:5px;  padding-left:20px; list-style-type: decimal;">
+        <li style="color:red;"><b>NB!</b> Kui Teie arvutisse on juba installeeritud ARX-Raamat, siis <b>tehke vanast andmebaasist enne installeerimist varukoopia!</b> Installeerides ARX-Raamatu samasse kataloogi, kustutatakse olemasolev andmebaas. </li>
+        <li>Tõmmake enda arvutisse <a href="/static/ARX-Raamat7_Setup.exe">ARX-Raamatu install</a> ja installeerige programm</li>
+        <li>ARX-Raamatu käivitamisel avanevas "Demo" aknast täitke registreerimisvorm ja edastage see interneti teel</li>
+        <li>Tõmmake enda arvutisse <a href="/static/ARX-Raamat7_Voti.exe">Võtmefaili generaator</a> ja genereerige võtmefail</li>
+        <li>Salvestage võtmefail 'Raamat.dll' programmi kataloogi (tavaliselt 'C:\Program Files\ARX-Raamat')</li>
+        <li>Käivitage ARX-Raamat (kasutajanimi on 'arx' ja parool on 'q')</li>
+        <li>Lisage programmi seadete alt endale uus kasutaja ja kustutage kasutaja 'arx'</li>
+    </ol>
+
+    <h2>Failid</h2>
+    <div style="margin-top:10px; margin-left:150px; width:200px; text-align:center; float:left;">
+        <a href="/static/ARX-Raamat7_Setup.exe"><img src="{{ static_url('images/icon_install.gif') }}" alt="Install"><br><b>ARX-Raamatu install</b></a><br>5.74 MB
+    </div>
+    <div style="margin-top:10px; width:200px; text-align:center; float:left;">
+        <a href="/static/ARX-Raamat7_Voti.exe"><img src="{{ static_url('images/icon_voti.gif') }}" alt="PDF"><br><b>Võtmefaili generaator</b></a><br>28 KB
+    </div>
+    <div style="margin-top:10px; width:200px; text-align:center; float:left;">
+        <a href="/static/ARX-Raamat7_Kasutusjuhend.pdf"><img src="{{ static_url('images/icon_pdf.gif') }}" alt="PDF"><br><b>Kasutusjuhend</b></a><br>625 KB
+    </div>
+
+    <h2 style="clear:both;">Kontaktandmed</h2>
+    <p style="margin:5px;"><b>Telefon:</b><br>+372 5663 0526<br><br><b>E-post:</b><br><script type="text/javascript">//<![CDATA[
+var l=new Array(); l[0]='>';l[1]='a';l[2]='/';l[3]='<';l[4]='|101';l[5]='|101';l[6]='|46';l[7]='|120';l[8]='|114';l[9]='|97';l[10]='|64';l[11]='|111';l[12]='|102';l[13]='|110';l[14]='|105';l[15]='>';l[16]='"';l[17]='|101';l[18]='|101';l[19]='|46';l[20]='|120';l[21]='|114';l[22]='|97';l[23]='|64';l[24]='|111';l[25]='|102';l[26]='|110';l[27]='|105';l[28]=':';l[29]='o';l[30]='t';l[31]='l';l[32]='i';l[33]='a';l[34]='m';l[35]='"';l[36]='=';l[37]='f';l[38]='e';l[39]='r';l[40]='h';l[41]=' ';l[42]='a';l[43]='<'; for (var i = l.length-1; i >= 0; i=i-1){if (l[i].substring(0, 1) == '|') document.write("&#"+unescape(l[i].substring(1))+";"); else document.write(unescape(l[i]));}
+//]]></script></p>
+
+    <h2 style="clear:both; color:red; border:none; text-align:center; font-size:16px; text-transform:none;">ARX-Raamat 7 on kõigile tasuta!</h1>
+
+</section>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("a.screenshots").fancybox({
+            'transitionIn':     'elastic',
+            'transitionOut':    'elastic',
+            'speedIn':          600,
+            'speedOut':         200,
+            'overlayShow':      true,
+            'titlePosition':    'over',
+            'padding':          0,
+        });
+    });
+</script>
+{% end %}

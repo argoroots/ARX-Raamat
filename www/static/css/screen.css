@@ -1,0 +1,36 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ul,fieldset,form,label,legend,input,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;list-style:none;}
+header,footer,aside,nav,article,section{display:block;}
+body{margin:0 auto;padding:0px;width:940px;font-family:Georgia,Times,serif;font-size:14px;text-align:left;line-height:1.5;color:#454a4e;background:#e8e8e8 url('/static/images/bg.png?v=xyZ');}
+input,textarea{padding:3px;font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;font-size:13px;border:1px solid #b9b9b9;height:auto;}
+label{display:block;font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;font-size:13px;text-transform:uppercase;letter-spacing:1px;height:auto;}
+a{color:#6DA00B;text-decoration:none;}a :hover{text-decoration:underline;}
+h1,h1 a,h1 a:hover,h1 a:active,h1 a:visited{font-size:24px;font-weight:bold;color:#525252;}
+h2,h2 a,h2 a:hover,h2 a:active,h2 a:visited{padding-top:20px;font-size:14px;font-weight:bold;text-transform:uppercase;text-decoration:none;color:gray;border-bottom:1px solid #B9B9B9;}
+header{padding:20px 10px 0px 10px;}header h1{font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;text-shadow:rgba(255, 255, 255, 0.796875) 0px 1px 0px;display:inline;line-height:27px;}header h1 a{color:#525252;}header h1 a :hover{text-decoration:none;}
+header nav{padding:0px 0px 3px 0px;display:block;}
+#page{padding:0px;width:100%;display:table;min-height:400px;background:#FFFFFF right top;background-repeat:no-repeat;border:1px solid #b9b9b9;box-shadow:#CCCCCC 2px 3px 4px;-moz-box-shadow:#CCCCCC 2px 3px 4px;-webkit-box-shadow:#CCCCCC 2px 3px 4px;}#page h1{display:block;padding-bottom:10px;font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;text-transform:uppercase;text-align:left;color:#616161;font-size:21px;font-weight:200;letter-spacing:2px;}
+#content{width:720px;float:right;display:table-cell;padding:20px;text-align:justify;}
+#wide_content{display:table-cell;padding:20px;text-align:justify;}
+#leftmenu{margin:0px;padding:0px;width:170px;display:table-cell;float:left;}
+#leftmenu ul{margin:20px 0px;}
+#leftmenu a img{display:block;margin:20px auto 0px auto;position:inhe;}
+#leftmenu ul li a{padding:1px 0px 6px 20px;height:19px;display:block;overflow:hidden;}#leftmenu ul li a :hover{font-weight:bold;text-decoration:none;}
+#leftmenu ul .selected a{margin-bottom:5px;padding-top:5px;font-weight:bold;white-space:nowrap;color:#FFFFFF;background-color:#cee3ac;border:1px solid #b8da83;border-left:none;border-right:none;box-shadow:#cccccc -2px 1px 4px;-moz-box-shadow:#cccccc -2px 1px 4px;-webkit-box-shadow:#cccccc -2px 1px 4px;}
+#leftmenu ul .selected a:before{content:" " attr(alt) " ";float:right;margin-top:-5px;width:0;height:0;display:block;border-top:15px solid transparent;border-bottom:15px solid transparent;border-right:15px solid white;}
+footer{padding:10px;text-align:center;white-space:nowrap;font-size:11px;font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;letter-spacing:1px;color:gray;}footer a{white-space:nowrap;color:gray;}
+.dropdown{display:none;position:absolute;top:0px;left:50%;margin-left:-325px;width:650px;margin-bottom:20px;padding:0px;background:#F7F7F7;border:1px solid #b9b9b9;border-top:none;box-shadow:#CCCCCC 2px 3px 4px;-moz-box-shadow:#CCCCCC 2px 3px 4px;-webkit-box-shadow:#CCCCCC 2px 3px 4px;}
+#signupform{margin:20px 0px;padding:10px 20px;display:block;background-color:#cee3ac;border:1px solid #b8da83;}#signupform div{display:table-cell;padding-right:20px;}
+#signupform label,#signupform input{width:264px;}
+#signupform label.error{text-transform:none;font-size:12px;color:#CC0000;}
+#signupform input.error{border:1px solid #CC0000;}
+#signupform_submit{width:200px;margin:20px auto;padding:10px 20px;text-align:center;1text-transform:uppercase;font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;font-size:13px;font-weight:bold;letter-spacing:1px;color:#FFFFFF;cursor:pointer;background:#0e81c5 url('/images/slickmap/white-highlight.png') top left repeat-x;1border:1px solid #b9b9b9;-moz-border-radius:5px;-webkit-border-radius:5px;box-shadow:#CCCCCC 1px 2px 3px;-moz-box-shadow:#CCCCCC 1px 2px 3px;-webkit-box-shadow:#CCCCCC 1px 2px 3px;}#signupform_submit :hover{color:#FFFFFF;}
+#signupform_submit :active{position:relative;top:1px;color:#FFFFFF;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;}
+.h-table{display:table;margin:20px 0px;width:100%;}.h-table .row{display:table-row;}.h-table .row .cell,.h-table .row .header{display:table-cell;padding:5px;vertical-align:middle;}
+.h-table .row .header{font-weight:bold;background:#FFFFFF;border-bottom:1px solid #b9b9b9;white-space:nowrap;}
+.h-table .row:nth-child(even){background:white;}
+.h-table .row:nth-child(odd){background:#E9F4FA;}
+.v-table{display:table;margin:20px 0px;width:100%;}.v-table .row{display:table-row;}.v-table .row .cell,.v-table .row .header{display:table-cell;padding:5px 5px;}
+.v-table .row .header{text-align:right;font-weight:bold;}
+.toolbar{width:16px;height:16px;padding-top:6px;cursor:pointer;}
+.button{width:200px;margin:20px auto;padding:5px 10px 4px 10px;text-align:center;text-transform:uppercase;font-family:HelveticaNeue-Regular,'Helvetica Neue',Helvetica,Arial,Tahoma,Verdana,sans-serif;font-size:12px;white-space:nowrap;letter-spacing:1px;color:#FFFFFF;cursor:pointer;background:#6DA00B;-moz-border-radius:4px;-webkit-border-radius:4px;box-shadow:#CCCCCC 1px 2px 3px;-moz-box-shadow:#CCCCCC 1px 2px 3px;-webkit-box-shadow:#CCCCCC 1px 2px 3px;}
+#facebook{float:right;margin:5px 0px 0px 25px;background:#F9F9F9;border:none;overflow:hidden;width:250px;height:450px;border:none;overflow:hidden;}
