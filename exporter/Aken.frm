@@ -1,11 +1,12 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form Aken 
+   BorderStyle     =   1  'Fixed Single
    Caption         =   "Form1"
-   ClientHeight    =   2925
-   ClientLeft      =   60
-   ClientTop       =   375
-   ClientWidth     =   7230
+   ClientHeight    =   4140
+   ClientLeft      =   45
+   ClientTop       =   360
+   ClientWidth     =   5610
    BeginProperty Font 
       Name            =   "Verdana"
       Size            =   9
@@ -15,20 +16,77 @@ Begin VB.Form Aken
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
+   Icon            =   "Aken.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   2925
-   ScaleWidth      =   7230
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
+   ScaleHeight     =   4140
+   ScaleWidth      =   5610
    StartUpPosition =   3  'Windows Default
+   Begin VB.CheckBox chkLaenutus 
+      Caption         =   "laenutused"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   8.25
+         Charset         =   186
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   210
+      TabIndex        =   12
+      Top             =   3675
+      Value           =   1  'Checked
+      Width           =   2115
+   End
+   Begin VB.CheckBox chkMeedia 
+      Caption         =   "teavikud"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   8.25
+         Charset         =   186
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   210
+      TabIndex        =   11
+      Top             =   3360
+      Value           =   1  'Checked
+      Width           =   1695
+   End
+   Begin VB.CheckBox chkLugeja 
+      Caption         =   "lugejad"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   8.25
+         Charset         =   186
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   210
+      TabIndex        =   10
+      Top             =   3045
+      Value           =   1  'Checked
+      Width           =   1695
+   End
    Begin MSComDlg.CommonDialog FileAccess 
-      Left            =   3285
-      Top             =   90
+      Left            =   2625
+      Top             =   105
       _ExtentX        =   847
       _ExtentY        =   847
       _Version        =   393216
    End
    Begin VB.TextBox txtDatabaseFile 
       Appearance      =   0  'Flat
-      BackColor       =   &H00FFFFFF&
+      BackColor       =   &H8000000F&
       BorderStyle     =   0  'None
       BeginProperty Font 
          Name            =   "Verdana"
@@ -39,17 +97,17 @@ Begin VB.Form Aken
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   285
-      Left            =   1845
+      Height          =   330
+      Left            =   210
       Locked          =   -1  'True
-      TabIndex        =   8
+      TabIndex        =   7
       TabStop         =   0   'False
-      Top             =   945
-      Width           =   5235
+      Top             =   1050
+      Width           =   5160
    End
    Begin VB.TextBox txtLibraryName 
       Appearance      =   0  'Flat
-      BackColor       =   &H00FFFFFF&
+      BackColor       =   &H8000000F&
       BorderStyle     =   0  'None
       BeginProperty Font 
          Name            =   "Verdana"
@@ -60,38 +118,17 @@ Begin VB.Form Aken
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   285
-      Left            =   1845
+      Height          =   330
+      Left            =   210
       Locked          =   -1  'True
-      TabIndex        =   6
+      TabIndex        =   5
       TabStop         =   0   'False
-      Top             =   585
-      Width           =   5235
-   End
-   Begin VB.CheckBox chkDeleteRows 
-      Alignment       =   1  'Right Justify
-      Appearance      =   0  'Flat
-      BackColor       =   &H00FFFFFF&
-      Caption         =   "Delete old rows:"
-      BeginProperty Font 
-         Name            =   "Verdana"
-         Size            =   8.25
-         Charset         =   186
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H80000008&
-      Height          =   285
-      Left            =   135
-      TabIndex        =   4
-      Top             =   1620
-      Width           =   1905
+      Top             =   420
+      Width           =   5160
    End
    Begin VB.TextBox txtExportFile 
       Appearance      =   0  'Flat
-      BackColor       =   &H00FFFFFF&
+      BackColor       =   &H8000000F&
       BorderStyle     =   0  'None
       BeginProperty Font 
          Name            =   "Verdana"
@@ -102,16 +139,18 @@ Begin VB.Form Aken
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   285
-      Left            =   1845
+      Height          =   330
+      Left            =   210
       Locked          =   -1  'True
       TabIndex        =   3
       TabStop         =   0   'False
-      Top             =   1305
-      Width           =   5235
+      Top             =   1680
+      Width           =   5160
    End
    Begin VB.CommandButton Nupp_Export 
-      Caption         =   "Export"
+      Caption         =   "Ekspordi andmed SQL faili"
+      Default         =   -1  'True
+      Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "Verdana"
          Size            =   8.25
@@ -121,14 +160,13 @@ Begin VB.Form Aken
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   420
-      Left            =   5715
+      Height          =   540
+      Left            =   3255
       TabIndex        =   2
-      Top             =   2340
-      Width           =   1365
+      Top             =   3360
+      Width           =   2115
    End
-   Begin VB.TextBox txtLibraryID 
-      Appearance      =   0  'Flat
+   Begin VB.TextBox txtDatabase 
       BeginProperty Font 
          Name            =   "Verdana"
          Size            =   8.25
@@ -138,19 +176,50 @@ Begin VB.Form Aken
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   285
-      Left            =   1845
-      MaxLength       =   3
+      Height          =   330
+      Left            =   210
       TabIndex        =   1
-      Top             =   225
-      Width           =   780
+      Top             =   2310
+      Width           =   5160
+   End
+   Begin VB.Label Label5 
+      Appearance      =   0  'Flat
+      AutoSize        =   -1  'True
+      BackColor       =   &H80000005&
+      BackStyle       =   0  'Transparent
+      Caption         =   "Ekspordi:"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   8.25
+         Charset         =   186
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   195
+      Left            =   210
+      TabIndex        =   9
+      Top             =   2835
+      Width           =   915
+   End
+   Begin VB.Shape shpProgress 
+      BackColor       =   &H8000000D&
+      BackStyle       =   1  'Opaque
+      BorderStyle     =   0  'Transparent
+      FillColor       =   &H80000008&
+      Height          =   225
+      Left            =   0
+      Top             =   4095
+      Width           =   330
    End
    Begin VB.Label Label4 
-      Alignment       =   1  'Right Justify
       Appearance      =   0  'Flat
+      AutoSize        =   -1  'True
       BackColor       =   &H80000005&
       BackStyle       =   0  'Transparent
-      Caption         =   "Database file:"
+      Caption         =   "ARX-Raamat v7 fail:"
       BeginProperty Font 
          Name            =   "Verdana"
          Size            =   8.25
@@ -161,18 +230,18 @@ Begin VB.Form Aken
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H80000008&
-      Height          =   285
-      Left            =   90
-      TabIndex        =   9
-      Top             =   945
-      Width           =   1650
+      Height          =   195
+      Left            =   210
+      TabIndex        =   8
+      Top             =   840
+      Width           =   1935
    End
    Begin VB.Label Label3 
-      Alignment       =   1  'Right Justify
       Appearance      =   0  'Flat
+      AutoSize        =   -1  'True
       BackColor       =   &H80000005&
       BackStyle       =   0  'Transparent
-      Caption         =   "Library name:"
+      Caption         =   "Raamatukogu:"
       BeginProperty Font 
          Name            =   "Verdana"
          Size            =   8.25
@@ -183,18 +252,18 @@ Begin VB.Form Aken
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H80000008&
-      Height          =   285
-      Left            =   90
-      TabIndex        =   7
-      Top             =   585
-      Width           =   1650
+      Height          =   195
+      Left            =   210
+      TabIndex        =   6
+      Top             =   210
+      Width           =   1395
    End
    Begin VB.Label Label2 
-      Alignment       =   1  'Right Justify
       Appearance      =   0  'Flat
+      AutoSize        =   -1  'True
       BackColor       =   &H80000005&
       BackStyle       =   0  'Transparent
-      Caption         =   "SQL file:"
+      Caption         =   "SQL fail:"
       BeginProperty Font 
          Name            =   "Verdana"
          Size            =   8.25
@@ -205,18 +274,18 @@ Begin VB.Form Aken
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H80000008&
-      Height          =   285
-      Left            =   90
-      TabIndex        =   5
-      Top             =   1305
-      Width           =   1650
+      Height          =   195
+      Left            =   210
+      TabIndex        =   4
+      Top             =   1470
+      Width           =   795
    End
    Begin VB.Label Label1 
-      Alignment       =   1  'Right Justify
       Appearance      =   0  'Flat
+      AutoSize        =   -1  'True
       BackColor       =   &H80000005&
       BackStyle       =   0  'Transparent
-      Caption         =   "Library ID:"
+      Caption         =   "Entu andmebaas:"
       BeginProperty Font 
          Name            =   "Verdana"
          Size            =   8.25
@@ -227,19 +296,11 @@ Begin VB.Form Aken
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H80000008&
-      Height          =   285
-      Left            =   90
+      Height          =   195
+      Left            =   210
       TabIndex        =   0
-      Top             =   225
-      Width           =   1650
-   End
-   Begin VB.Shape Shape1 
-      BackColor       =   &H00FFFFFF&
-      BackStyle       =   1  'Opaque
-      Height          =   2175
-      Left            =   -45
-      Top             =   -45
-      Width           =   7350
+      Top             =   2100
+      Width           =   1680
    End
 End
 Attribute VB_Name = "Aken"
@@ -251,6 +312,13 @@ Option Explicit
 
 Dim gConnect As ADODB.Connection
 Dim gRS As ADODB.Recordset
+Dim gCount As Integer
+Dim gStep As Integer
+
+
+Private Sub Form_Activate()
+    txtDatabase.SetFocus
+End Sub
 
 Private Sub Form_Load()
     Me.Caption = App.ProductName & " - " & App.Major & "." & App.Minor & "." & App.Revision
@@ -262,6 +330,10 @@ Private Sub Form_Load()
     If LenB(FileAccess.FileName) = 0 Then
         End
     Else
+        shpProgress.Width = 0
+        gCount = 0
+        gStep = 0
+        
         txtDatabaseFile.Text = FileAccess.FileName
         txtExportFile.Text = Left(FileAccess.FileName, Len(FileAccess.FileName) - 4) & ".sql"
         
@@ -281,64 +353,61 @@ Private Sub Form_Load()
     
 End Sub
 
-Private Sub txtLibraryID_GotFocus()
-    txtLibraryID.SelStart = 0
-    txtLibraryID.SelLength = Len(txtLibraryID.Text)
+Private Sub txtDatabase_Change()
+    If txtDatabase.Text <> Trim(txtDatabase.Text) Then
+        txtDatabase.Text = Trim(txtDatabase.Text)
+        txtDatabase.SelStart = Len(txtDatabase.Text)
+    End If
+    If Len(txtDatabase.Text) > 0 Then
+        Nupp_Export.Enabled = True
+    Else
+        Nupp_Export.Enabled = False
+    End If
+End Sub
+
+Private Sub txtDatabase_GotFocus()
+    txtDatabase.SelStart = 0
+    txtDatabase.SelLength = Len(txtDatabase.Text)
 End Sub
 
 Private Sub Nupp_Export_Click()
-    If IsNumeric(txtLibraryID.Text) = False Or Trim(txtLibraryID.Text) = "1" Then
-        MsgBox "Library ID must be number!", vbCritical
-        txtLibraryID.SetFocus
-        Exit Sub
-    End If
-    
-    Export
-End Sub
-
-Private Sub Export()
     Dim myFilename As String
     
     Screen.MousePointer = vbHourglass
+    txtDatabase.Enabled = False
+    Nupp_Export.Enabled = False
     
     Open txtExportFile.Text For Output As #1
-    Print #1, "## Library ID:     " & txtLibraryID.Text
-    Print #1, "## Library Name:   " & txtLibraryName.Text
+    Print #1, "## Database:       " & txtDatabase.Text
+    Print #1, "## Library name:   " & txtLibraryName.Text
     Print #1, "## Export started: " & Format(Now, "yyyy-mm-dd Hh:Nn:Ss")
     Close #1
     
-'    Export_Inventariraamat
+    chkLugeja.Enabled = False
+    If chkLugeja.Value = vbChecked Then
+        Export_Klass
+        Export_Lugeja
+    End If
+
+    chkMeedia.Enabled = False
+    If chkMeedia.Value = vbChecked Then
+        Export_Meedia
+        Export_MeediaAutor
+        Export_MeediaMarksona
+        Export_MeediaEksemplar
+    End If
     
-    Export_Klass
-    Export_Lugeja
-
-    Export_Meedia
-    Export_MeediaEksemplar
-
-    Export_Andmekandja
-    Export_Keel
-    Export_Liik
-    Export_Marksona
-    Export_Valjaandja
-
-    Export_Autor
-
-    Export_Meedia_Field "KLASS", 6
-    Export_Meedia_Field "ILMUMISAASTA", 7
-    Export_Meedia_Field "RIIUL", 8
-
-'    Export_Saatedokument
-'    Export_Mahakandmisakt
-
+    chkLaenutus.Enabled = False
+    If chkLaenutus.Value = vbChecked Then
+        
+    End If
     
     Open txtExportFile.Text For Append As #1
     Print #1, ""
     Print #1, ""
-    Print #1, ""
-    Print #1, "## Library ID:   " & txtLibraryID.Text
-    Print #1, "## Library Name: " & txtLibraryName.Text
+    Print #1, "## Database:     " & txtDatabase.Text
+    Print #1, "## Library name: " & txtLibraryName.Text
     Print #1, "## Export ended: " & Format(Now, "yyyy-mm-dd Hh:Nn:Ss")
-    Print #1, ""
     Print #1, ""
     Print #1, ""
     Print #1, "## END "
@@ -352,610 +421,351 @@ Private Sub Export()
     
 End Sub
 
-
-
-
-
-
-
-Private Sub Export_Inventariraamat()
-    Dim myString As String
-    Dim myN As Integer
-
-    Open Left(txtExportFile.Text, Len(txtExportFile.Text) - 4) & "_INV.csv" For Output As #1
-    
-    gRS.Open "SELECT MEEDIA.MEEDIA_LIIK, MEEDIA_EKSEMPLAR.INVENTARI_NUMBER AS INVENTARI_NR, MEEDIA.PEALKIRI, MEEDIA.KLASS, MEEDIA.ILMUMISAASTA, MEEDIA_EKSEMPLAR.NUMBER AS PERIOODIKA_NR, ANDMEKANDJA.NIMI AS ANDMEKANDJA, LIIK.NIMI AS LIIK, KEEL.NIMI AS KEEL, VALJAANDJA.NIMI AS VALJAANDJA, MEEDIA.RIIUL, MEEDIA.MARKUSED AS MEEDIA_MARKUSED, Format([MEEDIA_EKSEMPLAR].[SISSEKANDE_KUUPAEV],""yyyy-mm-dd"") AS SISSEKANDE_KPV, MEEDIA_EKSEMPLAR.HIND, MEEDIA_EKSEMPLAR.KOGUS, SAATEDOKUMENT.DOKUMENDI_NUMBER AS SD_NUMBER, Format([SAATEDOKUMENT].[KUUPAEV],""yyyy-mm-dd"") AS SD_KUUPAEV, VALJAANDJA_1.NIMI AS SD_VALJAANDJA, MAHAKANDMISAKT.AKTI_NUMBER AS MA_NUMBER, Format([MAHAKANDMISAKT].[KUUPAEV],""yyyy-mm-dd"") AS MA_KUUPAEV, MAHAKANDMISAKT.POHJUS AS MA_POHJUS, MEEDIA_EKSEMPLAR.MARKUSED AS EKSEMPLAR_MARKUSED " _
-           & "FROM (((((((MEEDIA_EKSEMPLAR LEFT JOIN MEEDIA ON MEEDIA_EKSEMPLAR.MEEDIA_FK = MEEDIA.MEEDIA_ID) LEFT JOIN VALJAANDJA ON MEEDIA.VALJAANDJA_FK = VALJAANDJA.VALJAANDJA_ID) LEFT JOIN ANDMEKANDJA ON MEEDIA.ANDMEKANDJA_FK = ANDMEKANDJA.ANDMEKANDJA_ID) LEFT JOIN LIIK ON MEEDIA.LIIK_FK = LIIK.LIIK_ID) LEFT JOIN KEEL ON MEEDIA.KEEL_FK = KEEL.KEEL_ID) LEFT JOIN SAATEDOKUMENT ON MEEDIA_EKSEMPLAR.SAATEDOKUMENT_FK = SAATEDOKUMENT.SAATEDOKUMENT_ID) LEFT JOIN VALJAANDJA AS VALJAANDJA_1 ON SAATEDOKUMENT.VALJAANDJA_FK = VALJAANDJA_1.VALJAANDJA_ID) LEFT JOIN MAHAKANDMISAKT ON MEEDIA_EKSEMPLAR.MAHAKANDMISAKT_FK = MAHAKANDMISAKT.MAHAKANDMISAKT_ID " _
-           & "ORDER BY MEEDIA.MEEDIA_LIIK, TRIM(MEEDIA_EKSEMPLAR.INVENTARI_NUMBER), TRIM(MEEDIA.PEALKIRI), TRIM(MEEDIA.KLASS)", gConnect
-    
-    myString = ""
-    For myN = 0 To gRS.Fields.Count - 1
-        myString = myString & ";" & gRS(myN).Name
-    Next myN
-    Print #1, Mid(myString, 2)
-    
-    Do Until gRS.EOF
-        
-        myString = ""
-        For myN = 0 To gRS.Fields.Count - 1
-            If IsNull(gRS(myN)) Then
-                myString = myString & ";"
-            Else
-                myString = myString & ";" & IIf(IsNull(Trim(gRS(myN))) = True, "", Replace(Trim(gRS(myN)), ";", ","))
-            End If
-        Next myN
-        
-        Print #1, Mid(myString, 2)
-        
-        gRS.MoveNext
-    Loop
-    gRS.Close
-    
-    Close #1
-
+Private Sub moveProgress()
+    gStep = gStep + 1
+    shpProgress.Width = Aken.Width / gCount * gStep
+    DoEvents
 End Sub
 
-
-
-
-
-
-
 Private Sub Export_Klass()
-    Dim myString As String
 
     Open txtExportFile.Text For Append As #1
+    Print #1, ""
+    Print #1, ""
+    Print #1, "## KLASS"
+    Close #1
     
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    Print #1, "## KLASS ##"
-    Print #1, ""
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM usergroups WHERE old_id LIKE '" & txtLibraryID.Text & "-%';"
- 
-    gRS.Open "SELECT * FROM klass ORDER BY KLASSI_NUMBER, KLASSI_TAHT", gConnect
+    gRS.Open "SELECT KLASS_ID, KLASSI_NUMBER, KLASSI_TAHT, MARKUSED " _
+           & "FROM klass " _
+           & "ORDER BY KLASSI_NUMBER, KLASSI_TAHT;", gConnect
     Do Until gRS.EOF
-        
-        myString = ""
-        myString = myString & "INSERT INTO usergroups SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldString("old_id", txtLibraryID.Text & "-" & gRS("KLASS_ID"))
-        myString = myString & FieldString("name", Trim(gRS("KLASSI_NUMBER")) & " " & Trim(gRS("KLASSI_TAHT")))
-        myString = myString & FieldString("note", gRS("MARKUSED"))
-        myString = myString & ";"
-        
-        Print #1, myString
+        gCount = gCount + 1
         gRS.MoveNext
     Loop
+    If gRS.BOF = False Then
+        gRS.MoveFirst
+    End If
+    deleteChild "klassilugeja-"
+    deleteEntity "klass-"
+    Do Until gRS.EOF
+        createEntity "klass-" & gRS("KLASS_ID"), "class"
+        createProperty "klass-" & gRS("KLASS_ID"), "integer", "class-number", gRS("KLASSI_NUMBER")
+        createProperty "klass-" & gRS("KLASS_ID"), "string", "class-letter", gRS("KLASSI_TAHT")
+        createProperty "klass-" & gRS("KLASS_ID"), "string", "class-notes", gRS("MARKUSED")
+        gRS.MoveNext
+        moveProgress
+    Loop
+    
     gRS.Close
     
-    Close #1
-
 End Sub
 
 Private Sub Export_Lugeja()
-    Dim myString As String
-    
+
     Open txtExportFile.Text For Append As #1
+    Print #1, ""
+    Print #1, ""
+    Print #1, "## LUGEJA"
+    Close #1
     
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    Print #1, "## LUGEJA ##"
-    Print #1, ""
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM users WHERE old_id LIKE '" & txtLibraryID.Text & "-%' AND username IS NULL;"
-    
-    gRS.Open "SELECT * FROM lugeja ORDER BY NIMI, EESNIMI", gConnect
+    gRS.Open "SELECT LUGEJA_ID, KLASS_FK, EESNIMI, lugeja.NIMI, AADRESS, LINN, maakond.NIMI AS MAAKOND, POSTIINDEKS, TELEFON, MARKUSED " _
+           & "FROM lugeja " _
+           & "LEFT JOIN maakond ON lugeja.MAAKOND_FK = maakond.MAAKOND_ID " _
+           & "ORDER BY lugeja.NIMI, EESNIMI;", gConnect
     Do Until gRS.EOF
-        
-        myString = ""
-        myString = myString & "INSERT INTO users SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldString("old_id", txtLibraryID.Text & "-" & gRS("LUGEJA_ID"))
-        myString = myString & FieldSelect("usergroups", "usergroup_id", gRS("KLASS_FK"))
-        myString = myString & FieldString("firstname", gRS("EESNIMI"))
-        myString = myString & FieldString("lastname", gRS("NIMI"))
-        myString = myString & FieldString("address", gRS("AADRESS"))
-        myString = myString & FieldString("city", gRS("LINN"))
-        myString = myString & FieldString("county", getMaakond(gRS("MAAKOND_FK")))
-        myString = myString & FieldString("zip", gRS("POSTIINDEKS"))
-        myString = myString & FieldString("phone", gRS("TELEFON"))
-        myString = myString & FieldString("note", gRS("MARKUSED"))
-        myString = myString & ";"
-        
-        Print #1, myString
+        gCount = gCount + 1
         gRS.MoveNext
     Loop
+    If gRS.BOF = False Then
+        gRS.MoveFirst
+    End If
+    deleteEntity "lugeja-"
+    Do Until gRS.EOF
+        createEntity "lugeja-" & gRS("LUGEJA_ID"), "person"
+        createProperty "lugeja-" & gRS("LUGEJA_ID"), "string", "person-forename", gRS("EESNIMI")
+        createProperty "lugeja-" & gRS("LUGEJA_ID"), "string", "person-surname", gRS("NIMI")
+        createProperty "lugeja-" & gRS("LUGEJA_ID"), "string", "person-address", gRS("AADRESS")
+        createProperty "lugeja-" & gRS("LUGEJA_ID"), "string", "person-town", gRS("LINN")
+        createProperty "lugeja-" & gRS("LUGEJA_ID"), "string", "person-county", gRS("MAAKOND")
+        createProperty "lugeja-" & gRS("LUGEJA_ID"), "string", "person-postalcode", gRS("POSTIINDEKS")
+        createProperty "lugeja-" & gRS("LUGEJA_ID"), "string", "person-phone", gRS("TELEFON")
+        createProperty "lugeja-" & gRS("LUGEJA_ID"), "string", "person-notes", gRS("MARKUSED")
+        createChild "klassilugeja-" & gRS("KLASS_FK") & "-" & gRS("LUGEJA_ID"), "klass-" & gRS("KLASS_FK"), "lugeja-" & gRS("LUGEJA_ID")
+        gRS.MoveNext
+        moveProgress
+    Loop
+    
     gRS.Close
 
-    Close #1
-
 End Sub
-
-
-
-
-
-
 
 Private Sub Export_Meedia()
-    Dim myString As String
+    Dim myType As String
+    Dim myText As String
     
     Open txtExportFile.Text For Append As #1
-    
     Print #1, ""
     Print #1, ""
-    Print #1, ""
-    Print #1, "## MEEDIA ##"
-    Print #1, ""
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM media WHERE old_id LIKE '" & txtLibraryID.Text & "-%';"
-    
-    gRS.Open "SELECT * FROM meedia ORDER BY PEALKIRI", gConnect
+    Print #1, "## MEEDIA"
+    Close #1
+
+    gRS.Open "SELECT MEEDIA_ID, MEEDIA_LIIK, PEALKIRI, KLASS, andmekandja.NIMI AS ANDMEKANDJA, ILMUMISAASTA, liik.NIMI AS LIIK, keel.NIMI AS KEEL, valjaandja.NIMI AS VALJAANDJA, RIIUL, meedia.MARKUSED " _
+           & "FROM (((meedia " _
+           & "LEFT JOIN andmekandja ON meedia.ANDMEKANDJA_FK = andmekandja.ANDMEKANDJA_ID) " _
+           & "LEFT JOIN liik ON meedia.LIIK_FK = liik.LIIK_ID) " _
+           & "LEFT JOIN keel ON meedia.KEEL_FK = keel.KEEL_ID) " _
+           & "LEFT JOIN valjaandja ON meedia.VALJAANDJA_FK = valjaandja.VALJAANDJA_ID " _
+           & "ORDER BY PEALKIRI;", gConnect
     Do Until gRS.EOF
-        
-        myString = ""
-        myString = myString & "INSERT INTO media SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldString("old_id", txtLibraryID.Text & "-" & gRS("MEEDIA_ID"))
+        gCount = gCount + 1
+        gRS.MoveNext
+    Loop
+    If gRS.BOF = False Then
+        gRS.MoveFirst
+    End If
+    deleteEntity "meedia-"
+    Do Until gRS.EOF
         Select Case gRS("MEEDIA_LIIK")
             Case "RA"
-                myString = myString & FieldNumber("mediatype_id", 1)
+                myType = "book"
             Case "OP"
-                myString = myString & FieldNumber("mediatype_id", 2)
+                myType = "textbook"
             Case "TV"
-                myString = myString & FieldNumber("mediatype_id", 3)
+                myType = "workbook"
             Case "PE"
-                myString = myString & FieldNumber("mediatype_id", 4)
+                myType = "periodical"
             Case "AV"
-                myString = myString & FieldNumber("mediatype_id", 5)
+                myType = "audiovideo"
             Case "MK"
-                myString = myString & FieldNumber("mediatype_id", 6)
+                myType = "methodical"
         End Select
-        myString = myString & FieldString("title", gRS("PEALKIRI"))
-        myString = myString & FieldString("note", gRS("MARKUSED"))
-        myString = myString & ";"
         
-        Print #1, myString
+        createEntity "meedia-" & gRS("MEEDIA_ID"), myType
+        createProperty "meedia-" & gRS("MEEDIA_ID"), "string", myType & "-title", gRS("PEALKIRI")
+        createProperty "meedia-" & gRS("MEEDIA_ID"), "string", myType & "-class", gRS("KLASS")
+        createProperty "meedia-" & gRS("MEEDIA_ID"), "string", myType & "-media", gRS("ANDMEKANDJA")
+        createProperty "meedia-" & gRS("MEEDIA_ID"), "string", myType & "-publishing-date", gRS("ILMUMISAASTA")
+        createProperty "meedia-" & gRS("MEEDIA_ID"), "string", myType & "-udc", gRS("LIIK")
+        createProperty "meedia-" & gRS("MEEDIA_ID"), "string", myType & "-language", gRS("KEEL")
+        createProperty "meedia-" & gRS("MEEDIA_ID"), "string", myType & "-publisher", gRS("VALJAANDJA")
+        createProperty "meedia-" & gRS("MEEDIA_ID"), "string", myType & "-location", gRS("RIIUL")
+        createProperty "meedia-" & gRS("MEEDIA_ID"), "string", myType & "-notes", gRS("MARKUSED")
         gRS.MoveNext
+        moveProgress
     Loop
     gRS.Close
-
-    Close #1
-
+    
 End Sub
 
-
-
-
-
-
-
-Private Sub Export_Andmekandja()
-    Dim myString As String
-
-    Close #1
-    Open txtExportFile.Text For Append As #1
-
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    Print #1, "## ANDMEKANDJA ##"
-    Print #1, ""
-    
-    gRS.Open "SELECT DISTINCT TRIM(NIMI) AS NIMI FROM andmekandja ORDER BY TRIM(NIMI)", gConnect
-    Do Until gRS.EOF
-
-        myString = ""
-        myString = myString & "INSERT IGNORE INTO tags SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldNumber("tagtype_id", 1)
-        myString = myString & FieldString("nimi", gRS("NIMI"))
-        myString = myString & ";"
-
-        Print #1, myString
-
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM media_tags WHERE old_id LIKE '" & txtLibraryID.Text & "-%' AND tag_id IN (SELECT id FROM tags WHERE tagtype_id = 1);"
-
-    gRS.Open "SELECT MEEDIA_ID, TRIM(NIMI) AS NIMI FROM meedia, andmekandja WHERE ANDMEKANDJA_FK = ANDMEKANDJA_ID AND LEN(TRIM(NIMI))>0 ORDER BY MEEDIA_ID", gConnect
-    Do Until gRS.EOF
-
-        myString = ""
-        myString = myString & "INSERT INTO media_tags SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldString("old_id", txtLibraryID.Text & "-")
-        myString = myString & FieldSelect("media", "media_id", gRS("MEEDIA_ID"))
-        myString = myString & ", tag_id = (SELECT id FROM tags WHERE UPPER(TRIM(name)) = '" & UCase(gRS("NIMI")) & "' and tagtype_id = 1 LIMIT 0, 1)"
-        myString = myString & ";"
-
-        Print #1, myString
-
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
-    Close #1
-
-End Sub
-
-Private Sub Export_Keel()
-    Dim myString As String
+Private Sub Export_MeediaAutor()
+    Dim myType As String
+    Dim myText As String
     
     Open txtExportFile.Text For Append As #1
-    
     Print #1, ""
     Print #1, ""
-    Print #1, ""
-    Print #1, "## KEEL ##"
-    Print #1, ""
-    
-    gRS.Open "SELECT DISTINCT TRIM(NIMI) AS NIMI FROM keel ORDER BY TRIM(NIMI)", gConnect
-    Do Until gRS.EOF
-        
-        myString = ""
-        myString = myString & "INSERT IGNORE INTO tags SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldNumber("tagtype_id", 2)
-        myString = myString & FieldString("name", gRS("NIMI"))
-        myString = myString & ";"
-        
-        Print #1, myString
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM media_tags WHERE old_id LIKE '" & txtLibraryID.Text & "-%' AND tag_id IN (SELECT id FROM tags WHERE tagtype_id = 2);"
-
-    gRS.Open "SELECT MEEDIA_ID, TRIM(NIMI) AS NIMI FROM meedia, keel WHERE KEEL_FK = KEEL_ID AND LEN(TRIM(NIMI))>0 ORDER BY MEEDIA_ID", gConnect
-    Do Until gRS.EOF
-
-        myString = ""
-        myString = myString & "INSERT INTO media_tags SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldString("old_id", txtLibraryID.Text & "-")
-        myString = myString & FieldSelect("media", "media_id", gRS("MEEDIA_ID"))
-        myString = myString & ", tag_id = (SELECT id FROM tags WHERE UPPER(TRIM(name)) = '" & UCase(gRS("NIMI")) & "' and tagtype_id = 2 LIMIT 0, 1)"
-        myString = myString & ";"
-
-        Print #1, myString
-
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
+    Print #1, "## MEEDIA_AUTOR"
     Close #1
 
+    gRS.Open "SELECT DISTINCT MEEDIA.MEEDIA_ID, MEEDIA.MEEDIA_LIIK, AUTOR.NIMI, AUTOR.EESNIMI " _
+           & "FROM (MEEDIA_AUTOR " _
+           & "LEFT JOIN AUTOR ON MEEDIA_AUTOR.AUTOR_FK = AUTOR.AUTOR_ID) " _
+           & "RIGHT JOIN MEEDIA ON MEEDIA_AUTOR.MEEDIA_FK = MEEDIA.MEEDIA_ID " _
+           & "WHERE AUTOR.AUTOR_ID Is Not Null " _
+           & "ORDER BY MEEDIA.MEEDIA_ID, AUTOR.NIMI, AUTOR.EESNIMI;", gConnect
+    Do Until gRS.EOF
+        gCount = gCount + 1
+        gRS.MoveNext
+    Loop
+    If gRS.BOF = False Then
+        gRS.MoveFirst
+    End If
+    Do Until gRS.EOF
+        Select Case gRS("MEEDIA_LIIK")
+            Case "RA"
+                myType = "book"
+            Case "OP"
+                myType = "textbook"
+            Case "TV"
+                myType = "workbook"
+            Case "PE"
+                myType = "periodical"
+            Case "AV"
+                myType = "audiovideo"
+            Case "MK"
+                myType = "methodical"
+        End Select
+        
+        myText = ""
+        If Len(Trim(gRS("NIMI"))) > 0 Then
+            myText = Trim(gRS("NIMI"))
+        End If
+        If Len(myText) > 0 And Len(Trim(gRS("EESNIMI"))) > 0 Then
+            myText = myText & ", "
+        End If
+        If Len(Trim(gRS("EESNIMI"))) Then
+            myText = myText & Trim(gRS("EESNIMI"))
+        End If
+        
+        createProperty "meedia-" & gRS("MEEDIA_ID"), "string", myType & "-author", myText
+        gRS.MoveNext
+        moveProgress
+    Loop
+    gRS.Close
+    
 End Sub
 
-Private Sub Export_Liik()
-    Dim myString As String
+Private Sub Export_MeediaMarksona()
+    Dim myType As String
     
     Open txtExportFile.Text For Append As #1
-    
     Print #1, ""
     Print #1, ""
-    Print #1, ""
-    Print #1, "## LIIK ##"
-    Print #1, ""
-    
-    gRS.Open "SELECT DISTINCT TRIM(NIMI) AS NIMI FROM liik ORDER BY TRIM(NIMI)", gConnect
-    Do Until gRS.EOF
-        
-        myString = ""
-        myString = myString & "INSERT IGNORE INTO tags SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldNumber("tagtype_id", 3)
-        myString = myString & FieldString("name", gRS("NIMI"))
-        myString = myString & ";"
-        
-        Print #1, myString
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM media_tags WHERE old_id LIKE '" & txtLibraryID.Text & "-%' AND tag_id IN (SELECT id FROM tags WHERE tagtype_id = 3);"
-
-    gRS.Open "SELECT MEEDIA_ID, TRIM(NIMI) AS NIMI FROM meedia, liik WHERE LIIK_FK = LIIK_ID AND LEN(TRIM(NIMI))>0 ORDER BY MEEDIA_ID", gConnect
-    Do Until gRS.EOF
-
-        myString = ""
-        myString = myString & "INSERT INTO media_tags SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldString("old_id", txtLibraryID.Text & "-")
-        myString = myString & FieldSelect("media", "media_id", gRS("MEEDIA_ID"))
-        myString = myString & ", tag_id = (SELECT id FROM tags WHERE UPPER(TRIM(name)) = '" & UCase(gRS("NIMI")) & "' and tagtype_id = 3 LIMIT 0, 1)"
-        myString = myString & ";"
-
-        Print #1, myString
-
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
+    Print #1, "## MEEDIA_MARKSONA"
     Close #1
 
-End Sub
-
-Private Sub Export_Marksona()
-    Dim myString As String
-    
-    Open txtExportFile.Text For Append As #1
-    
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    Print #1, "## MARKSONA ##"
-    Print #1, ""
-    
-    gRS.Open "SELECT DISTINCT TRIM(NIMI) AS NIMI FROM marksona ORDER BY TRIM(NIMI)", gConnect
+    gRS.Open "SELECT DISTINCT MEEDIA.MEEDIA_ID, MEEDIA.MEEDIA_LIIK, MARKSONA.NIMI " _
+           & "FROM (MEEDIA_MARKSONA " _
+           & "LEFT JOIN MARKSONA ON MEEDIA_MARKSONA.MARKSONA_FK = MARKSONA.MARKSONA_ID) " _
+           & "RIGHT JOIN MEEDIA ON MEEDIA_MARKSONA.MEEDIA_FK = MEEDIA.MEEDIA_ID " _
+           & "WHERE MARKSONA.MARKSONA_ID Is Not Null " _
+           & "ORDER BY MEEDIA.MEEDIA_ID, MARKSONA.NIMI;", gConnect
     Do Until gRS.EOF
-        
-        myString = ""
-        myString = myString & "INSERT IGNORE INTO tags SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldNumber("tagtype_id", 4)
-        myString = myString & FieldString("name", gRS("NIMI"))
-        myString = myString & ";"
-        
-        Print #1, myString
+        gCount = gCount + 1
         gRS.MoveNext
     Loop
-    gRS.Close
-
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM media_tags WHERE old_id LIKE '" & txtLibraryID.Text & "-%' AND tag_id IN (SELECT id FROM tags WHERE tagtype_id = 4);"
-
-    gRS.Open "SELECT MEEDIA_FK, TRIM(NIMI) AS NIMI FROM meedia_marksona, marksona WHERE marksona_fk = marksona_id AND LEN(TRIM(NIMI))>0 ORDER BY MEEDIA_fk", gConnect
+    If gRS.BOF = False Then
+        gRS.MoveFirst
+    End If
     Do Until gRS.EOF
-
-        myString = ""
-        myString = myString & "INSERT INTO media_tags SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldString("old_id", txtLibraryID.Text & "-")
-        myString = myString & FieldSelect("media", "media_id", gRS("MEEDIA_fk"))
-        myString = myString & ", tag_id = (SELECT id FROM tags WHERE UPPER(TRIM(name)) = '" & UCase(gRS("NIMI")) & "' and tagtype_id = 4 LIMIT 0, 1)"
-        myString = myString & ";"
-
-        Print #1, myString
-
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
-    Close #1
-
-End Sub
-
-Private Sub Export_Valjaandja()
-    Dim myString As String
-    
-    Open txtExportFile.Text For Append As #1
-    
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    Print #1, "## VALJAANDJA ##"
-    Print #1, ""
-    
-    gRS.Open "SELECT DISTINCT TRIM(NIMI) AS NIMI FROM valjaandja ORDER BY TRIM(NIMI)", gConnect
-    Do Until gRS.EOF
+        Select Case gRS("MEEDIA_LIIK")
+            Case "RA"
+                myType = "book"
+            Case "OP"
+                myType = "textbook"
+            Case "TV"
+                myType = "workbook"
+            Case "PE"
+                myType = "periodical"
+            Case "AV"
+                myType = "audiovideo"
+            Case "MK"
+                myType = "methodical"
+        End Select
         
-        myString = ""
-        myString = myString & "INSERT IGNORE INTO tags SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldNumber("tagtype_id", 5)
-        myString = myString & FieldString("name", gRS("NIMI"))
-        myString = myString & ";"
-        
-        Print #1, myString
+        createProperty "meedia-" & gRS("MEEDIA_ID"), "string", myType & "-tag", gRS("NIMI")
         gRS.MoveNext
+        moveProgress
     Loop
     gRS.Close
-
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM media_tags WHERE old_id LIKE '" & txtLibraryID.Text & "-%' AND tag_id IN (SELECT id FROM tags WHERE tagtype_id = 5);"
-
-    gRS.Open "SELECT MEEDIA_ID, TRIM(NIMI) AS NIMI FROM meedia, valjaandja WHERE valjaandja_FK = valjaandja_ID AND LEN(TRIM(NIMI))>0 ORDER BY MEEDIA_ID", gConnect
-    Do Until gRS.EOF
-
-        myString = ""
-        myString = myString & "INSERT INTO media_tags SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldString("old_id", txtLibraryID.Text & "-")
-        myString = myString & FieldSelect("media", "media_id", gRS("MEEDIA_ID"))
-        myString = myString & ", tag_id = (SELECT id FROM tags WHERE UPPER(TRIM(name)) = '" & UCase(gRS("NIMI")) & "' and tagtype_id = 5 LIMIT 0, 1)"
-        myString = myString & ";"
-
-        Print #1, myString
-
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
-    Close #1
     
 End Sub
-
-Private Sub Export_Meedia_Field(ByVal sField As String, ByVal sTagTypeID As String)
-    Dim myString As String
-    
-    Open txtExportFile.Text For Append As #1
-    
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    Print #1, "## MEEDIA " & UCase(sField) & " ##"
-    Print #1, ""
-    
-    gRS.Open "SELECT DISTINCT TRIM(" & sField & ") AS NIMI FROM meedia WHERE LEN(" & sField & ") > 0 ORDER BY TRIM(" & sField & ")", gConnect
-    Do Until gRS.EOF
-        
-        myString = ""
-        myString = myString & "INSERT IGNORE INTO tags SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldNumber("tagtype_id", sTagTypeID)
-        myString = myString & FieldString("name", gRS("NIMI"))
-        myString = myString & ";"
-
-        Print #1, myString
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM media_tags WHERE old_id LIKE '" & txtLibraryID.Text & "-%' AND tag_id IN (SELECT id FROM tags WHERE tagtype_id = " & sTagTypeID & ");"
-
-    gRS.Open "SELECT MEEDIA_ID, TRIM(" & sField & ") AS NIMI FROM meedia WHERE LEN(TRIM(" & sField & "))>0 ORDER BY MEEDIA_ID", gConnect
-    Do Until gRS.EOF
-
-        myString = ""
-        myString = myString & "INSERT INTO media_tags SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldString("old_id", txtLibraryID.Text & "-")
-        myString = myString & FieldSelect("media", "media_id", gRS("MEEDIA_ID"))
-        myString = myString & ", tag_id = (SELECT id FROM tags WHERE UPPER(TRIM(name)) = '" & UCase(gRS("NIMI")) & "' and tagtype_id = " & sTagTypeID & " LIMIT 0, 1)"
-        myString = myString & ";"
-
-        Print #1, myString
-
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
-    Close #1
-    
-End Sub
-
-
-
-
-
-
-
-Private Sub Export_Autor()
-    Dim myString As String
-    
-    Open txtExportFile.Text For Append As #1
-    
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    Print #1, "## AUTOR ##"
-    Print #1, ""
-    
-    gRS.Open "SELECT * FROM autor ORDER BY NIMI, EESNIMI", gConnect
-    Do Until gRS.EOF
-
-        myString = ""
-        myString = myString & "INSERT IGNORE INTO persons SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldString("firstname", gRS("EESNIMI"))
-        myString = myString & FieldString("lastname", gRS("NIMI"))
-        myString = myString & FieldString("nationality", gRS("RAHVUS"))
-        myString = myString & FieldString("note", IIf(Len(Trim(gRS("ELUAASTAD"))) > 0, Trim(gRS("ELUAASTAD")) & vbCrLf & vbCrLf, "") & Trim(gRS("MARKUSED")))
-        myString = myString & ";"
-
-        Print #1, myString
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM media_persons WHERE old_id LIKE '" & txtLibraryID.Text & "-%';"
-
-    gRS.Open "SELECT MEEDIA_fk, TRIM(EESNIMI) & TRIM(NIMI) AS NIMI FROM meedia_autor, autor WHERE autor_FK = autor_ID AND LEN(TRIM(EESNIMI) & TRIM(NIMI))>0 ORDER BY MEEDIA_fk", gConnect
-    Do Until gRS.EOF
-
-        myString = ""
-        myString = myString & "INSERT INTO media_persons SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldString("old_id", txtLibraryID.Text & "-")
-        myString = myString & FieldNumber("tagtype_id", 9)
-        myString = myString & FieldSelect("media", "media_id", gRS("MEEDIA_fk"))
-        myString = myString & ", person_id = (SELECT id FROM persons WHERE UPPER(CONCAT(TRIM(firstname),TRIM(lastname))) = '" & UCase(gRS("NIMI")) & "' LIMIT 0, 1)"
-        myString = myString & ";"
-
-        Print #1, myString
-
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
-    Close #1
-
-End Sub
-
-
-
-
-
-
 
 Private Sub Export_MeediaEksemplar()
-    Dim myString As String
+    Dim myN As Integer
     
     Open txtExportFile.Text For Append As #1
-    
     Print #1, ""
     Print #1, ""
-    Print #1, ""
-    Print #1, "## EKSEMPLAR ##"
-    Print #1, ""
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM items WHERE old_id LIKE '" & txtLibraryID.Text & "-%';"
-    
-    gRS.Open "SELECT * FROM meedia_eksemplar", gConnect
+    Print #1, "## MEEDIA_EKSEMPLAR"
+    Close #1
+
+    gRS.Open "SELECT MEEDIA_EKSEMPLAR_ID, MEEDIA.MEEDIA_ID, MEEDIA_EKSEMPLAR.INVENTARI_NUMBER, MEEDIA_EKSEMPLAR.SISSEKANDE_KUUPAEV, MEEDIA_EKSEMPLAR.HIND, MEEDIA_EKSEMPLAR.KOGUS - IIF(MEEDIA_EKSEMPLAR.MYYDUD_KOGUS > 0, MEEDIA_EKSEMPLAR.MYYDUD_KOGUS, 0) AS KOGUS, MEEDIA_EKSEMPLAR.NUMBER, MEEDIA_EKSEMPLAR.MARKUSED " _
+           & "FROM MEEDIA " _
+           & "LEFT JOIN MEEDIA_EKSEMPLAR ON MEEDIA.MEEDIA_ID = MEEDIA_EKSEMPLAR.MEEDIA_FK " _
+           & "WHERE MEEDIA_EKSEMPLAR.MEEDIA_EKSEMPLAR_ID Is Not Null AND MEEDIA_EKSEMPLAR.MAHAKANDMISAKT_FK = 0 " _
+           & "ORDER BY MEEDIA.MEEDIA_ID;", gConnect
     Do Until gRS.EOF
-        
-        myString = ""
-        myString = myString & "INSERT INTO items SET "
-        myString = myString & "created_time = NOW()"
-        myString = myString & FieldString("old_id", txtLibraryID.Text & "-" & gRS("MEEDIA_EKSEMPLAR_ID"))
-        myString = myString & FieldString("library_id", txtLibraryID.Text)
-        myString = myString & FieldSelect("media", "media_id", gRS("MEEDIA_FK"))
-        myString = myString & FieldNumber("item_number", gRS("INVENTARI_NUMBER"))
-       ' myString = myString & FieldString("number_perioodika", gRS("NUMBER"))
-       ' myString = myString & FieldDate("kpv_sisse", gRS("SISSEKANDE_KUUPAEV"))
-       ' myString = myString & FieldSelect("saatedokument", "saatedokument_fk", gRS("SAATEDOKUMENT_FK"))
-       ' myString = myString & FieldSelect("mahakandmisakt", "mahakandmisakt_fk", gRS("MAHAKANDMISAKT_FK"))
-        myString = myString & FieldNumber("quantity", gRS("KOGUS"))
-        myString = myString & FieldNumber("price", gRS("HIND"))
-        myString = myString & FieldString("note", gRS("MARKUSED"))
-        myString = myString & ";"
-        
-        Print #1, myString
+        gCount = gCount + 1
         gRS.MoveNext
+    Loop
+    If gRS.BOF = False Then
+        gRS.MoveFirst
+    End If
+    deleteChild "meediaeksemplar-"
+    deleteEntity "eksemplar-"
+    Do Until gRS.EOF
+        For myN = 1 To gRS("KOGUS")
+            createEntity "eksemplar-" & gRS("MEEDIA_EKSEMPLAR_ID") & "-" & myN, "copy"
+            createProperty "eksemplar-" & gRS("MEEDIA_EKSEMPLAR_ID") & "-" & myN, "string", "copy-inventory-number", gRS("INVENTARI_NUMBER")
+            createProperty "eksemplar-" & gRS("MEEDIA_EKSEMPLAR_ID") & "-" & myN, "date", "copy-date-added", gRS("SISSEKANDE_KUUPAEV")
+            createProperty "eksemplar-" & gRS("MEEDIA_EKSEMPLAR_ID") & "-" & myN, "decimal", "copy-price", gRS("HIND")
+            createProperty "eksemplar-" & gRS("MEEDIA_EKSEMPLAR_ID") & "-" & myN, "string", "copy-number", gRS("NUMBER")
+            createProperty "eksemplar-" & gRS("MEEDIA_EKSEMPLAR_ID") & "-" & myN, "string", "copy-notes", gRS("MARKUSED")
+            createChild "meediaeksemplar-" & gRS("MEEDIA_ID") & "-" & gRS("MEEDIA_EKSEMPLAR_ID") & "-" & myN, "meedia-" & gRS("MEEDIA_ID"), "eksemplar-" & gRS("MEEDIA_EKSEMPLAR_ID") & "-" & myN
+        Next
+        gRS.MoveNext
+        moveProgress
     Loop
     gRS.Close
     
-    Close #1
+End Sub
 
+Private Sub deleteEntity(ByVal sEntityOldID)
+    Open txtExportFile.Text For Append As #1
+    Print #1, "DELETE FROM " & txtDatabase.Text & ".property " _
+            & "WHERE created_by = 'v7import' " _
+            & "AND entity_id IN (SELECT id FROM " & txtDatabase.Text & ".entity WHERE old_id LIKE '" & sEntityOldID & "%');"
+    Print #1, "DELETE FROM " & txtDatabase.Text & ".entity " _
+            & "WHERE created_by = 'v7import' " _
+            & "AND old_id LIKE '" & sEntityOldID & "%';"
+    Close #1
+End Sub
+
+Private Sub createEntity(ByVal sEntityOldID, ByVal sEntityDefinition)
+    Open txtExportFile.Text For Append As #1
+    Print #1, "INSERT INTO " & txtDatabase.Text & ".entity SET " _
+            & "created = NOW(), " _
+            & "created_by = 'v7import', " _
+            & "old_id = '" & sEntityOldID & "', " _
+            & "entity_definition_keyname = '" & sEntityDefinition & "';"
+    Close #1
+End Sub
+
+Private Sub createProperty(ByVal sEntityOldID, ByVal sType, ByVal sPropertyDefinition, ByVal sValue)
+    If Len(Trim(sValue)) > 0 Then
+        Dim myValue
+            
+        Select Case sType
+            Case "string"
+                myValue = "value_string = '" & Replace(sValue & "", "'", "\'") & "';"
+            Case "integer"
+                myValue = "value_integer = " & Replace(sValue & "", ",", ".") & ";"
+            Case "decimal"
+                myValue = "value_decimal = " & Replace(sValue & "", ",", ".") & ";"
+            Case "date"
+                myValue = "value_datetime = '" & Format(sValue, "yyyy-mm-dd Hh:Nn:Ss") & "';"
+        End Select
+            
+        Open txtExportFile.Text For Append As #1
+        Print #1, "INSERT INTO " & txtDatabase.Text & ".property SET " _
+                & "created = NOW(), " _
+                & "created_by = 'v7import', " _
+                & "entity_id = (SELECT id FROM entity WHERE old_id = '" & sEntityOldID & "' LIMIT 1), " _
+                & "property_definition_keyname = '" & sPropertyDefinition & "', " _
+                & myValue
+        Close #1
+    End If
+End Sub
+
+Private Sub deleteChild(ByVal sRelationshipOldID)
+    Open txtExportFile.Text For Append As #1
+    Print #1, "DELETE FROM " & txtDatabase.Text & ".relationship " _
+            & "WHERE created_by = 'v7import' " _
+            & "AND old_id LIKE '" & sRelationshipOldID & "%';"
+    Close #1
+End Sub
+
+Private Sub createChild(ByVal sRelationshipOldID, ByVal sEntityOldID, ByVal sRelatedEntityOldID)
+    Open txtExportFile.Text For Append As #1
+    Print #1, "INSERT INTO " & txtDatabase.Text & ".relationship SET " _
+            & "created = NOW(), " _
+            & "created_by = 'v7import', " _
+            & "old_id = '" & sRelationshipOldID & "', " _
+            & "relationship_definition_keyname = 'child', " _
+            & "entity_id = (SELECT id FROM entity WHERE old_id = '" & sEntityOldID & "' LIMIT 1), " _
+            & "related_entity_id = (SELECT id FROM entity WHERE old_id = '" & sRelatedEntityOldID & "' LIMIT 1);"
+    Close #1
 End Sub
 
 
@@ -964,158 +774,43 @@ End Sub
 
 
 
-Private Sub Export_Mahakandmisakt()
-    Dim myString As String
-
-    Open txtExportFile.Text For Append As #1
-
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    Print #1, "## MAHAKANDMISAKT ##"
-    Print #1, ""
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM mahakandmisakt WHERE old_id LIKE '" & txtLibraryID.Text & "-%';"
-
-    gRS.Open "SELECT * FROM mahakandmisakt", gConnect
-    Do Until gRS.EOF
-
-        myString = ""
-        myString = myString & "INSERT INTO mahakandmisakt SET "
-        myString = myString & "library_id = " & txtLibraryID.Text
-        myString = myString & FieldNumber("old_id", gRS("MAHAKANDMISAKT_ID"))
-        myString = myString & FieldString("meedia_liik", gRS("MEEDIA_LIIK"))
-        myString = myString & FieldString("number", gRS("AKTI_NUMBER"))
-        myString = myString & FieldString("pohjus", gRS("POHJUS"))
-        myString = myString & FieldString("kpv", Format(gRS("KUUPAEV"), "YYYY-MM-DD HH:NN:SS"))
-        myString = myString & ";"
-
-        Print #1, myString
-        gRS.MoveNext
-    Loop
-    gRS.Close
-
-    Close #1
-
-End Sub
-
-Private Sub Export_Saatedokument()
-    Dim myString As String
-    
-    Close #1
-    Open txtExportFile.Text For Append As #1
-    
-    Print #1, ""
-    Print #1, ""
-    Print #1, ""
-    Print #1, "## SAATEDOKUMENT ##"
-    Print #1, ""
-    If chkDeleteRows.Value = vbChecked Then Print #1, "DELETE FROM saatedokument WHERE old_id LIKE '" & txtLibraryID.Text & "-%';"
-    
-    gRS.Open "SELECT * FROM saatedokument", gConnect
-    Do Until gRS.EOF
-        
-        myString = ""
-        myString = myString & "INSERT INTO saatedokument SET "
-        myString = myString & "library_id = " & txtLibraryID.Text
-        myString = myString & FieldNumber("old_id", gRS("SAATEDOKUMENT_ID"))
-        myString = myString & FieldString("number", gRS("DOKUMENDI_NUMBER"))
-        myString = myString & FieldString("kpv", Format(gRS("KUUPAEV"), "YYYY-MM-DD HH:NN:SS"))
-        myString = myString & FieldSelect("valjaandja", "valjaandja_fk", gRS("VALJAANDJA_FK"))
-        myString = myString & FieldString("note", gRS("MARKUSED"))
-        myString = myString & ";"
-        
-        Print #1, myString
-        
-        gRS.MoveNext
-    Loop
-    gRS.Close
-    
-    Close #1
-
-End Sub
 
 
 
 
-
-
-
-Private Function getMaakond(ByVal sMaakondID)
-    Dim myVastus As String
-    Dim myRS As ADODB.Recordset
-    
-    myVastus = ""
-    
-    If IsNumeric(sMaakondID) Then
-        Set myRS = New ADODB.Recordset
-        myRS.Open "SELECT NIMI FROM maakond WHERE MAAKOND_ID = " & sMaakondID, gConnect
-        myVastus = myRS("NIMI")
-        myRS.Close
-    End If
-
-    getMaakond = myVastus
-    
-End Function
-
-
-
-
-
-
-
-Private Function FieldString(ByVal sField As String, ByVal sValue) As String
-    Dim myVastus As String
-    
-    myVastus = ""
-
-    sValue = Trim(sValue)
-    If Len(sValue) > 0 Then
-        myVastus = ", " & sField & " = '" & Replace(sValue & "", "'", "\'") & "'"
-    End If
-
-    FieldString = myVastus
-    
-End Function
-
-Private Function FieldNumber(ByVal sField As String, ByVal sValue) As String
-    Dim myVastus As String
-    
-    myVastus = ""
-    
-    sValue = Trim(sValue)
-    If Len(sValue) > 0 Then
-        myVastus = ", " & sField & " = " & Replace(sValue & "", ",", ".")
-    End If
-
-    FieldNumber = myVastus
-    
-End Function
-
-Private Function FieldDate(ByVal sField As String, ByVal sValue) As String
-    Dim myVastus As String
-    
-    myVastus = ""
-    
-    If IsDate(sValue) = True Then
-        myVastus = ", " & sField & " = '" & Format(sValue, "yyyy-mm-dd Hh:Nn:Ss") & "'"
-    End If
-
-    FieldDate = myVastus
-    
-End Function
-
-Private Function FieldSelect(ByVal sTable As String, ByVal sField As String, ByVal sValue) As String
-    Dim myVastus As String
-    
-    myVastus = ""
-    
-    If IsNumeric(sValue) = True Then
-        If sValue > 0 Then
-            myVastus = ", " & sField & " = "
-            myVastus = myVastus & "(SELECT id FROM " & sTable & " WHERE old_id = '" & txtLibraryID.Text & "-" & sValue & "' LIMIT 0, 1)"
-        End If
-    End If
-
-    FieldSelect = myVastus
-    
-End Function
+'Private Sub Export_Inventariraamat()
+'    Dim myString As String
+'    Dim myN As Integer
+'
+'    Open Left(txtExportFile.Text, Len(txtExportFile.Text) - 4) & "_INV.csv" For Output As #1
+'
+'    gRS.Open "SELECT MEEDIA.MEEDIA_LIIK, MEEDIA_EKSEMPLAR.INVENTARI_NUMBER AS INVENTARI_NR, MEEDIA.PEALKIRI, MEEDIA.KLASS, MEEDIA.ILMUMISAASTA, MEEDIA_EKSEMPLAR.NUMBER AS PERIOODIKA_NR, ANDMEKANDJA.NIMI AS ANDMEKANDJA, LIIK.NIMI AS LIIK, KEEL.NIMI AS KEEL, VALJAANDJA.NIMI AS VALJAANDJA, MEEDIA.RIIUL, MEEDIA.MARKUSED AS MEEDIA_MARKUSED, Format([MEEDIA_EKSEMPLAR].[SISSEKANDE_KUUPAEV],""yyyy-mm-dd"") AS SISSEKANDE_KPV, MEEDIA_EKSEMPLAR.HIND, MEEDIA_EKSEMPLAR.KOGUS, SAATEDOKUMENT.DOKUMENDI_NUMBER AS SD_NUMBER, Format([SAATEDOKUMENT].[KUUPAEV],""yyyy-mm-dd"") AS SD_KUUPAEV, VALJAANDJA_1.NIMI AS SD_VALJAANDJA, MAHAKANDMISAKT.AKTI_NUMBER AS MA_NUMBER, Format([MAHAKANDMISAKT].[KUUPAEV],""yyyy-mm-dd"") AS MA_KUUPAEV, MAHAKANDMISAKT.POHJUS AS MA_POHJUS, MEEDIA_EKSEMPLAR.MARKUSED AS EKSEMPLAR_MARKUSED " _
+'           & "FROM (((((((MEEDIA_EKSEMPLAR LEFT JOIN MEEDIA ON MEEDIA_EKSEMPLAR.MEEDIA_FK = MEEDIA.MEEDIA_ID) LEFT JOIN VALJAANDJA ON MEEDIA.VALJAANDJA_FK = VALJAANDJA.VALJAANDJA_ID) LEFT JOIN ANDMEKANDJA ON MEEDIA.ANDMEKANDJA_FK = ANDMEKANDJA.ANDMEKANDJA_ID) LEFT JOIN LIIK ON MEEDIA.LIIK_FK = LIIK.LIIK_ID) LEFT JOIN KEEL ON MEEDIA.KEEL_FK = KEEL.KEEL_ID) LEFT JOIN SAATEDOKUMENT ON MEEDIA_EKSEMPLAR.SAATEDOKUMENT_FK = SAATEDOKUMENT.SAATEDOKUMENT_ID) LEFT JOIN VALJAANDJA AS VALJAANDJA_1 ON SAATEDOKUMENT.VALJAANDJA_FK = VALJAANDJA_1.VALJAANDJA_ID) LEFT JOIN MAHAKANDMISAKT ON MEEDIA_EKSEMPLAR.MAHAKANDMISAKT_FK = MAHAKANDMISAKT.MAHAKANDMISAKT_ID " _
+'           & "ORDER BY MEEDIA.MEEDIA_LIIK, TRIM(MEEDIA_EKSEMPLAR.INVENTARI_NUMBER), TRIM(MEEDIA.PEALKIRI), TRIM(MEEDIA.KLASS)", gConnect
+'
+'    myString = ""
+'    For myN = 0 To gRS.Fields.Count - 1
+'        myString = myString & ";" & gRS(myN).Name
+'    Next myN
+'    Print #1, Mid(myString, 2)
+'
+'    Do Until gRS.EOF
+'
+'        myString = ""
+'        For myN = 0 To gRS.Fields.Count - 1
+'            If IsNull(gRS(myN)) Then
+'                myString = myString & ";"
+'            Else
+'                myString = myString & ";" & IIf(IsNull(Trim(gRS(myN))) = True, "", Replace(Trim(gRS(myN)), ";", ","))
+'            End If
+'        Next myN
+'
+'        Print #1, Mid(myString, 2)
+'
+'        gRS.MoveNext
+'    Loop
+'    gRS.Close
+'
+'    Close #1
+'
+'End Sub
