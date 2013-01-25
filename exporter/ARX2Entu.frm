@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
-Begin VB.Form frmAken 
+Begin VB.Form Form1 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Form1"
    ClientHeight    =   4140
@@ -16,8 +16,9 @@ Begin VB.Form frmAken
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
-   Icon            =   "Aken.frx":0000
+   Icon            =   "ARX2Entu.frx":0000
    LinkTopic       =   "Form1"
+   LockControls    =   -1  'True
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   4140
@@ -303,7 +304,7 @@ Begin VB.Form frmAken
       Width           =   1680
    End
 End
-Attribute VB_Name = "frmAken"
+Attribute VB_Name = "Form1"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -312,8 +313,8 @@ Option Explicit
 
 Dim gConnect As ADODB.Connection
 Dim gRS As ADODB.Recordset
-Dim gCount As Integer
-Dim gStep As Integer
+Dim gCount As Long
+Dim gStep As Long
 
 
 Private Sub Form_Activate()
@@ -335,7 +336,7 @@ Private Sub Form_Load()
         gStep = 0
         
         txtDatabaseFile.Text = FileAccess.FileName
-        txtExportFile.Text = Left(FileAccess.FileName, Len(FileAccess.FileName) - 4) & ".sql"
+        txtExportFile.Text = Left(FileAccess.FileName, Len(FileAccess.FileName) - 4) & "2Entu.sql"
         
         Set gConnect = New ADODB.Connection
         Set gRS = New ADODB.Recordset
@@ -399,7 +400,7 @@ Private Sub btnExport_Click()
     
     chkLaenutus.Enabled = False
     If chkLaenutus.Value = vbChecked Then
-        
+        Export_Laenutus
     End If
     
     Open txtExportFile.Text For Append As #1
@@ -735,6 +736,8 @@ Private Sub createProperty(ByVal sEntityOldID, ByVal sType, ByVal sPropertyDefin
                 myValue = "value_decimal = " & Replace(sValue & "", ",", ".") & ";"
             Case "date"
                 myValue = "value_datetime = '" & Format(sValue, "yyyy-mm-dd Hh:Nn:Ss") & "';"
+            Case "reference"
+                myValue = "value_reference = (SELECT id FROM entity WHERE old_id = '" & sValue & "' LIMIT 1);"
         End Select
             
         Open txtExportFile.Text For Append As #1
@@ -766,6 +769,41 @@ Private Sub createChild(ByVal sRelationshipOldID, ByVal sEntityOldID, ByVal sRel
             & "entity_id = (SELECT id FROM entity WHERE old_id = '" & sEntityOldID & "' LIMIT 1), " _
             & "related_entity_id = (SELECT id FROM entity WHERE old_id = '" & sRelatedEntityOldID & "' LIMIT 1);"
     Close #1
+End Sub
+
+Private Sub Export_Laenutus()
+
+    Open txtExportFile.Text For Append As #1
+    Print #1, ""
+    Print #1, ""
+    Print #1, "## LAENUTUS"
+    Close #1
+    
+    gRS.Open "SELECT LAENUTUS_ID, LUGEJA_FK, MEEDIA_FK, MEEDIA_EKSEMPLAR_FK, LAENUTUS_KUUPAEV, TAHTAEG_KUUPAEV, TAGASTUS_KUUPAEV " _
+           & "FROM laenutus " _
+           & "WHERE MEEDIA_LIIK IN ('RA', 'AV', 'PE') " _
+           & "ORDER BY LAENUTUS_ID;", gConnect
+    Do Until gRS.EOF
+        gCount = gCount + 1
+        gRS.MoveNext
+    Loop
+    If gRS.BOF = False Then
+        gRS.MoveFirst
+    End If
+    deleteEntity "laenutus-"
+    Do Until gRS.EOF
+        createEntity "laenutus-" & gRS("LAENUTUS_ID"), "lending"
+        createProperty "laenutus-" & gRS("LAENUTUS_ID"), "reference", "lending-person", "lugeja-" & gRS("LUGEJA_FK")
+        createProperty "laenutus-" & gRS("LAENUTUS_ID"), "reference", "lending-copy", "eksemplar-" & gRS("MEEDIA_EKSEMPLAR_FK") & "-1"
+        createProperty "laenutus-" & gRS("LAENUTUS_ID"), "date", "lending-lending-date", gRS("LAENUTUS_KUUPAEV")
+        createProperty "laenutus-" & gRS("LAENUTUS_ID"), "date", "lending-returning-date", gRS("TAHTAEG_KUUPAEV")
+        createProperty "laenutus-" & gRS("LAENUTUS_ID"), "date", "lending-returned-date", gRS("TAGASTUS_KUUPAEV")
+        gRS.MoveNext
+        moveProgress
+    Loop
+    
+    gRS.Close
+    
 End Sub
 
 
