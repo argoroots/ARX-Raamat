@@ -1,9 +1,10 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Begin VB.Form Form1 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Form1"
-   ClientHeight    =   4140
+   ClientHeight    =   4470
    ClientLeft      =   45
    ClientTop       =   360
    ClientWidth     =   5610
@@ -21,11 +22,36 @@ Begin VB.Form Form1
    LockControls    =   -1  'True
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   4140
+   ScaleHeight     =   4470
    ScaleWidth      =   5610
    StartUpPosition =   3  'Windows Default
-   Begin VB.CheckBox chkLaenutus 
-      Caption         =   "laenutused"
+   Begin InetCtlsObjects.Inet Inet1 
+      Left            =   3255
+      Top             =   105
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      _Version        =   393216
+   End
+   Begin VB.CheckBox chkSaatedokument 
+      Caption         =   "saatedokumendid"
+      BeginProperty Font 
+         Name            =   "Verdana"
+         Size            =   8.25
+         Charset         =   186
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   210
+      TabIndex        =   13
+      Top             =   3675
+      Value           =   1  'Checked
+      Width           =   2220
+   End
+   Begin VB.CheckBox chkLugeja 
+      Caption         =   "lugejad"
       BeginProperty Font 
          Name            =   "Verdana"
          Size            =   8.25
@@ -38,9 +64,9 @@ Begin VB.Form Form1
       Height          =   225
       Left            =   210
       TabIndex        =   12
-      Top             =   3675
+      Top             =   3045
       Value           =   1  'Checked
-      Width           =   2115
+      Width           =   2220
    End
    Begin VB.CheckBox chkMeedia 
       Caption         =   "teavikud"
@@ -58,10 +84,10 @@ Begin VB.Form Form1
       TabIndex        =   11
       Top             =   3360
       Value           =   1  'Checked
-      Width           =   1695
+      Width           =   2220
    End
-   Begin VB.CheckBox chkLugeja 
-      Caption         =   "lugejad"
+   Begin VB.CheckBox chkLaenutus 
+      Caption         =   "laenutused"
       BeginProperty Font 
          Name            =   "Verdana"
          Size            =   8.25
@@ -74,9 +100,9 @@ Begin VB.Form Form1
       Height          =   225
       Left            =   210
       TabIndex        =   10
-      Top             =   3045
+      Top             =   3990
       Value           =   1  'Checked
-      Width           =   1695
+      Width           =   2220
    End
    Begin MSComDlg.CommonDialog FileAccess 
       Left            =   2625
@@ -164,7 +190,7 @@ Begin VB.Form Form1
       Height          =   540
       Left            =   3255
       TabIndex        =   2
-      Top             =   3360
+      Top             =   3675
       Width           =   2115
    End
    Begin VB.TextBox txtDatabase 
@@ -212,7 +238,7 @@ Begin VB.Form Form1
       FillColor       =   &H80000008&
       Height          =   225
       Left            =   0
-      Top             =   4095
+      Top             =   4410
       Width           =   330
    End
    Begin VB.Label Label4 
@@ -315,7 +341,6 @@ Dim gConnect As ADODB.Connection
 Dim gRS As ADODB.Recordset
 Dim gCount As Long
 Dim gStep As Long
-
 
 Private Sub Form_Activate()
     txtDatabase.SetFocus
@@ -702,75 +727,6 @@ Private Sub Export_MeediaEksemplar()
     
 End Sub
 
-Private Sub deleteEntity(ByVal sEntityOldID)
-    Open txtExportFile.Text For Append As #1
-    Print #1, "DELETE FROM " & txtDatabase.Text & ".property " _
-            & "WHERE created_by = 'v7import' " _
-            & "AND entity_id IN (SELECT id FROM " & txtDatabase.Text & ".entity WHERE old_id LIKE '" & sEntityOldID & "%');"
-    Print #1, "DELETE FROM " & txtDatabase.Text & ".entity " _
-            & "WHERE created_by = 'v7import' " _
-            & "AND old_id LIKE '" & sEntityOldID & "%';"
-    Close #1
-End Sub
-
-Private Sub createEntity(ByVal sEntityOldID, ByVal sEntityDefinition)
-    Open txtExportFile.Text For Append As #1
-    Print #1, "INSERT INTO " & txtDatabase.Text & ".entity SET " _
-            & "created = NOW(), " _
-            & "created_by = 'v7import', " _
-            & "old_id = '" & sEntityOldID & "', " _
-            & "entity_definition_keyname = '" & sEntityDefinition & "';"
-    Close #1
-End Sub
-
-Private Sub createProperty(ByVal sEntityOldID, ByVal sType, ByVal sPropertyDefinition, ByVal sValue)
-    If Len(Trim(sValue)) > 0 Then
-        Dim myValue
-            
-        Select Case sType
-            Case "string"
-                myValue = "value_string = '" & Replace(sValue & "", "'", "\'") & "';"
-            Case "integer"
-                myValue = "value_integer = " & Replace(sValue & "", ",", ".") & ";"
-            Case "decimal"
-                myValue = "value_decimal = " & Replace(sValue & "", ",", ".") & ";"
-            Case "date"
-                myValue = "value_datetime = '" & Format(sValue, "yyyy-mm-dd Hh:Nn:Ss") & "';"
-            Case "reference"
-                myValue = "value_reference = (SELECT id FROM entity WHERE old_id = '" & sValue & "' LIMIT 1);"
-        End Select
-            
-        Open txtExportFile.Text For Append As #1
-        Print #1, "INSERT INTO " & txtDatabase.Text & ".property SET " _
-                & "created = NOW(), " _
-                & "created_by = 'v7import', " _
-                & "entity_id = (SELECT id FROM entity WHERE old_id = '" & sEntityOldID & "' LIMIT 1), " _
-                & "property_definition_keyname = '" & sPropertyDefinition & "', " _
-                & myValue
-        Close #1
-    End If
-End Sub
-
-Private Sub deleteChild(ByVal sRelationshipOldID)
-    Open txtExportFile.Text For Append As #1
-    Print #1, "DELETE FROM " & txtDatabase.Text & ".relationship " _
-            & "WHERE created_by = 'v7import' " _
-            & "AND old_id LIKE '" & sRelationshipOldID & "%';"
-    Close #1
-End Sub
-
-Private Sub createChild(ByVal sRelationshipOldID, ByVal sEntityOldID, ByVal sRelatedEntityOldID)
-    Open txtExportFile.Text For Append As #1
-    Print #1, "INSERT INTO " & txtDatabase.Text & ".relationship SET " _
-            & "created = NOW(), " _
-            & "created_by = 'v7import', " _
-            & "old_id = '" & sRelationshipOldID & "', " _
-            & "relationship_definition_keyname = 'child', " _
-            & "entity_id = (SELECT id FROM entity WHERE old_id = '" & sEntityOldID & "' LIMIT 1), " _
-            & "related_entity_id = (SELECT id FROM entity WHERE old_id = '" & sRelatedEntityOldID & "' LIMIT 1);"
-    Close #1
-End Sub
-
 Private Sub Export_Laenutus()
 
     Open txtExportFile.Text For Append As #1
@@ -804,6 +760,145 @@ Private Sub Export_Laenutus()
     
     gRS.Close
     
+End Sub
+
+Private Sub deleteEntity(ByVal sEntityOldID)
+    Open txtExportFile.Text For Append As #1
+    Print #1, "DELETE FROM " & txtDatabase.Text & ".property " _
+            & "WHERE created_by = 'v7import' " _
+            & "AND entity_id IN (SELECT id FROM " & txtDatabase.Text & ".entity WHERE old_id LIKE '" & sEntityOldID & "%');"
+    Print #1, "DELETE FROM " & txtDatabase.Text & ".relationship " _
+            & "WHERE created_by = 'v7import' " _
+            & "AND relationship_definition_keyname = 'viewer' " _
+            & "AND entity_id IN (SELECT id FROM " & txtDatabase.Text & ".entity WHERE old_id LIKE '" & sEntityOldID & "%');"
+    Print #1, "DELETE FROM " & txtDatabase.Text & ".entity " _
+            & "WHERE created_by = 'v7import' " _
+            & "AND old_id LIKE '" & sEntityOldID & "%';"
+    Close #1
+End Sub
+
+Private Sub createEntity(ByVal sEntityOldID, ByVal sEntityDefinition)
+    Open txtExportFile.Text For Append As #1
+    Print #1, "INSERT INTO " & txtDatabase.Text & ".entity SET " _
+            & "created = NOW(), " _
+            & "created_by = 'v7import', " _
+            & "old_id = '" & sEntityOldID & "', " _
+            & "entity_definition_keyname = '" & sEntityDefinition & "';"
+    Print #1, "INSERT INTO " & txtDatabase.Text & ".relationship (old_id, created, created_by, entity_id, related_entity_id, relationship_definition_keyname) " _
+            & "SELECT CONCAT(entity.old_id, '-viewer-', property.entity_id), NOW(), 'v7import', entity.id, property.entity_id, 'viewer' FROM property, entity WHERE property_definition_keyname = 'person-user' AND entity.old_id = '" & sEntityOldID & "';"
+    Close #1
+End Sub
+
+Private Sub createProperty(ByVal sEntityOldID, ByVal sType, ByVal sPropertyDefinition, ByVal sValue)
+    Dim myValue
+    sValue = Trim(sValue)
+    
+    If LenB(sValue) > 0 Then
+        Select Case sType
+            Case "string"
+                With Inet1
+                    .AccessType = icUseDefault
+                    .Protocol = icHTTPS
+                    .Execute "https://www.arx.ee/chardet?id=" & sEntityOldID & "&property=" & sPropertyDefinition & "&value=" & sValue, "POST", "" & sValue, "Content-Type: text/plain " & vbCrLf
+                    While .StillExecuting
+                        DoEvents
+                    Wend
+                End With
+                Exit Sub
+            Case "integer"
+                myValue = "value_integer = " & Replace(sValue & "", ",", ".") & ";"
+            Case "decimal"
+                myValue = "value_decimal = " & Replace(sValue & "", ",", ".") & ";"
+            Case "date"
+                myValue = "value_datetime = '" & Format(sValue, "yyyy-mm-dd Hh:Nn:Ss") & "';"
+            Case "reference"
+                myValue = "value_reference = (SELECT id FROM entity WHERE old_id = '" & sValue & "' LIMIT 1);"
+        End Select
+    
+        Open txtExportFile.Text For Append As #1
+        Print #1, "INSERT INTO " & txtDatabase.Text & ".property SET " _
+                & "created = NOW(), " _
+                & "created_by = 'v7import', " _
+                & "entity_id = (SELECT id FROM entity WHERE old_id = '" & sEntityOldID & "' LIMIT 1), " _
+                & "property_definition_keyname = '" & sPropertyDefinition & "', " _
+                & myValue
+        Close #1
+    End If
+
+End Sub
+
+Private Sub Inet1_StateChanged(ByVal State As Integer)
+    Dim myURL As String
+    Dim myBody As String
+    Dim sValue As String
+    Dim sEntityOldID As String
+    Dim sType As String
+    Dim sPropertyDefinition As String
+    Dim myFile As String
+    Dim myOK As Boolean
+
+    If State <> icResponseCompleted Then
+        Exit Sub
+    End If
+    
+    myURL = Inet1.URL
+    myBody = Inet1.GetChunk(1024, icString)
+    
+    sEntityOldID = Mid(myURL, InStr(myURL, "id=") + 3, InStr(myURL, "property=") - InStr(myURL, "id=") - 4)
+    sPropertyDefinition = Mid(myURL, InStr(myURL, "property=") + 9, InStr(myURL, "value=") - InStr(myURL, "property=") - 10)
+    sValue = Trim(Mid(myURL, InStr(myURL, "value=") + 6))
+    
+    If sValue = "" Then
+        Exit Sub
+    End If
+    
+    myFile = Replace(txtExportFile.Text, ".sql", ".error.sql")
+    myOK = False
+    If Left(myBody, 5) = "EST -" Then
+        myFile = txtExportFile.Text
+        myOK = True
+    End If
+    If Left(myBody, 5) = "RUS -" Then
+        myFile = Replace(txtExportFile.Text, ".sql", ".rus.sql")
+        myOK = True
+    End If
+    
+    If myOK = False Then
+        Open myFile For Append As #1
+        Print #1, myBody
+        Close #1
+        Exit Sub
+    End If
+        
+    Open myFile For Append As #1
+    Print #1, "INSERT INTO " & txtDatabase.Text & ".property SET " _
+            & "created = NOW(), " _
+            & "created_by = 'v7import', " _
+            & "entity_id = (SELECT id FROM entity WHERE old_id = '" & sEntityOldID & "' LIMIT 1), " _
+            & "property_definition_keyname = '" & sPropertyDefinition & "', " _
+            & "value_string = '" & Replace(sValue & "", "'", "\'") & "';"
+    Close #1
+
+End Sub
+
+Private Sub deleteChild(ByVal sRelationshipOldID)
+    Open txtExportFile.Text For Append As #1
+    Print #1, "DELETE FROM " & txtDatabase.Text & ".relationship " _
+            & "WHERE created_by = 'v7import' " _
+            & "AND old_id LIKE '" & sRelationshipOldID & "%';"
+    Close #1
+End Sub
+
+Private Sub createChild(ByVal sRelationshipOldID, ByVal sEntityOldID, ByVal sRelatedEntityOldID)
+    Open txtExportFile.Text For Append As #1
+    Print #1, "INSERT INTO " & txtDatabase.Text & ".relationship SET " _
+            & "created = NOW(), " _
+            & "created_by = 'v7import', " _
+            & "old_id = '" & sRelationshipOldID & "', " _
+            & "relationship_definition_keyname = 'child', " _
+            & "entity_id = (SELECT id FROM entity WHERE old_id = '" & sEntityOldID & "' LIMIT 1), " _
+            & "related_entity_id = (SELECT id FROM entity WHERE old_id = '" & sRelatedEntityOldID & "' LIMIT 1);"
+    Close #1
 End Sub
 
 
@@ -852,3 +947,4 @@ End Sub
 '    Close #1
 '
 'End Sub
+
