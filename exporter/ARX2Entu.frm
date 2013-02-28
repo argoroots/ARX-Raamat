@@ -541,7 +541,7 @@ Private Sub Export_Meedia()
            & "LEFT JOIN liik ON meedia.LIIK_FK = liik.LIIK_ID) " _
            & "LEFT JOIN keel ON meedia.KEEL_FK = keel.KEEL_ID) " _
            & "LEFT JOIN valjaandja ON meedia.VALJAANDJA_FK = valjaandja.VALJAANDJA_ID " _
-           & "ORDER BY PEALKIRI;", gConnect
+           & "ORDER BY MEEDIA_LIIK, PEALKIRI;", gConnect
     Do Until gRS.EOF
         gCount = gCount + 1
         gRS.MoveNext
