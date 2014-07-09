@@ -409,6 +409,12 @@ Private Sub btnExport_Click()
     Print #1, "## Export started: " & Format(Now, "yyyy-mm-dd Hh:Nn:Ss")
     Close #1
     
+    Open Replace(txtExportFile.Text, ".sql", ".rus.sql") For Output As #1
+    Print #1, "## Database:       " & txtDatabase.Text
+    Print #1, "## Library name:   " & txtLibraryName.Text
+    Print #1, "## Export started: " & Format(Now, "yyyy-mm-dd Hh:Nn:Ss")
+    Close #1
+    
     chkLugeja.Enabled = False
     If chkLugeja.Value = vbChecked Then
         Export_Klass
@@ -429,6 +435,17 @@ Private Sub btnExport_Click()
     End If
     
     Open txtExportFile.Text For Append As #1
+    Print #1, ""
+    Print #1, ""
+    Print #1, "## Database:     " & txtDatabase.Text
+    Print #1, "## Library name: " & txtLibraryName.Text
+    Print #1, "## Export ended: " & Format(Now, "yyyy-mm-dd Hh:Nn:Ss")
+    Print #1, ""
+    Print #1, ""
+    Print #1, "## END "
+    Close #1
+    
+    Open Replace(txtExportFile.Text, ".sql", ".rus.sql") For Append As #1
     Print #1, ""
     Print #1, ""
     Print #1, "## Database:     " & txtDatabase.Text
@@ -785,7 +802,7 @@ Private Sub createEntity(ByVal sEntityOldID, ByVal sEntityDefinition)
             & "old_id = '" & sEntityOldID & "', " _
             & "entity_definition_keyname = '" & sEntityDefinition & "';"
     Print #1, "INSERT INTO " & txtDatabase.Text & ".relationship (old_id, created, created_by, entity_id, related_entity_id, relationship_definition_keyname) " _
-            & "SELECT CONCAT(entity.old_id, '-viewer-', property.entity_id), NOW(), 'v7import', entity.id, property.entity_id, 'viewer' FROM property, entity WHERE property_definition_keyname = 'person-user' AND entity.old_id = '" & sEntityOldID & "';"
+            & "SELECT CONCAT(entity.old_id, '-owner-', property.entity_id), NOW(), 'v7import', entity.id, property.entity_id, 'owner' FROM property, entity WHERE property_definition_keyname = 'person-user' AND entity.old_id = '" & sEntityOldID & "';"
     Close #1
 End Sub
 
@@ -799,7 +816,7 @@ Private Sub createProperty(ByVal sEntityOldID, ByVal sType, ByVal sPropertyDefin
                 With Inet1
                     .AccessType = icUseDefault
                     .Protocol = icHTTPS
-                    .Execute "https://www.arx.ee/chardet?id=" & sEntityOldID & "&property=" & sPropertyDefinition & "&value=" & sValue, "POST", "" & sValue, "Content-Type: text/plain " & vbCrLf
+                    .Execute "http://www.arx.ee/chardet?id=" & sEntityOldID & "&property=" & sPropertyDefinition & "&value=" & sValue, "POST", "" & sValue, "Content-Type: text/plain " & vbCrLf
                     While .StillExecuting
                         DoEvents
                     Wend
