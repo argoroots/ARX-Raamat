@@ -802,7 +802,7 @@ Private Sub createEntity(ByVal sEntityOldID, ByVal sEntityDefinition)
             & "old_id = '" & sEntityOldID & "', " _
             & "entity_definition_keyname = '" & sEntityDefinition & "';"
     Print #1, "INSERT INTO " & txtDatabase.Text & ".relationship (old_id, created, created_by, entity_id, related_entity_id, relationship_definition_keyname) " _
-            & "SELECT CONCAT(entity.old_id, '-owner-', property.entity_id), NOW(), 'v7import', entity.id, property.entity_id, 'owner' FROM property, entity WHERE property_definition_keyname = 'person-user' AND entity.old_id = '" & sEntityOldID & "';"
+            & "SELECT DISTINCT CONCAT(entity.old_id, '-owner-', property.entity_id), NOW(), 'v7import', entity.id, property.entity_id, 'owner' FROM property, entity WHERE property_definition_keyname = 'person-entu-user' AND entity.old_id = '" & sEntityOldID & "';"
     Close #1
 End Sub
 
@@ -816,7 +816,7 @@ Private Sub createProperty(ByVal sEntityOldID, ByVal sType, ByVal sPropertyDefin
                 With Inet1
                     .AccessType = icUseDefault
                     .Protocol = icHTTPS
-                    .Execute "http://www.arx.ee/chardet?id=" & sEntityOldID & "&property=" & sPropertyDefinition & "&value=" & sValue, "POST", "" & sValue, "Content-Type: text/plain " & vbCrLf
+                    .Execute "http://arx.ee/chardet?id=" & sEntityOldID & "&property=" & sPropertyDefinition & "&value=" & sValue, "POST", "" & sValue, "Content-Type: text/plain " & vbCrLf
                     While .StillExecuting
                         DoEvents
                     Wend
