@@ -21,7 +21,7 @@ const postToPlausible = async (postData) => {
             })
 
             response.on('end', function () {
-                resolve(JSON.parse(body))
+                resolve(body)
             })
         })
 
@@ -40,11 +40,11 @@ exports.handler = async (event) => {
         props: {}
     })
 
+    console.log(event)
+    console.log(result)
+
     return {
         statusCode: 200,
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify(event)
+        body: 'ARX-Raamat 7.0.150'
     }
 }
