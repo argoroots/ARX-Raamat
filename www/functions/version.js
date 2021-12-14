@@ -33,7 +33,7 @@ const postToPlausible = async (postData) => {
 
 
 exports.handler = async (event) => {
-    const result = await postToMailChimp({
+    const result = await postToPlausible({
         domain: 'arx.ee',
         name: 'Version',
         url: 'app://localhost/versioon',
