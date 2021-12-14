@@ -1,7 +1,7 @@
 const https = require('https')
 
 
-const postToPlausible = async (postData) => {
+const postToPlausible = async (postData, Ip) => {
     return new Promise((resolve, reject) => {
         const options = {
             hostname: 'plausible.io',
@@ -9,7 +9,8 @@ const postToPlausible = async (postData) => {
             method: 'POST',
             headers: {
                 'Authorization': 'Basic ' + Buffer.from('anystring:' + process.env.PLAUSIBLE_KEY).toString('base64'),
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-Forwarded-For': Ip
             }
         }
 
@@ -37,12 +38,14 @@ exports.handler = async (event) => {
         domain: 'arx.ee',
         name: 'Error',
         url: 'app://localhost/error',
+        screen_width: 1900,
         props: {
             Library: event.queryStringParameters.Asutus_Nimi,
             Version: event.queryStringParameters.Programm_Versioon
         }
-    })
+    }, event.headers['client-ip'])
 
+    console.log(event.headers['client-ip'])
     console.log(event.queryStringParameters)
 
     return {
