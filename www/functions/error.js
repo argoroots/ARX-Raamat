@@ -35,8 +35,8 @@ const postToPlausible = async (postData) => {
 exports.handler = async (event) => {
     const result = await postToPlausible({
         domain: 'arx.ee',
-        name: 'Version',
-        url: 'app://localhost/version',
+        name: 'Error',
+        url: 'app://localhost/error',
         props: {}
     })
 
