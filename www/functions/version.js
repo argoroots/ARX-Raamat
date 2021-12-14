@@ -37,11 +37,13 @@ exports.handler = async (event) => {
         domain: 'arx.ee',
         name: 'Version',
         url: 'app://localhost/version',
-        props: {}
+        props: {
+            Library: event.queryStringParameters.Asutus_Nimi,
+            Version: event.queryStringParameters.Programm_Versioon
+        }
     })
 
-    console.log(event)
-    console.log(result)
+    console.log(event.queryStringParameters)
 
     return {
         statusCode: 200,
