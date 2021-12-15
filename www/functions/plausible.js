@@ -35,6 +35,8 @@ const postToPlausible = async (postData, ip) => {
 
 exports.handler = async (event) => {
     const ip = event.headers['x-nf-client-connection-ip'] || event.headers['x-bb-ip'] || event.headers['client-ip']
+    const library = event.queryStringParameters.Asutus_Nimi
+    const version = event.queryStringParameters.Programm_Versioon || event.queryStringParameters.Programm_VersiooniNr || event.queryStringParameters.voti_versioon
 
     const result = await postToPlausible({
         domain: 'arx.ee',
@@ -42,8 +44,8 @@ exports.handler = async (event) => {
         url: event.path,
         screen_width: 1900,
         props: {
-            Library: event.queryStringParameters.Asutus_Nimi,
-            Version: event.queryStringParameters.Programm_Versioon
+            Library: library,
+            Version: version
         }
     }, ip)
 
