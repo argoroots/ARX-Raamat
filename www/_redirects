@@ -1,5 +1,6 @@
-/7*         /v7.html     200
-/help*      /help.html   200
-/vearaport* /.netlify/functions/error 200
-/versioon*  /.netlify/functions/version 200
-/*          /index.html  200
+/help*            /.netlify/functions/plausible 200
+/registreerimine* /.netlify/functions/plausible 200
+/vearaport*       /.netlify/functions/plausible 200
+/versioon*        /.netlify/functions/plausible 200
+/7*               /v7.html                      200
+/*                /index.html                   200
