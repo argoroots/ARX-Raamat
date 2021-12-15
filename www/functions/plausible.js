@@ -41,7 +41,7 @@ exports.handler = async (event) => {
     const result = await postToPlausible({
         domain: 'arx.ee',
         name: 'App',
-        url: event.path,
+        url: 'app://localhost' + event.path,
         screen_width: 1900,
         props: {
             Library: library,
