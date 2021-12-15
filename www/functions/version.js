@@ -45,8 +45,8 @@ exports.handler = async (event) => {
         }
     }, event.headers['client-ip'])
 
-    console.log(event.headers['client-ip'])
-    console.log(event.queryStringParameters)
+    console.log(JSON.stringify(event, null, 2))
+    console.log(JSON.stringify(event.queryStringParameters, null, 2))
 
     return {
         statusCode: 200,
