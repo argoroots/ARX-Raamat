@@ -9,6 +9,7 @@ const postToPlausible = async (postData, ip) => {
             method: 'POST',
             headers: {
                 'Authorization': 'Basic ' + Buffer.from('anystring:' + process.env.PLAUSIBLE_KEY).toString('base64'),
+                'User-Agent': 'ARX-Raamat',
                 'Content-Type': 'application/json',
                 'X-Forwarded-For': ip
             }
